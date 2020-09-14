@@ -1,7 +1,6 @@
 # CustomerDrivenProject
 Customer driven project, group 6 with Sintef Ocean
 
-
 ## Git conventions
 
 To keep the repository neat and organized, it is important that everyone follows the same git conventions.
@@ -33,6 +32,7 @@ Commit message should describe what the code does, and not what you have done.
 
 
 ### How to merge a branch into dev 
+
 When you are going to go ahead on an issue, it is important that you make a new branch for the issue following the git branching convention described above.
 Follow these instructions when making a new branch: 
 - `git checkout dev`
