@@ -1,0 +1,43 @@
+pipeline {
+    agent none
+
+    environment {
+        HOME = '.'
+    }
+
+    stages {
+        // Build backend
+        stage('Build backend') {
+            agent any
+            steps {
+                dir('./backend/src') {
+                    sh 'dotnet restore'
+                    sh 'dotnet publish -c Release'
+                }
+            }
+        }
+        // Install and build frontend
+        stage('Build frontend') {
+            agent {
+                docker {
+                    image 'node:lts'
+                }
+            }
+            steps{
+                dir('./frontend/src') {
+                    sh 'node --version'
+                    sh 'npm --version'
+                    sh 'npm install'
+                    sh 'npm run build'
+                }
+            }
+        }
+        // Deploy frontend and backend
+        stage('Deploy') {
+            agent any
+            steps {
+                sh 'docker-compose up -d --build'
+            }
+        }
+    }
+}
