@@ -1,6 +1,3 @@
-using System;
-using InfluxDB.Client.Api.Domain;
-
 
 namespace parser
 {
@@ -9,9 +6,11 @@ namespace parser
             measurement="Optode";
             headerRow=2;
             headerExtra="Status";
+            tagIndexes=(1, 3);
+            fieldIndexes=(3, 13);
             timeIndex=0;
             timeFormat="yyyy-MM-dd HH.mm.ss";
-            timePrecision=WritePrecision.S;
+            timeFormatTimescaleDB= "yyyy-MM-dd HH:mm:ss.FFF";
             columnSeparator="\t";
         }
     }
