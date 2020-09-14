@@ -1,0 +1,27 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=39b2d862_002Da40d_002D4935_002D924a_002De6b06b3edbdf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="ShouldParseOptode #4" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.Utils.Csv.CsvUnitTest.ShouldParseOptode&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.Utils.Csv.CsvUnitTest.ShouldParseTension&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=4cbc162f_002D23ee_002D45f6_002D9f10_002De87dfe54248a/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="Test1" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.UnitTest1.Test1&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=b0e9ae1c_002D6549_002D453a_002D8f9a_002Da573b0c3dad3/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldParseOptode #3" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.Utils.Csv.CsvUnitTest.ShouldParseOptode&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=c478af57_002D53f9_002D4459_002D9d27_002D906646afe75f/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldParseOptode #2" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.Utils.Csv.CsvUnitTest.ShouldParseOptode&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String>
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=d4e1b1b1_002D80c4_002D468d_002Dba72_002D148f0f881fdf/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" Name="ShouldParseOptode" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
+  &lt;TestAncestor&gt;&#xD;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.Utils.Csv.CsvUnitTest.ShouldParseOptode&lt;/TestId&gt;&#xD;
+  &lt;/TestAncestor&gt;&#xD;
+&lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>
