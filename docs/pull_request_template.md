@@ -1,8 +1,8 @@
-#### What does the commit do? 🤔
-[Provide a **concise** description of what you did]
+#### What does the commit do? 
+[Provide a **concise** description of what the code does]
 
-### Checklist 📄
-- [ ] I have added tests to prove that my feature **works**
-- [ ] I have **linked** my issue(s)
-- [ ] I have **squashed** my PR into a single commit
-- [ ] I have assigned a **reviewer**
+### Checklist
+- [ ] **Linked** the issue(s)
+- [ ] **Squashed** my PR into a single commit
+- [ ] Added tests to prove that code **works**
+- [ ] Assigned a **reviewer**
