@@ -10,7 +10,7 @@ pipeline {
         stage('Build backend') {
             agent any
             steps {
-                dir('./backend/Portfolio') {
+                dir('./backend/src') {
                     sh 'dotnet restore'
                     sh 'dotnet publish -c Release'
                 }
@@ -24,7 +24,7 @@ pipeline {
                 }
             }
             steps{
-                dir('./frontend') {
+                dir('./frontend/src') {
                     sh 'node --version'
                     sh 'npm --version'
                     sh 'npm install'
