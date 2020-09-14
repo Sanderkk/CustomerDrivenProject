@@ -113,3 +113,5 @@ backend/src/QueueStorage/App.config
 # Cypress
 videos/
 screenshots/
+services/parser/bin
+services/parser/obj

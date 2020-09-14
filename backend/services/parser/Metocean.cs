@@ -1,19 +1,17 @@
-using System;
-using InfluxDB.Client;
-using InfluxDB.Client.Api.Domain;
-using InfluxDB.Client.Writes;
 
 namespace parser
 {
-    class Metocean : DataClass
+    public class Metocean : DataClass
     {
         public Metocean() {
             measurement="Metocean";
             headerRow=1;
             headerExtra="";
+            tagIndexes= (0, 0);
+            fieldIndexes=(1, 51);
             timeIndex=0;
             timeFormat="yyyy-MM-ddTHH:mm:ssZ";
-            timePrecision=WritePrecision.S;
+            timeFormatTimescaleDB= "yyyy-MM-dd HH:mm:ss.FFF";
             columnSeparator=";";
         }
     }
