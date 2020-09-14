@@ -106,4 +106,10 @@ dist
 # dotnet build files
 bin/
 obj/
+<<<<<<< HEAD
 TestResults/
+=======
+.idea
+.vs
+backend/src/QueueStorage/App.config
+>>>>>>> e8af958... feat: csv utils for parsing
