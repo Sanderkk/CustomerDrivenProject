@@ -15,7 +15,7 @@ This are the branchtypes:
 - documentation: Improvements or additions to documentation
 - duplicate: This issue or pull request already exists
 
-The branchname should be an named 
+The branchname should be an indication of which issue you are working on.
 
 ### Commit message structure
 The commit message should follow this message structure:
