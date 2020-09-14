@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+  customerdriven-frontend:
+    container_name: customerdriven-frontend
+    build:
+      context: .
+      dockerfile: ./frontend/Dockerfile.frontend.prod
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '44000:80'
+  customerdriven-backend:
+    container_name: customerdriven-backend
+    build:
+      context: .
+      dockerfile: ./backend/Dockerfile.backend.prod
+    volumes:
+      - '.:/app'
+    ports:
+      - '44001:80'
