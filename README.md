@@ -1,7 +1,15 @@
 # CustomerDrivenProject
 Customer driven project, group 6 with Sintef Ocean
 
-## Git branching convention
+
+## Git conventions
+
+To keep the repository neat and organized, it is important that everyone follows the same git conventions.
+The repository have two protected branches, **main** and **dev**. 
+This means that one must create and pull request to merge code into these branches. 
+The instructions for creating a branch and merging into `dev` is described below.
+
+### Git branching convention
 
 Git branches should be named following this format:
  - branchtype/branchname
@@ -23,8 +31,8 @@ The commit message should follow this message structure:
 
 Commit message should describe what the code does, and not what you have done. 
 
-## How to merge a branch into dev
-To merge a branch into dev, it is important that everyone follows the same principals to keep the commit history neat and organized. 
+
+### How to merge a branch into dev 
 When you are going to go ahead on an issue, it is important that you make a new branch for the issue following the git branching convention described above.
 Follow these instructions when making a new branch: 
 - `git checkout dev`
@@ -39,4 +47,4 @@ The instructions for this is:
 - `git rebase -i origin/dev`
 - `git push -f`
 
-After pushing your branch, you need to go to github and create a new pull request for the branch. 
+After pushing your branch, you need to go to github and create a new pull request for the branch.
