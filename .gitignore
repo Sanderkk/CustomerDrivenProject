@@ -106,3 +106,6 @@ dist
 # dotnet build files
 bin/
 obj/
+.idea
+.vs
+backend/src/QueueStorage/App.config
