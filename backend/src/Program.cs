@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using src.Pipeline;
 
 namespace src
 {
@@ -13,7 +14,16 @@ namespace src
     {
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            Console.WriteLine("Hello World");
+            Optode optode = new Optode();
+            var result = optode.ParseTextFile(
+                "C:\\Users\\sebas\\dev\\CustomerDrivenProject\\backend\\src\\Data\\Optode\\20200812T082107.txt");
+            var i = 0;
+            foreach (var line in result)
+            {
+                Console.WriteLine("Line: ",line);
+            }
+            // CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
