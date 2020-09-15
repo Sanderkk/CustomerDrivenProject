@@ -106,3 +106,4 @@ dist
 # dotnet build files
 bin/
 obj/
+TestResults/

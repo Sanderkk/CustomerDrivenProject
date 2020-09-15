@@ -1,5 +1,4 @@
 
-def 
 pipeline {
     agent none
 
@@ -15,6 +14,23 @@ pipeline {
                 dir('./backend/src') {
                     sh 'dotnet restore'
                     sh 'dotnet publish -c Release'
+                }
+            }
+        }
+        stage('Backend build debug') {
+            agent any
+            steps {
+                dir('./backend') {
+                    sh 'dotnet restore'
+                    sh 'sudo dotnet build'
+                }
+            }
+        }
+        stage('Backend xunit tests') {
+            agent any
+            steps {
+                dir('./backend') {
+                    sh returnStdout:true, script:'sudo dotnet test --logger \"trx;LogFileName=unit_tests.trx\" --no-build'
                 }
             }
         }
