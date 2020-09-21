@@ -4,14 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "node ./index.js"
+    "ci": "cypress run"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^5.3.0",
-    "os-tmpdir": "^2.0.0",
-    "selenium-webdriver": "^4.0.0-alpha.7"
+    "cypress": "^5.2.0",
+    "os-tmpdir": "^2.0.0"
   }
 }

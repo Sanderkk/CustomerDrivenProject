@@ -26,9 +26,9 @@ The branchname should be an indication of which issue you are working on.
 
 ### Commit message structure
 The commit message should follow this message structure:
-- ISSUEID (FFD-ID): commit message
+- branchtype: commit message
 
-Commit message should describe what the code does, and not what you have done. The issue id is the backlog id from Jira (FFD-ID). 
+Commit message should describe what the code does, and not what you have done. 
 
 
 ### How to merge a branch into dev 
@@ -43,7 +43,7 @@ Follow these instructions when making a new branch:
 When you are finished with your updates, it is important that everyone follows the convention for rebasing.
 We are following the pattern of **one commit** per branch. This means that you need to squash commits, if you have several commits.
 The instructions for this is:
-- `git commit -am "ISSUEID (FFD-ID): commit message"`
+- `git commit -am "branchtype: commit message"`
 - `git fetch --all`
 - `git rebase -i origin/dev`
 
@@ -51,4 +51,59 @@ If there occurs merge conflicts, they can be resolved in the IDE. After you have
 
 - `git push -f`
 
+
 After pushing your branch, you need to go to github and create a new pull request for the branch.
+
+
+## Configure dev environment
+
+### Database
+We will utilize `Timescaledb` as timeseries database, and `PostgreSQL` as relational database.
+
+The database can be run locally. We have chosen to use docker for this.
+To create this database with docker you can run the command
+`` sudo docker run -d --name timescaledb-customerDriven -p 5432:5432 -e POSTGRES_PASSWORD=password timescale/timescaledb:latest-pg12 ``
+With this, the database runs locally at port 5432, with password `password`.
+
+There is also a database running at `http://sanderkk.com:5432`, using the same password.
+
+(This will change once we deploy to azure)
+
+### Backend
+The backend is developed in C# and .Net core, and thus needs the `dotnet-core SDK 3.1` for running.
+The solutions and tests are written with .Net core, and this is all you should need for the functions
+
+Download .Net core from microsoft, at:
+https://dotnet.microsoft.com/download/dotnet-core/3.1
+
+To run the backend locally, you need to follow a few steps.
+
+#### Running backend API
+Go to the `/backend/src` directory
+- First restore the nuget packages
+`` dotnet restore ``
+- Then you can run the backend with the command
+`` dotnet run watch ``
+The api is now running at port 5000
+
+#### Running tests
+Go to `/backend` where the sln file is located.
+- First restore the nuget packages
+`` dotnet restore ``
+- Then you can run the tests with the command
+`` dotnet test ``
+
+### Frontend
+The frontend is created with node and react.
+You therefore need `node` installed.
+We develop using the current lts version.
+
+To run the frontend in a dev server, use the command `npm start` in the `/frontend/src` directory.
+
+React tests can be run with the command `npm test` in the `/frontend/src` directory.
+
+End-to-end tests are based on node as-well.
+These can be run with the command `npm test` in the `/frontend/tests` directory.
+For the end-to-end tests to run, specific webdriver for different browsers are needed. Currently, the driver for chrome is currently located in the `/frontend/tests` directory.
+
+(Remember to install node packages locally first. This can be done with the command `npm install`)
