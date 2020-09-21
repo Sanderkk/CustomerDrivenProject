@@ -36,6 +36,7 @@ Commit message should describe what the code does, and not what you have done. T
 When you are going to go ahead on an issue, it is important that you make a new branch for the issue following the git branching convention described above.
 Follow these instructions when making a new branch: 
 - `git checkout dev`
+- `git reset --hard origin/dev`
 - `git fetch --all`
 - `git checkout -b branchntype/branchname`
 
@@ -45,6 +46,9 @@ The instructions for this is:
 - `git commit -am "ISSUEID (FFD-ID): commit message"`
 - `git fetch --all`
 - `git rebase -i origin/dev`
+
+If there occurs merge conflicts, they can be resolved in the IDE. After you have resolved every merge conflict, add the modified files with `git add .`, and write `git rebase --continue`.
+
 - `git push -f`
 
 After pushing your branch, you need to go to github and create a new pull request for the branch.
