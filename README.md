@@ -26,9 +26,9 @@ The branchname should be an indication of which issue you are working on.
 
 ### Commit message structure
 The commit message should follow this message structure:
-- ISSUEID (FFD-ID): commit message
+- branchtype: commit message
 
-Commit message should describe what the code does, and not what you have done. The issue id is the backlog id from Jira (FFD-ID). 
+Commit message should describe what the code does, and not what you have done. 
 
 
 ### How to merge a branch into dev 
@@ -43,7 +43,7 @@ Follow these instructions when making a new branch:
 When you are finished with your updates, it is important that everyone follows the convention for rebasing.
 We are following the pattern of **one commit** per branch. This means that you need to squash commits, if you have several commits.
 The instructions for this is:
-- `git commit -am "ISSUEID (FFD-ID): commit message"`
+- `git commit -am "branchtype: commit message"`
 - `git fetch --all`
 - `git rebase -i origin/dev`
 

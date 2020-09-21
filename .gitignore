@@ -110,3 +110,6 @@ TestResults/
 .idea
 .vs
 backend/src/QueueStorage/App.config
+# Cypress
+videos/
+screenshots/
