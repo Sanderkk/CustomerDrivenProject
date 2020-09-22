@@ -1,13 +1,16 @@
-import React from "react";
-import "./App.css";
+import React from 'react';
+import logo from './logo.svg';
+import './App.css';
+import Navbar from './components/Navbar';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
+      <Navbar />
+      <div className="App-header">
         <p>Customer driven project, group 6</p>
         <p>Sintef Ocean</p>
-      </header>
+      </div>
     </div>
   );
 }
