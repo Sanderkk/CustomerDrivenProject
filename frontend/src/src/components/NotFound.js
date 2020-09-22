@@ -1,15 +1,14 @@
 import React from "react";
-import "./App.css";
+import "../App.css";
 
-function App() {
+function NotFound() {
   return (
     <div className="App">
       <header className="App-header">
-        <p>Customer driven project, group 6</p>
-        <p>Sintef Ocean</p>
+        <h2>404 Not Found</h2>
       </header>
     </div>
   );
 }
 
-export default App;
+export default NotFound;
