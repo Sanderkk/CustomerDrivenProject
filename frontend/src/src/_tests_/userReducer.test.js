@@ -17,7 +17,6 @@ describe("Test userReducer", () => {
   test("setUserAction", () => {
     const user = { name: "John Doe", age: 21 };
     const userState = rootReducer(undefined, setUserAction(user)).user;
-    console.log(userState);
     expect(userState).toEqual(user);
   });
 
