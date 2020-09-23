@@ -2,6 +2,10 @@ import React from "react";
 import "../App.css";
 
 function NotFound() {
+  /*
+  404 Page
+  */
+
   return (
     <div className="App">
       <header className="App-header">
