@@ -11,11 +11,22 @@ using HotChocolate;
 using HotChocolate.AspNetCore;
 using src.Api.Types;
 using src.Api.Queries;
+using src.Config;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
+using src.Database;
 
 namespace src
 {
     public class Startup
     {
+
+        private readonly IConfiguration Configuration;
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
@@ -33,8 +44,15 @@ namespace src
                     });
             });
 
+            // Config file
+            services.Configure<DatabaseConfig>(
+                Configuration.GetSection(nameof(DatabaseConfig)));
+            services.AddSingleton<IDatabaseConfig>(sp =>
+                sp.GetRequiredService<IOptions<DatabaseConfig>>().Value);
+
             // Database connection
-            // TODO
+            services.AddSingleton<IFishFarmRepository, FishFarmRepository>();
+
 
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
@@ -43,7 +61,6 @@ namespace src
                 .AddMutationType(d => d.Name("Mutation"))
 
                 .AddType<TestQuery>()
-
                 .AddType<TestType>()
 
                 .Create()
@@ -60,8 +77,8 @@ namespace src
 
             app.UseCors();
 
-            app.UsePlayground();
             app.UseGraphQL();
+            app.UsePlayground();
         }
     }
 }
