@@ -7,6 +7,9 @@
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Queues" Version="12.4.2" />
     <PackageReference Include="CsvHelper" Version="15.0.5" />
+    <PackageReference Include="HotChocolate" Version="10.5.2" />
+    <PackageReference Include="HotChocolate.AspNetCore" Version="10.5.2" />
+    <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.2" />
     <PackageReference Include="InfluxDB.Client" Version="1.11.0" />
     <PackageReference Include="InfluxDB.Collector" Version="1.1.1" />
     <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="3.3.0">

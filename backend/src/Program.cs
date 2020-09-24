@@ -15,10 +15,10 @@ namespace src
     {
         public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World");
-            DataClass dataClass = new Optode();
-            Csv csv = Csv.FromTextFile("Data/Optode/20200812T082107.txt", dataClass);
-            csv.WriteCsvFile("Data/csv/optode.csv");
+            //Console.WriteLine("Hello World");
+            //DataClass dataClass = new Optode();
+            //Csv csv = Csv.FromTextFile("Data/Optode/20200812T082107.txt", dataClass);
+            //csv.WriteCsvFile("Data/csv/optode.csv");
             
             //DataClass dataClass = new Tension();
             //Csv csv = Csv.FromTextFile("Data/Tension/2020-08-25 22.42.24.txt", dataClass, false);
@@ -29,7 +29,7 @@ namespace src
 
             //DataClass dataClass = new Metocean();
             //List<PointData> record = ParseFile("Data/ACE_Buoy_Metoceandata.csv", dataClass, false);
-            // CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
