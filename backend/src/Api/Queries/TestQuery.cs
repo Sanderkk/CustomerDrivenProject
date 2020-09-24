@@ -1,5 +1,7 @@
-﻿using HotChocolate.Types;
+﻿using HotChocolate;
+using HotChocolate.Types;
 using src.Api.Types;
+using src.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,5 +21,14 @@ namespace src.Api.Queries
             };
             return test;
         }
+
+        
+        public GenericObject GetTesting(
+            [Service] IFishFarmRepository repo
+            )
+        {
+             return repo.GetTimeSeries().Result;
+        }
+        
     }
 }
