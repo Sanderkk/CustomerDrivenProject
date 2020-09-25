@@ -18,6 +18,7 @@ const client = new ApolloClient({
 });
 
 // Routes for the different pages and 404 default page
+
 const routing = (
   <Provider store={store}>
     <React.StrictMode>
