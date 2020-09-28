@@ -1,0 +1,18 @@
+﻿{
+  "Data": {
+    "tableColumns": [
+      "time",
+      "analog_channel_0_rv009_133148",
+      "analog_channel_1_rv004_99871",
+      "analog_channel_2_rv011_90471",
+      "analog_channel_3_rv010_133149",
+      "analog_channel_4_rv005_99875",
+      "analog_channel_5_rv008_133147",
+      "analog_channel_6",
+      "analog_channel_7"
+    ]
+  },
+  "Extensions": {},
+  "Errors": [],
+  "ContextData": {}
+}

@@ -7,6 +7,8 @@ namespace src.Database
 {
     public interface IFishFarmRepository
     {
-        Task<GenericObject> GetTimeSeries();
+        Task<GenericObject> GetTimeSeries(string queryString);
+        Task<List<string>> GetDbTables(string queryString);
+        Task<List<string>> GetTableColumns(string queryString);
     }
 }

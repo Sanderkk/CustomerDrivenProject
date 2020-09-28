@@ -9,10 +9,11 @@ using System.Threading.Tasks;
 
 namespace src.Api.Queries
 {
-    [ExtendObjectType(Name = "Query")]
+    //[ExtendObjectType(Name = "Query")]
+    [GraphQLName("TestQuery")]
     public class TestQuery
     {
-        public ITestType GetTest()
+        public TestType GetTest()
         {
             TestType test = new TestType()
             {
@@ -20,14 +21,6 @@ namespace src.Api.Queries
                 Description = "Test description"
             };
             return test;
-        }
-
-        
-        public GenericObject GetTesting(
-            [Service] IFishFarmRepository repo
-            )
-        {
-             return repo.GetTimeSeries().Result;
         }
         
     }

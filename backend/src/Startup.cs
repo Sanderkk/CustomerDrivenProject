@@ -57,10 +57,13 @@ namespace src
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
 
-                .AddQueryType(d => d.Name("Query"))
-                .AddMutationType(d => d.Name("Mutation"))
+                //.AddQueryType(d => d.Name("Query"))
+                //.AddMutationType(d => d.Name("Mutation"))
+                .AddQueryType<TimeSeriesQuery>()
+                //.AddQueryType<TestQuery>()
 
-                .AddType<TestQuery>()
+                //.AddType<TimeSeriesQuery>()
+                //.AddType<TestQuery>()
                 .AddType<TestType>()
 
                 .Create()

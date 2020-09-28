@@ -12,5 +12,6 @@ namespace src.Database
         public DateTime EndDate { get; set; }
         public List<DateTime> Time { get; set; }
         public Dictionary<string, List<string>> Data { get; set; }
+        public Dictionary<string, List<Decimal>> NumberData { get; set; }
     }
 }
