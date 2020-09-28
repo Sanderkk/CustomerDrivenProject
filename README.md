@@ -26,9 +26,9 @@ The branchname should be an indication of which issue you are working on.
 
 ### Commit message structure
 The commit message should follow this message structure:
-- branchtype: commit message
+- JIRA-ID: commit message
 
-Commit message should describe what the code does, and not what you have done. 
+Commit message should describe what the code does, and not what you have done.
 
 
 ### How to merge a branch into dev 
@@ -36,8 +36,8 @@ Commit message should describe what the code does, and not what you have done.
 When you are going to go ahead on an issue, it is important that you make a new branch for the issue following the git branching convention described above.
 Follow these instructions when making a new branch: 
 - `git checkout dev`
-- `git reset --hard origin/dev`
 - `git fetch --all`
+- `git reset --hard origin/dev`
 - `git checkout -b branchntype/branchname`
 
 When you are finished with your updates, it is important that everyone follows the convention for rebasing.
