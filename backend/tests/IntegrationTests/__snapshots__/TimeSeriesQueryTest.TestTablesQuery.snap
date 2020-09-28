@@ -1,0 +1,29 @@
+﻿{
+  "Data": {
+    "tables": [
+      "company",
+      "dashboard",
+      "department",
+      "location",
+      "log",
+      "metadata",
+      "optode",
+      "sensor",
+      "sensor_group",
+      "sensor_in_sensor_group",
+      "sensor_responsable",
+      "tension",
+      "user_access_to_dashboard",
+      "user_access_to_sensor",
+      "user_access_to_sensor_group",
+      "user_group",
+      "user_group_access_to_dashboard",
+      "user_group_access_to_sensor",
+      "user_group_access_to_sensor_group",
+      "wavedata_from_bjorn"
+    ]
+  },
+  "Extensions": {},
+  "Errors": [],
+  "ContextData": {}
+}
