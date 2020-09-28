@@ -1,0 +1,24 @@
+#log_in_div{
+  text-align: center;
+  margin-top: 6em;
+}
+
+.log_in_out_btn{
+  background-color: navy; /* Green */
+  border: none;
+  color: white;
+  border: 2px solid white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+}
+
+.log_in_out_btn:hover{
+  background-color: white; /* Green */
+  color: black;
+  border: 2px solid navy;
+  cursor: pointer;
+}

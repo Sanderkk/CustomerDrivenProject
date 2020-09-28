@@ -10,6 +10,7 @@
     width: 5em;
     height: 4em;
     float: left;
+    margin-left: 1em;
 }
 
 .nav_button{

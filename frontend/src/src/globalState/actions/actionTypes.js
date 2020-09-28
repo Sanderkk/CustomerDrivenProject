@@ -1,5 +1,5 @@
-export const SET_USER = "SET_USER";
-export const REMOVE_USER = "REMOVE_USER";
+export const AAD_LOGIN_SUCCESS = "AAD_LOGIN_SUCCESS";
+export const AAD_LOGOUT_SUCCESS = "AAD_LOGOUT_SUCCESS";
 
 export const SET_QUERY_DATA = "SET_QUERY_DATA";
 export const SET_QUERY_DATA_INPUT = "SET_QUERY_DATA_INPUT";
