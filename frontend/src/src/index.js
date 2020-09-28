@@ -8,9 +8,12 @@ import store from "./globalState/store";
 import { Provider } from "react-redux";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import NotFound from "./components/NotFound";
+import LogInPage from "./components/LogInPage";
 import AdminPage from "./components/AdminPage";
 import CustomersPage from "./components/CustomersPage";
 import DashboardsPage from "./components/DashboardsPage";
+import AccessCheckerDecotaor from "./components/AccessCheckerDecorator";
+import groupTypes from "./groupTypes";
 
 const client = new ApolloClient({
   uri: "http://api-customerdriven.sanderkk.com/playground/..",
@@ -26,9 +29,36 @@ const routing = (
         <Router>
           <Switch>
             <Route exact path="/" component={App} />
-            <Route path="/admin" component={AdminPage} />
-            <Route path="/customers" component={CustomersPage} />
-            <Route path="/dashboards" component={DashboardsPage} />
+            <Route path="/login" component={LogInPage} />
+            <Route
+              // Use AccessCheckerDecorator around a main page component to make it so that only a specified groupType has access to that URL
+              path="/admin"
+              component={() => (
+                <AccessCheckerDecotaor
+                  mainPage={<AdminPage />}
+                  group={groupTypes.engineer}
+                />
+              )}
+            />
+            <Route
+              path="/customers"
+              component={() => (
+                <AccessCheckerDecotaor
+                  mainPage={<CustomersPage />}
+                  group={groupTypes.researcher}
+                />
+              )}
+            />
+            <Route
+              path="/dashboards"
+              component={() => (
+                <AccessCheckerDecotaor
+                  mainPage={<DashboardsPage />}
+                  group="true"
+                  // group ="true" gives access if logged in
+                />
+              )}
+            />
             <Route component={NotFound} />
           </Switch>
         </Router>

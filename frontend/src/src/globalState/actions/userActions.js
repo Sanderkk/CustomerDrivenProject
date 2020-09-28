@@ -1,14 +1,14 @@
-import { SET_USER, REMOVE_USER } from "../actions/actionTypes";
+import { AAD_LOGIN_SUCCESS, AAD_LOGOUT_SUCCESS } from "../actions/actionTypes";
 
 export const setUserAction = (user) => {
   return {
-    type: SET_USER,
+    type: AAD_LOGIN_SUCCESS,
     payload: { user },
   };
 };
 
 export const removeUserAction = (dispatch) => {
   return {
-    type: REMOVE_USER,
+    type: AAD_LOGOUT_SUCCESS,
   };
 };

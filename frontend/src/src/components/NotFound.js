@@ -1,5 +1,6 @@
 import React from "react";
 import "../App.css";
+import Navbar from "./Navbar";
 
 function NotFound() {
   /*
@@ -8,6 +9,7 @@ function NotFound() {
 
   return (
     <div className="App">
+      <Navbar />
       <header className="App-header">
         <h2>404 Not Found</h2>
       </header>

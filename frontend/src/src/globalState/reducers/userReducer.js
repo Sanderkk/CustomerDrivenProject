@@ -1,14 +1,16 @@
-import { SET_USER, REMOVE_USER } from "../actions/actionTypes";
+const initialState = {
+  aadResponse: null,
+};
 
-const initialState = {};
-
-export default function (state = initialState, action) {
+const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_USER:
-      return action.payload.user;
-    case REMOVE_USER:
-      return {};
+    case "AAD_LOGIN_SUCCESS":
+      return { ...state, aadResponse: action.payload };
+    case "AAD_LOGOUT_SUCCESS":
+      return { ...state, aadResponse: null };
     default:
       return state;
   }
-}
+};
+
+export default userReducer;
