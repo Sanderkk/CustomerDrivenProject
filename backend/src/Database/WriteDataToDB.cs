@@ -4,7 +4,7 @@ using System.Collections.Generic;
 namespace src.Database
 {
     public class WriteToDB {
-        public static void WriteData(string createTable, string copyInto, int numColumns, List<string> record, string sensorName)
+        public static void WriteData(string createTable, string copyInto, int numColumns, List<string> record, string sensorName, string[] headerArrayQuery, int sensorID)
         {
             var cs = "Host=localhost;Username=postgres;Password=password;Database=bjorn";
             using var con = new NpgsqlConnection(cs);
@@ -26,15 +26,21 @@ namespace src.Database
             using (var writer = con.BeginTextImport(copyInto)) {
 
                 for (int i = 1; i< record.Count/numColumns; i++) {
-                    row += record[numColumns*i] + "\t";
+                    row += sensorID + "\t";
                     
-                    for (int j = 1; j < numColumns-1; j++) {
+                    for (int j = 0; j < numColumns-1; j++) {
                         row += record[j+numColumns*i] + "\t";
                     }
                     row += record[numColumns-1] + "\n";
                     writer.Write(row);
                     row = "";
                 }   
+            }
+
+            
+            using (var cmd2 = new NpgsqlCommand("UPDATE sensor SET table_name = COALESCE('table_name', '"+ sensorName +"'), column_name = COALESCE('column_name', '"+ string.Join(".", headerArrayQuery) +"') WHERE sensor.id='"+ sensorID+@"';", con))
+            {
+                cmd2.ExecuteNonQuery();
             }
             con.Close(); 
         }
