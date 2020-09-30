@@ -7,9 +7,13 @@ on:
     branches: [ dev ]
 
 jobs:
-  build:
+  backendTest:
 
     runs-on: ubuntu-latest
+  
+    defaults:
+      run:
+        working-directory: backend
 
     steps:
     - uses: actions/checkout@v2
@@ -17,8 +21,6 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 3.1.301
-    - name: Correct directory
-      run: cd backend
     - name: Install dependencies
       run: dotnet restore
     - name: Build
