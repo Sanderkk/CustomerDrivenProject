@@ -7,7 +7,7 @@ namespace parser
 {
     public class PrepareWritingDataToDB
     {
-        public static void PrepareQuery(List<String> record, DataClass dataClass, string[] headerArrayQuery)
+        public static void PrepareQuery(List<String> record, DataClass dataClass, string[] headerArrayQuery, int sensorID)
         {
 
             int numColumns = dataClass.fieldIndexes.Item2;  // number of columns in the file
@@ -17,12 +17,13 @@ namespace parser
             // create a sql string for doing bulk insert
             string copyInto = CreateCopy(dataClass, headerArrayQuery, numColumns);
             
-            WriteToDB.WriteData(createTable, copyInto, numColumns, record, dataClass.measurement);
+            WriteToDB.WriteData(createTable, copyInto, numColumns, record, dataClass.measurement, headerArrayQuery, sensorID);
         }
 
         public static string CreateTable(DataClass dataClass, string[] headerArrayQuery, int numColumns, List<String> record) {
             string createTable = @"CREATE TABLE IF NOT EXISTS "+dataClass.measurement+@" (";
             
+            createTable += "sensorid     INTEGER       NOT NULL,";
             for (int i = 0; i < numColumns; i++) {
                 if (i == 0) {
                     createTable += "time     TIMESTAMP       NOT NULL,";
@@ -36,12 +37,12 @@ namespace parser
                     }
                 }
             }
-            createTable = createTable.Remove(createTable.Length - 1) + ");";
+            createTable += " PRIMARY KEY (sensorid, time));";
             return createTable;
         }
 
         public static string CreateCopy(DataClass dataClass, string[] headerArrayQuery, int numColumns) {
-            string insertInto = "COPY "+dataClass.measurement+@"(time,";
+            string insertInto = "COPY "+dataClass.measurement+@"(sensorid, time,";
 
             for (int i = 1; i < numColumns-1; i++) {
                 insertInto += headerArrayQuery[i] + ", ";

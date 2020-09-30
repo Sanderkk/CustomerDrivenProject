@@ -23,7 +23,7 @@ namespace parser
 
             DataClass dataClass = new Metocean();
             (List<String>, string[]) parsedFile = ParseFile("Data/ACE_Buoy_Metoceandata.csv", dataClass, false);
-            PrepareWritingDataToDB.PrepareQuery(parsedFile.Item1, dataClass, parsedFile.Item2);
+            PrepareWritingDataToDB.PrepareQuery(parsedFile.Item1, dataClass, parsedFile.Item2, 1);
         }
 
         public static string RemoveWhiteSpaces(string str)
