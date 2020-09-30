@@ -1,0 +1,164 @@
+.qb_container {
+  padding: 1.5em 1em;
+  position: relative;
+  background-color: #333; /* blackColor global variable */
+  display: flex;
+  margin-top: 2em;
+}
+
+p {
+  text-align: center;
+}
+
+.qb_box {
+  background-color: white;
+  max-width: 400px;
+  min-width: 230px;
+  height: 300px;
+  overflow: auto;
+  padding: 0 1em;
+  margin: 0 1em;
+}
+
+.qb_date {
+  background-color: white;
+  margin: 0 1em;
+  padding: 0em 1em;
+}
+
+/* This hides the default radio button */
+.qb_radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.qb_box label {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.custom_button {
+  position: absolute;
+  top: 3px;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #ddd; /* whiteColor global variable */
+  border-radius: 50%;
+}
+
+/* On mouse-over bg color */
+.qb_radio label:hover input ~ .custom_button {
+  background-color: #aaa;
+}
+
+/* On checked bg color */
+.qb_radio label input:checked ~ .custom_button {
+  background-color: #004299; /* blueColor global variable */
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.custom_button:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.qb_radio input:checked ~ .custom_button:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.qb_radio .custom_button:after {
+  top: 7px;
+  left: 7px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: white;
+}
+
+/* Hide the browser's default checkbox */
+.qb_checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #ddd;
+}
+
+/* On mouse-over, add a grey background color */
+.qb_checkbox:hover input ~ .checkmark {
+  background-color: #aaa;
+}
+
+/* When the checkbox is checked, add a blue background */
+.qb_checkbox input:checked ~ .checkmark {
+  background-color: #004299;
+}
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the checkmark when checked */
+.qb_checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Style the checkmark/indicator */
+.qb_checkbox .checkmark:after {
+  left: 7px;
+  top: 4px;
+  width: 4px;
+  height: 7px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+/* Custom scrollbar */
+/* width */
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 3px grey;
+  border-radius: 3px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #004299;
+  border-radius: 3px 0px 0px 3px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #013579;
+}

@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
 import "./componentStyles/DashboardsPage.css";
+import QueryBuilder from "./QueryBuilder";
 
 function DashboardsPage() {
   /*
@@ -11,6 +12,7 @@ function DashboardsPage() {
     <div>
       <Navbar />
       <h1>Dashboards page</h1>
+      <QueryBuilder />
     </div>
   );
 }
