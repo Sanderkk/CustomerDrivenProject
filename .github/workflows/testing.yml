@@ -35,16 +35,16 @@ jobs:
           working-directory: frontend
     steps:
     - name: Checkout
-        uses: actions/checkout@v1
+    - uses: actions/checkout@v2
     - name: React run
-        uses: actions/setup-node@v1
+    - uses: actions/setup-node@v1
         with:
             working-directory: src
         - run: npm install
         - run: npm start &
     # https://github.com/cypress-io/github-action
     - name: Cypress run
-        uses: cypress-io/github-action@v1
+    - uses: cypress-io/github-action@v1
         with:
             record: true
             start: npm run ci
