@@ -1,0 +1,47 @@
+.formWrapper {
+    max-width: 800px;
+    margin: auto;
+    margin-top: 75px;
+    width: 50%;
+    border: 1px solid navy;
+    border-radius: 4px;
+    padding: 40px;
+    min-width: 400px;
+    background-color: #f3f3fa;
+}
+
+.header {
+    margin-top: 0;
+}
+
+.dropdown {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid navy;
+    border-radius: 4px;
+  }
+
+input[type=file] {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+}
+
+input[type=submit] {
+    width: 100%;
+    background-color: navy;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+input[type=submit]:hover {
+background-color: #4d4dff;
+}
+  
