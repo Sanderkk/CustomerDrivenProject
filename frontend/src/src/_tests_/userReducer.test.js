@@ -22,7 +22,6 @@ describe("Test userReducer", () => {
 
   // Test removing a user
   test("removeUserAction", () => {
-    const action = { type: "dummy_action" };
     const userState = rootReducer(undefined, removeUserAction()).user;
     expect(userState).toEqual({});
   });
