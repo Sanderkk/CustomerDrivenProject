@@ -5,20 +5,24 @@ using System.Collections.Generic;
 using Npgsql;
 using src.Config;
 using Newtonsoft.Json;
+using src.Api.Types;
 
 namespace src.Database
 {
     public class FishFarmRepository : IFishFarmRepository
     {
-        
-        private NpgsqlConnection _npgsqlConnection;
+
+        // NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(databaseSettings.DatabaseConnectionString);
+
+        private IDatabaseConfig _databaseSettings;
         public FishFarmRepository(IDatabaseConfig databaseSettings)
         {
-            _npgsqlConnection = new NpgsqlConnection(databaseSettings.DatabaseConnectionString);
+            _databaseSettings = databaseSettings;
         }
 
         public async Task<GenericObject> GetTimeSeries(string queryString)
         {
+            NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
             await _npgsqlConnection.OpenAsync();
             using var cmd = new NpgsqlCommand(queryString);
             cmd.Connection = _npgsqlConnection;
@@ -41,7 +45,7 @@ namespace src.Database
                 {
                     if (fieldNames[i].Equals("time"))
                     {
-                        timeData.Add(dataReader.GetFieldValue<DateTime>(i));
+                        timeData.Add(dataReader.GetFieldValue<DateTime>(i).ToUniversalTime());
                     } else
                     {
                         var dataValue = dataReader.GetFieldValue<dynamic>(i);
@@ -72,8 +76,8 @@ namespace src.Database
             var result = new GenericObject()
             {
                 Table = "tension",
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now,
+                StartDate = timeData.Count > 0 ? timeData[0] : DateTime.UtcNow,
+                EndDate = timeData.Count > 0 ? timeData[timeData.Count - 1] : DateTime.UtcNow,
                 Time = timeData,
                 Data = data,
                 NumberData = numberData
@@ -81,38 +85,51 @@ namespace src.Database
             return result;
         }
 
-        public async Task<List<string>> GetDbTables(string queryString)
+
+        public async Task<List<SensorType>> GetSensorsData(string queryString)
         {
+            NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
             await _npgsqlConnection.OpenAsync();
             using var cmd = new NpgsqlCommand(queryString);
             cmd.Connection = _npgsqlConnection;
             var dataReader = await cmd.ExecuteReaderAsync();
 
-            List<string> tableNames = new List<string>();
+            var fieldsCount = dataReader.GetColumnSchema().Count();
+            var sensorData = new List<SensorType>();
             while (dataReader.Read())
             {
-                var data = dataReader.GetFieldValue<dynamic>(0);
-                tableNames.Add(data);
+                var result = new SensorType()
+                {
+                    SensorId = dataReader.GetFieldValue<int>(0),
+                    SensorTabel = dataReader.GetFieldValue<string>(1),
+                    SensorColumns = dataReader.GetFieldValue<string>(2)?.Split(".").ToList()
+                };
+                sensorData.Add(result);
             };
 
             cmd.Parameters.Clear();
             await dataReader.CloseAsync();
             await _npgsqlConnection.CloseAsync();
-            return tableNames;
+            return sensorData;
         }
 
-        public async Task<List<string>> GetTableColumns(string queryString)
+        public async Task<GenericTimeType> GetTimeSeriesPeriode(string queryString)
         {
+            NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
             await _npgsqlConnection.OpenAsync();
             using var cmd = new NpgsqlCommand(queryString);
             cmd.Connection = _npgsqlConnection;
             var dataReader = await cmd.ExecuteReaderAsync();
 
-            List<string> result = new List<string>();
+            var fieldsCount = dataReader.GetColumnSchema().Count();
+            GenericTimeType result = null;
             while (dataReader.Read())
             {
-                var value = dataReader.GetFieldValue<dynamic>(0);
-                result.Add(value);
+                result = new GenericTimeType()
+                {
+                    From = dataReader.GetFieldValue<DateTime>(0),
+                    To = dataReader.GetFieldValue<DateTime>(1),
+                };
             };
 
             cmd.Parameters.Clear();
