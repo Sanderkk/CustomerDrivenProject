@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { setQueryData } from "../globalState/actions/queryDataActions";
 import "./componentStyles/QueryBuilder.css";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
-import { GET_TIME_SERIES } from "../queries/queries";
+import { GET_TIME_SERIES, GET_SENSORS } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 
 function QueryBuilder() {
@@ -13,7 +13,7 @@ function QueryBuilder() {
   */
   const dispatch = useDispatch();
   const client = useApolloClient();
-  // const [data, setData] = useState({}); // array of table and columns fro radio and checkboxes //TODO: implement when endpoint ready
+  const [sensors, setSensors] = useState({}); // array of table and columns fro radio and checkboxes
   const [measurement, setMeasurement] = useState(""); // e.g. "Metocean"
   const [checkedItems, setCheckedItems] = useState({}); // e.g. {airHumidity %: true, airPressure hPa: false}
   const [dates, setDates] = useState([new Date(), new Date()]); // [fromDate, toDate]
@@ -25,7 +25,7 @@ function QueryBuilder() {
     ); // checks if any of the checkedIems are true
     if (measurement.length > 0 && existTrueItem) {
       const input = getQuery();
-      // fetch time series and update global score
+      // fetch time series and update global state
       client
         .query({
           query: GET_TIME_SERIES,
@@ -34,22 +34,22 @@ function QueryBuilder() {
         .then((result) => dispatch(setQueryData(input, result.data)))
         .catch((err) => console.log(err));
     }
-  }); //TODO uncomment when endpoint ready // set checked items
+  });
 
   // Fetches data for table and columns when component is loaded
-  /*useEffect(() => {
+  useEffect(() => {
     client
       .query({
-        query: GET_TABLE_AND_COLUMNS,
+        query: GET_SENSORS,
       })
       .then((result) => {
-        setData(result.data);
+        setSensors(result.data);
         console.log(result.data);
       })
       .catch((err) => console.log(err));
-  }, [client]);*/ const handleCheckboxChange = (
-    event
-  ) => {
+  }, [client]);
+
+  const handleCheckboxChange = (event) => {
     setCheckedItems({
       ...checkedItems,
       [event.target.name]: event.target.checked,
@@ -118,8 +118,12 @@ function QueryBuilder() {
     const selectedColumns = Object.fromEntries(
       Object.entries(checkedItems).filter(([key, value]) => value)
     );
+    const sensorId = sensors.sensors.filter(
+      (obj) => obj.sensorTabel === measurement
+    )[0].sensorId;
     return {
       tableName: measurement,
+      sensorId: sensorId,
       columnNames: ["time", ...Object.keys(selectedColumns)],
       from: dateToUTCDate(dates[0]),
       to: dateToUTCDate(dates[1]),
@@ -132,10 +136,14 @@ function QueryBuilder() {
         <h3>Select Measurement</h3>
         <div>
           {/* Mapping measurement names (.data.tableAndColumns[i].key) to radio buttons*/}
-          {Object.keys(data).length === 0 && data.constructor === Object ? (
+          {Object.keys(sensors).length === 0 &&
+          sensors.constructor === Object ? (
             <p>Loading...</p>
           ) : (
-            data.tableAndColumns.map((obj, i) => nameToRadioButton(obj.key, i))
+            /*data.tableAndColumns.map((obj, i) => nameToRadioButton(obj.key, i))*/
+            sensors.sensors.map((obj) =>
+              nameToRadioButton(obj.sensorTabel, obj.sensorId)
+            )
           )}
         </div>
       </div>
@@ -145,9 +153,13 @@ function QueryBuilder() {
           {/* If measurement selected: filter data to selected measurement, select value array of first object, 
           remove "time" from array and map array to checkboxes*/}
           {measurement ? (
-            data.tableAndColumns
+            /*data.tableAndColumns
               .filter((obj) => obj.key === measurement)[0]
               .value.filter((item) => item !== "time")
+              .map((item, i) => fieldToCheckbox(item, i))*/
+            sensors.sensors
+              .filter((obj) => obj.sensorTabel === measurement)[0]
+              .sensorColumns.filter((item) => !item.includes("time"))
               .map((item, i) => fieldToCheckbox(item, i))
           ) : (
             <p>Please select a measurement</p>
@@ -171,47 +183,3 @@ function QueryBuilder() {
 }
 
 export default QueryBuilder;
-
-// TODO: replace with api call
-// eslint-disable-next-line
-const data = {
-  tableAndColumns: [
-    {
-      key: "tension",
-      value: [
-        "time",
-        "analog_channel_0_rv009_133148",
-        "analog_channel_1_rv004_99871",
-        "analog_channel_2_rv011_90471",
-        "analog_channel_3_rv010_133149",
-        "analog_channel_4_rv005_99875",
-        "analog_channel_5_rv008_133147",
-        "analog_channel_6",
-        "analog_channel_7",
-      ],
-    },
-    {
-      key: "wavedata_from_bjorn",
-      value: [
-        "uptime",
-        "hm0",
-        "time",
-        "hm0b",
-        "hmax",
-        "mdir",
-        "mdira",
-        "mdirb",
-        "sprtp",
-        "thhf",
-        "thmax",
-        "thtp",
-        "tm01",
-        "tm02",
-        "tm02a",
-        "tm02b",
-        "tp",
-        "hm0a",
-      ],
-    },
-  ],
-};
