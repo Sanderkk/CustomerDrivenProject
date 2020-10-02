@@ -15,6 +15,7 @@ using src.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using src.Database;
+using src.Api.Inputs;
 
 namespace src
 {
@@ -57,14 +58,13 @@ namespace src
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
 
-                //.AddQueryType(d => d.Name("Query"))
+                .AddQueryType(d => d.Name("Query"))
                 //.AddMutationType(d => d.Name("Mutation"))
-                .AddQueryType<TimeSeriesQuery>()
+                //.AddQueryType<TimeSeriesQuery>()
                 //.AddQueryType<TestQuery>()
 
-                //.AddType<TimeSeriesQuery>()
-                //.AddType<TestQuery>()
-                .AddType<TestType>()
+                .AddType<TimeSeriesQuery>()
+                .AddType<TestQuery>()
 
                 .Create()
             );

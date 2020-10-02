@@ -9,8 +9,7 @@ using System.Threading.Tasks;
 
 namespace src.Api.Queries
 {
-    //[ExtendObjectType(Name = "Query")]
-    [GraphQLName("TestQuery")]
+    [ExtendObjectType(Name = "Query")]
     public class TestQuery
     {
         public TestType GetTest()
