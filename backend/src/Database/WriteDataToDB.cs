@@ -6,7 +6,7 @@ namespace src.Database
     public class WriteToDB {
         public static void WriteData(string createTable, string copyInto, int numColumns, List<string> record, string sensorName, string[] headerArrayQuery, int sensorID)
         {
-            var cs = "Host=localhost;Username=postgres;Password=password;Database=bjorn";
+            var cs = "Host=localhost;Username=postgres;Password=password;Database=fishfarm";
             using var con = new NpgsqlConnection(cs);
             con.Open();
 

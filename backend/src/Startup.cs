@@ -1,15 +1,10 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HotChocolate;
 using HotChocolate.AspNetCore;
-using src.Api.Types;
 using src.Api.Queries;
 using src.Config;
 using Microsoft.Extensions.Configuration;
@@ -22,6 +17,8 @@ using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication;
+using src.Api.Mutations;
+using src.Database.User;
 
 namespace src
 {
@@ -74,20 +71,23 @@ namespace src
                 sp.GetRequiredService<IOptions<DatabaseConfig>>().Value);
 
             // Database connection
+            services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IFishFarmRepository, FishFarmRepository>();
             services.AddSingleton<IMetadataRepository, MetadataRepository>();
+            services.AddErrorFilter<GraphQLErrorFilter>();
 
 
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
-
                 .AddQueryType(d => d.Name("Query"))
-                //.AddMutationType(d => d.Name("Mutation"))
-
+                .AddAuthorizeDirectiveType()
+                .AddMutationType(d => d.Name("Mutation"))
                 .AddType<TimeSeriesQuery>()
                 .AddType<TestQuery>()
                 .AddAuthorizeDirectiveType()
                 .AddType<MetadataQuery>()
+                .AddType<DashboardQuery>()
+                .AddType<DashboardMutation>()
                 .Create()
             );
 

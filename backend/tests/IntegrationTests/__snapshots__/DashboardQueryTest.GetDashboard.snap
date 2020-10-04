@@ -1,0 +1,105 @@
+﻿{
+  "Data": {
+    "allDashboards": [
+      {
+        "id": 2,
+        "name": "Åge",
+        "description": "",
+        "data": "{\"name\":\"kim\"}"
+      },
+      {
+        "id": 1,
+        "name": "Sander",
+        "description": "",
+        "data": "{\"name\":\"Sander\"}"
+      },
+      {
+        "id": 3,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 4,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 5,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 6,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 7,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 8,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 9,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 10,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 11,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 12,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 13,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 14,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 15,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      },
+      {
+        "id": 16,
+        "name": "Åge",
+        "description": "Hei",
+        "data": "{\"name\":\"Hei\"}"
+      }
+    ]
+  },
+  "Extensions": {},
+  "Errors": [],
+  "ContextData": {}
+}
