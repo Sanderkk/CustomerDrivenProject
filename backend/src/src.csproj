@@ -10,8 +10,6 @@
     <PackageReference Include="HotChocolate" Version="10.5.2" />
     <PackageReference Include="HotChocolate.AspNetCore" Version="10.5.2" />
     <PackageReference Include="HotChocolate.AspNetCore.Playground" Version="10.5.2" />
-    <PackageReference Include="InfluxDB.Client" Version="1.11.0" />
-    <PackageReference Include="InfluxDB.Collector" Version="1.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.AzureAD.UI" Version="3.1.8" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.8" />
     <PackageReference Include="Microsoft.CodeQuality.Analyzers" Version="3.3.0">
@@ -21,6 +19,10 @@
     <PackageReference Include="Microsoft.Identity.Web" Version="1.0.0" />
     <PackageReference Include="Npgsql" Version="4.1.4" />
     <PackageReference Include="TinyCsvParser" Version="2.5.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="QueueStorage\App.config" />
   </ItemGroup>
 
 </Project>
