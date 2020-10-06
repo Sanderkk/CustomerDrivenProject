@@ -1,5 +1,5 @@
 
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import './componentStyles/LineGraph.css'
@@ -8,20 +8,26 @@ import { useSelector } from "react-redux";
 
 const DisplayHighcharts = () => {
     const store = useSelector((store) => store);
-    const [seriesArray, setSeriesArray] = useState([])
-    const [time, setTime] = useState([])
-    
+    const [graphdata, setGraphData] = useState([])
+
+    const zip = function(ar1, ar2, zipper) {
+        return zipper
+            ? ar1.map((value, index) => zipper(value, ar2[index]))
+            : ar1.map((value, index) => [value, ar2[index]])
+            ;
+    }
+
     //returns the dates for the x-axis.
     const parseTimes = () => {
         let hours = []
         for(let i = 0; i < store.queryData.response.timeSeries.time.length; i++) {
-            let dateObject = new Date(store.queryData.response.timeSeries.time[i])
+            let dateObject = new Date(store.queryData.response.timeSeries.time[i]).getTime()
             hours.push(dateObject)
             //hours.push(dateObject.toLocaleString())
         }
-        setTime(hours)
-        }
-    
+        return hours
+    }
+
     //Determine whether the line should be on the right or left y-axis.
     let axis2 = 0;
     const determineAxis = (value) => {
@@ -34,11 +40,22 @@ const DisplayHighcharts = () => {
         return axis2;
     }
 
+    const transformData = (sensors, time) => {
+        var listOfObjects = [];
+        sensors.map(sensor => {
+            var singleObj = {};
+            singleObj['data'] = zip(time, sensor.data);
+            singleObj['name'] = sensor.name;
+            listOfObjects.push(singleObj);
+        });
+        return listOfObjects
+    }
+
     const getDataFromStore = () => {
         let numberData = store.queryData.response.timeSeries.numberData
         if (store.queryData.response !== undefined) {
             if(numberData.length > 0) {
-            
+
             let dataFromStore = []
             for (let i = 0; i < numberData.length; i++) {
                 dataFromStore.push({
@@ -47,15 +64,16 @@ const DisplayHighcharts = () => {
                     yAxis: determineAxis(numberData[i].value[10])
                 })
             }
-            setSeriesArray(dataFromStore)
-
             //Converting the dates from string to date objects
-            parseTimes() 
+            const t = parseTimes()
+            const d = transformData(dataFromStore, t)
+            setGraphData(d)
         }
     }
 
 
     }
+
 
     //Customizing the graph
     const options = {
@@ -69,8 +87,6 @@ const DisplayHighcharts = () => {
         colors: ['#fcba03', '#03a1fc', '#d13b40', '#006600'],
         xAxis: [{ 
             type: "datetime",
-            categories: time, //array of dates
-            crosshair: true,
         }],
         // Primary yAxis
         yAxis: [{ 
@@ -96,7 +112,7 @@ const DisplayHighcharts = () => {
             }
         }
     ],
-        series: seriesArray // Data from the query builder.
+        series:graphdata      // Data from the query builder.
     };
 
     return (
