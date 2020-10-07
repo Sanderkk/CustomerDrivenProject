@@ -192,7 +192,6 @@ namespace src.Database
 
 
                 };
-                Console.WriteLine("query sent");
             };
 
             cmd.Parameters.Clear();
