@@ -5,6 +5,7 @@ import "./componentStyles/QueryBuilder.css";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
 import { GET_TIME_SERIES, GET_SENSORS } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
+import sendQuery from "../queries/sendQuery";
 
 function QueryBuilder() {
   /*
@@ -26,11 +27,7 @@ function QueryBuilder() {
     if (measurement.length > 0 && existTrueItem) {
       const input = getQuery();
       // fetch time series and update global state
-      client
-        .query({
-          query: GET_TIME_SERIES,
-          variables: { input },
-        })
+      sendQuery(client, GET_TIME_SERIES, { input })
         .then((result) => dispatch(setQueryData(input, result.data)))
         .catch((err) => console.log(err));
     }
@@ -38,10 +35,7 @@ function QueryBuilder() {
 
   // Fetches data for table and columns when component is loaded
   useEffect(() => {
-    client
-      .query({
-        query: GET_SENSORS,
-      })
+    sendQuery(client, GET_SENSORS, null)
       .then((result) => {
         setSensors(result.data);
         console.log(result.data);
