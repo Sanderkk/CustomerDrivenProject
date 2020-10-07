@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using src.Api.Inputs;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace src.Api.Queries
 {

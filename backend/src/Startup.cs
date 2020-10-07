@@ -16,6 +16,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using src.Database;
 using src.Api.Inputs;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using HotChocolate.AspNetCore.Interceptors;
+using Microsoft.AspNetCore.Authentication.AzureAD.UI;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.Identity.Web;
+using Microsoft.AspNetCore.Authentication;
 
 namespace src
 {
@@ -45,6 +51,22 @@ namespace src
                     });
             });
 
+            
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(opt =>
+                {
+                    opt.Audience = Configuration["AAD:ResourceId"];
+                    opt.Authority = $"{Configuration["AAD:Instance"]}{Configuration["AAD:TenantId"]}";
+                });
+            
+
+            services.AddAuthorization(x =>
+            {
+                x.AddPolicy("Default", builder =>
+                    builder.RequireAuthenticatedUser()
+                    );
+            });
+
             // Config file
             services.Configure<DatabaseConfig>(
                 Configuration.GetSection(nameof(DatabaseConfig)));
@@ -60,12 +82,10 @@ namespace src
 
                 .AddQueryType(d => d.Name("Query"))
                 //.AddMutationType(d => d.Name("Mutation"))
-                //.AddQueryType<TimeSeriesQuery>()
-                //.AddQueryType<TestQuery>()
 
                 .AddType<TimeSeriesQuery>()
                 .AddType<TestQuery>()
-
+                .AddAuthorizeDirectiveType()
                 .Create()
             );
         }
@@ -79,6 +99,9 @@ namespace src
             }
 
             app.UseCors();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseGraphQL();
             app.UsePlayground();

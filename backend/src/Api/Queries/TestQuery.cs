@@ -1,4 +1,5 @@
 ﻿using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Types;
 using src.Api.Types;
 using src.Database;
@@ -13,6 +14,17 @@ namespace src.Api.Queries
     public class TestQuery
     {
         public TestType GetTest()
+        {
+            TestType test = new TestType()
+            {
+                Name = "Test name",
+                Description = "Test description"
+            };
+            return test;
+        }
+
+        [Authorize(Policy = "Default")]
+        public TestType GetAuthTest()
         {
             TestType test = new TestType()
             {
