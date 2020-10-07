@@ -19,10 +19,7 @@ namespace src.Api.Queries
             [Service] IFishFarmRepository repo
             )
         {
-            Console.WriteLine(sensorID);
             var queryString = DbQueryBuilder.CreateMetadataBySensorIDString(sensorID);
-            Console.Write("query is: ");
-            Console.WriteLine(queryString);
             return repo.GetMetadataBySensorID(queryString).Result;
         }
     }
