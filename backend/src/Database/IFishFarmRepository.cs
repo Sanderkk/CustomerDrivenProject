@@ -11,5 +11,6 @@ namespace src.Database
         Task<GenericObject> GetTimeSeries(string queryString);
         Task<List<SensorType>> GetSensorsData(string queryString);
         Task<GenericTimeType> GetTimeSeriesPeriode(string queryString);
+        Task<List<MetadataType>> GetMetadataBySensorID(string queryString);
     }
 }
