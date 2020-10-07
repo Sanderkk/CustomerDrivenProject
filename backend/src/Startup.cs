@@ -65,9 +65,12 @@ namespace src
 
                 .AddType<TimeSeriesQuery>()
                 .AddType<TestQuery>()
-
+                .AddType<MetadataQuery>()
                 .Create()
             );
+
+            //Overwrite basic error messages with ones with more info
+            services.AddErrorFilter<GraphQLErrorFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

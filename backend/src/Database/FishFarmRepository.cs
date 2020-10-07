@@ -137,5 +137,35 @@ namespace src.Database
             await _npgsqlConnection.CloseAsync();
             return result;
         }
+
+           public async Task<MetadataType> GetMetadataBySensorID(string queryString)
+        {
+            NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
+            await _npgsqlConnection.OpenAsync();
+            using var cmd = new NpgsqlCommand(queryString);
+            cmd.Connection = _npgsqlConnection;
+            var dataReader = await cmd.ExecuteReaderAsync();
+
+            var fieldsCount = dataReader.GetColumnSchema().Count();
+            MetadataType result = null;
+            Console.WriteLine("null sent");
+
+            while (dataReader.Read())
+            {
+                result = new MetadataType()
+                {   
+                    MetadataID = dataReader.GetFieldValue<int>(0),
+                    SensorID = dataReader.GetFieldValue<int>(1),
+                    Name = dataReader.GetFieldValue<string>(6),
+                    SerialNumber = dataReader.GetFieldValue<string>(13)
+                };
+                Console.WriteLine("query sent");
+            };
+
+            cmd.Parameters.Clear();
+            await dataReader.CloseAsync();
+            await _npgsqlConnection.CloseAsync();
+            return result;
+        }
     }
 }

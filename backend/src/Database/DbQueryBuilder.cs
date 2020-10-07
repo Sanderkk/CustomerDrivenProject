@@ -29,5 +29,10 @@ namespace src.Database
                     FROM {tableName} where sensorId={sensorId};
                 ";
         }
+
+        public static string CreateMetadataBySensorIDString(int? sensorID)
+        {
+            return $"SELECT * from METADATA where sensor_id={sensorID}";
+        }
     }
 }
