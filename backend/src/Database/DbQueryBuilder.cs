@@ -29,5 +29,13 @@ namespace src.Database
                     FROM {tableName} where sensorId={sensorId};
                 ";
         }
+
+        public static string CreateMetadataBySensorIDString(int sensorID, bool onlyLast)
+        {
+            string query = $"SELECT * FROM metadata left join location on metadata.location_id=location.id where sensor_id={sensorID} ORDER By created_at desc ";
+            if(onlyLast)
+                query=query + " limit 1";
+            return query;
+        }
     }
 }
