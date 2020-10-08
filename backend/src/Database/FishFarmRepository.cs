@@ -151,7 +151,8 @@ namespace src.Database
 
             while (dataReader.Read())
             {
-
+                //read the result row and for each field of the MetadataType object: get the value from the corresponding column in the row, get that value casted in the 
+                //  desidered type or if is a null in the database, return a null casted in the desired type.
                 result = new MetadataType()
                 {   
                     //TODO: update fields name to match new database
@@ -187,10 +188,6 @@ namespace src.Database
                     LendingPrice = dataReader["lending_price"]==DBNull.Value ? (float?)null :dataReader.GetFieldValue<float>(dataReader.GetOrdinal("lending_price")),
                     CableLength = dataReader["kabel_m"]==DBNull.Value ? (float?)null :dataReader.GetFieldValue<float>(dataReader.GetOrdinal("kabel_m")),
                     Voltage = dataReader["voltage"]==DBNull.Value ? (string?)null :dataReader.GetFieldValue<string>(dataReader.GetOrdinal("voltage"))
-
-
-
-
                 };
             };
 
