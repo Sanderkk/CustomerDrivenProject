@@ -14,6 +14,7 @@ import CustomersPage from "./components/CustomersPage";
 import DashboardsPage from "./components/DashboardsPage";
 import AccessCheckerDecotaor from "./components/AccessCheckerDecorator";
 import groupTypes from "./groupTypes";
+import AddCell from "./components/AddCell";
 
 const client = new ApolloClient({
   uri: "http://api-customerdriven.sanderkk.com/playground/..",
@@ -59,6 +60,17 @@ const routing = (
                 />
               )}
             />
+            <Route
+              path="/cell" 
+              component={() => (
+                <AccessCheckerDecotaor
+                  mainPage={<AddCell />}
+                  group={groupTypes.researcher}
+                  />
+              )}
+            />
+              
+
             <Route component={NotFound} />
           </Switch>
         </Router>
