@@ -22,7 +22,7 @@ namespace tests.IntegrationTests
         private string dbConnectionString = "Host=sanderkk.com;Username=sintef;Password=123456;Database=fishfarm";
 
         [Fact]
-        public async Task TestSensorsQuery()
+        public async Task MetadataQuery()
         {
             //Arrange
             //Connect to database
@@ -46,7 +46,7 @@ namespace tests.IntegrationTests
 
             IReadOnlyQueryRequest request =
                 QueryRequestBuilder.New()
-                .SetQuery(@"query metadata(sensorID:0){metadataID,sensorID,name,serialNumber,number,department,locationID,company,purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,company,voltage}")
+                .SetQuery("query metadata(sensorID:0){metadataID,sensorID,name,serialNumber,number,department,locationID,company,purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,company,voltage}")
                 .SetServices(serviceProvider)
                 .Create();
 
