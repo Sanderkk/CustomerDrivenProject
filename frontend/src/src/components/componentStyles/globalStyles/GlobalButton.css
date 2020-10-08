@@ -1,0 +1,43 @@
+.global_button_primary, .global_button_secondary {
+    border: none;
+    border-radius: 3px;
+    height: 40px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0 15px;
+}
+
+.global_button_primary {
+    background-color: #004299;
+}
+
+.global_button_primary:hover {
+    background-color: #0058cc;
+}
+
+.global_button_secondary{
+    background-color: #323232;
+}
+
+.global_button_secondary:hover {
+    background-color: #595959;
+}
+
+.flex_wrapper {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.flex_wrapper svg {
+    margin-right: 0.2em;
+    color: white;
+    font-size: 30px;
+}
+
+.btn_text {
+    padding-right: 10px;
+    font-size: 20px;
+    color: white;
+}

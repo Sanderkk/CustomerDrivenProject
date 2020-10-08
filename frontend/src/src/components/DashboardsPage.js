@@ -1,8 +1,7 @@
 import React from "react";
 import Navbar from "./Navbar";
-import LineGraph from "./LineGraph"
 import "./componentStyles/DashboardsPage.css";
-import QueryBuilder from "./QueryBuilder";
+import { Link } from "react-router-dom";
 
 function DashboardsPage() {
   /*
@@ -13,8 +12,11 @@ function DashboardsPage() {
     <div>
       <Navbar />
       <h1>Dashboards page</h1>
-      <QueryBuilder />
-      <LineGraph />
+      <nav>
+        <Link to="/cell" className="add_cell_btn">
+            Add cell
+        </Link>
+      </nav>
     </div>
   );
 }
