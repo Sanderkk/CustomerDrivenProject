@@ -1,0 +1,23 @@
+﻿{
+  "Data": {
+    "metadata": {
+      "metadataID": 5,
+      "sensorID": 0,
+      "name": "jonny",
+      "serialNumber": "555f455g",
+      "number": "hgjh87",
+      "department": null,
+      "locationID": null,
+      "company": null,
+      "purchaseDate": "1998-12-12T00:00:00.000+01:00",
+      "lending": true,
+      "lendingPrice": 44.54999923706055,
+      "cableLength": 4445.39990234375,
+      "checkOnInspectionRound": false,
+      "voltage": "12V"
+    }
+  },
+  "Extensions": {},
+  "Errors": [],
+  "ContextData": {}
+}

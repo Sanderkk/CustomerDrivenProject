@@ -46,7 +46,7 @@ namespace tests.IntegrationTests
 
             IReadOnlyQueryRequest request =
                 QueryRequestBuilder.New()
-                .SetQuery("query metadata(sensorID:0){metadataID,sensorID,name,serialNumber,number,department,locationID,company,purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,company,voltage}")
+                .SetQuery(@"{metadata(sensorID:0){metadataID,sensorID,name,serialNumber,number,department,locationID,company,purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,company,voltage}}")
                 .SetServices(serviceProvider)
                 .Create();
 
