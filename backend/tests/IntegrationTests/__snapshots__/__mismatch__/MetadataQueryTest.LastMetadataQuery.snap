@@ -1,0 +1,30 @@
+﻿{
+  "Data": {
+    "lastMetadata": [
+      {
+        "metadataID": 2,
+        "sensorID": 1,
+        "name": "something",
+        "serialNumber": null,
+        "number": "65465465465",
+        "department": null,
+        "company": "jgfkhgjffkjh\n",
+        "purchaseDate": null,
+        "lending": null,
+        "lendingPrice": null,
+        "cableLength": null,
+        "checkOnInspectionRound": null,
+        "voltage": null,
+        "coordinate": "55°24'12.2″N 2°10'26.5″E",
+        "altitude": 500,
+        "locationDescription": "nowimhere",
+        "createdAt": "2020-10-09T13:54:26.000+02:00",
+        "updatedAt": "2020-10-13T17:10:15.000+02:00",
+        "outdatedFrom": "2020-10-13T17:10:15.000+02:00"
+      }
+    ]
+  },
+  "Extensions": {},
+  "Errors": [],
+  "ContextData": {}
+}

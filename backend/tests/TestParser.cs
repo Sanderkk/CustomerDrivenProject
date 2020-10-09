@@ -1,7 +1,9 @@
 using System;
+using System.IO;
 using System.Globalization;
 using System.Collections.Generic;
-using src.Utils;
+using Microsoft.Extensions.Configuration;
+using parser.Config;
 using Xunit;
 using parser;
 
@@ -9,19 +11,28 @@ namespace tests
 {
     public class TestParser
     {
-        /*
         [Fact]
         public void ParseOptode()
         {
-            DataClass dataClass = new Optode();
-            (List<String>, string[]) parsedFile = Program.ParseFile("../../../../services/parser/Data/Optode/20200812T082107.txt", dataClass, false);
+            // Get config from parser.json file
+            var path = Directory.GetCurrentDirectory();
+            var newPath = Path.GetFullPath(Path.Combine(path, @"../../../../services/parser/"));
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(newPath)
+                .AddJsonFile("parser.json")
+                .Build();
+
+            var dataConfig = builder.GetSection("ParserConfig:Optode").Get<ParserConfig>();
+
+            Parser parser = new Parser(dataConfig);
+            (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/Optode/20200812T082107.txt", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
             string[] expected =
             {
-                "recordtime", "recordnumber", "sensorstatus", "o2concentration_um_", "airsaturation_percent_",
-                "temperature_degc_", "calphase_deg_", "tcphase_deg_", "c1rph_deg_", "c2rph_deg_", "c1amp_mv_",
-                "c2amp_mv_", "rawtemp_mv_"
+                "Record Time", "Record Number", "Sensor Status", "O2Concentration [uM]", "AirSaturation [%]", 
+                "Temperature [Deg.C]",  "CalPhase [Deg]",  "TCPhase [Deg]",  "C1RPh [Deg]",  "C2RPh [Deg]", 
+                "C1Amp [mV]",  "C2Amp [mV]",  "RawTemp [mV]"
             };
             string[] expectedValues =
             {
@@ -39,33 +50,38 @@ namespace tests
                 "7.585151E+02",
                 "3.018734E+02"
             };
-            for (int i=0; i < dataClass.fieldIndexes.Item2; i++) {
+            for (int i=0; i < dataConfig.fieldIndexes[1]; i++) {
                 Assert.Equal(expected[i], headerArrayQuery[i]);
                 Assert.Equal(expectedValues[i], record[i]);
             }
 
             int expectedNumRows = 7467;
-            Assert.Equal(expectedNumRows, record.Count/dataClass.fieldIndexes.Item2);
+            Assert.Equal(expectedNumRows, record.Count/dataConfig.fieldIndexes[1]);
         }
 
         [Fact]
         public void ParseTension()
         {
-            DataClass dataClass = new Tension();
-            (List<String>, string[]) parsedFile = Program.ParseFile("../../../../services/parser/Data/Tension/2020-08-25 22.42.24.txt", dataClass, false);
+            // Get config from parser.json file
+            var path = Directory.GetCurrentDirectory();
+            var newPath = Path.GetFullPath(Path.Combine(path, @"../../../../services/parser/"));
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(newPath)
+                .AddJsonFile("parser.json")
+                .Build();
+
+            var dataConfig = builder.GetSection("ParserConfig:Tension").Get<ParserConfig>();
+
+            Parser parser = new Parser(dataConfig);
+            (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/Tension/2020-08-25 22.42.24.txt", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
             string[] expected =
             {
-                "timestamp",
-                "analogchannel0rv009_133148",
-                "analogchannel1rv004_99871",
-                "analogchannel2rv011_90471",
-                "analogchannel3rv010_133149",
-                "analogchannel4rv005_99875",
-                "analogchannel5rv008_133147",
-                "analogchannel6",
-                "analogchannel7"
+                "Timestamp", "Analog channel 0 (RV.009 - 133148)", "Analog channel 1 (RV.004 - 99871)",
+                "Analog channel 2 (RV.011 - 90471)", "Analog channel 3 (RV.010 - 133149)",
+                "Analog channel 4 (RV.005 - 99875)", "Analog channel 5 (RV.008 - 133147)", "Analog channel 6",
+                "Analog channel 7"
             };
             string[] expectedValues =
             {
@@ -79,25 +95,35 @@ namespace tests
                 "-0.000752",
                 "-0.001081"
             };
-            for (int i=0; i < dataClass.fieldIndexes.Item2; i++) {
+            for (int i=0; i < dataConfig.fieldIndexes[1]; i++) {
                 Assert.Equal(expected[i], headerArrayQuery[i]);
                 Assert.Equal(expectedValues[i], record[i]);
             }
 
             int expectedNumRows = 28794; // number of rows
-            Assert.Equal(expectedNumRows, record.Count/dataClass.fieldIndexes.Item2);
+            Assert.Equal(expectedNumRows, record.Count/dataConfig.fieldIndexes[1]);
         }
 
         [Fact]
         public void ParseWavedata()
         {
-            DataClass dataClass = new Wavedata();
-            (List<String>, string[]) parsedFile = Program.ParseFile("../../../../services/parser/Data/ACE_Buoy_Wavedata.csv", dataClass, false);
+            // Get config from parser.json file
+            var path = Directory.GetCurrentDirectory();
+            var newPath = Path.GetFullPath(Path.Combine(path, @"../../../../services/parser/"));
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(newPath)
+                .AddJsonFile("parser.json")
+                .Build();
+
+            var dataConfig = builder.GetSection("ParserConfig:Wavedata").Get<ParserConfig>();
+
+            Parser parser = new Parser(dataConfig);
+            (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/ACE_Buoy_Wavedata.csv", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
             string[] expected =
             {
-                "time", "hm0", "hm0a", "hm0b", "hmax", "mdir", "mdira", "mdirb", "sprtp", "thhf", "thmax",
+                "Time", "hm0", "hm0a", "hm0b", "hmax", "mdir", "mdira", "mdirb", "sprtp", "thhf", "thmax",
                 "thtp", "tm01", "tm02", "tm02a", "tm02b", "tp", "uptime"
             };
             string[] expectedValues =
@@ -106,47 +132,54 @@ namespace tests
                 "254.5313", "84.02344", "73.8281", "124.10156", "24.1211", "257.34375", "7.7148",
                 "5.2734", "17.7930", "3.0859", "23.8281", "3426662.00000000"
             };
-            for (int i=0; i < dataClass.fieldIndexes.Item2; i++) {
+            for (int i=0; i < dataConfig.fieldIndexes[1]; i++) {
                 Assert.Equal(expected[i], headerArrayQuery[i]);
                 Assert.Equal(expectedValues[i], record[i]);
             }
 
             int expectedNumRows = 744;
-            Assert.Equal(expectedNumRows, record.Count/dataClass.fieldIndexes.Item2);
+            Assert.Equal(expectedNumRows, record.Count/dataConfig.fieldIndexes[1]);
         }
 
         [Fact]
         public void ParseMetocean()
         {
-            DataClass dataClass = new Metocean();
-            (List<String>, string[]) parsedFile = Program.ParseFile("../../../../services/parser/Data/ACE_Buoy_Metoceandata.csv", dataClass, false);
+            // Get config from parser.json file
+            var path = Directory.GetCurrentDirectory();
+            var newPath = Path.GetFullPath(Path.Combine(path, @"../../../../services/parser/"));
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(newPath)
+                .AddJsonFile("parser.json")
+                .Build();
+
+            var dataConfig = builder.GetSection("ParserConfig:Metocean").Get<ParserConfig>();
+
+            Parser parser = new Parser(dataConfig);
+            (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/ACE_Buoy_Metoceandata.csv", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
             string[] expected =
             {
-                "timestampiso_8601utc", "airhumiditypercent", "airpressurehpa", "airtemperaturec",
-                "conductivity1mms_per_cm", "currentdirection05mdeg", "currentdirection08mdeg",
-                "currentdirection11mdeg", "currentdirection14mdeg", "currentdirection17mdeg",
-                "currentdirection20mdeg", "currentdirection23mdeg", "currentdirection26mdeg",
-                "currentdirection29mdeg", "currentdirection32mdeg", "currentdirection35mdeg",
-                "currentdirection38mdeg", "currentdirection41mdeg", "currentdirection44mdeg",
-                "currentdirection47mdeg", "currentdirection50mdeg", "currentdirection53mdeg",
-                "currentdirection56mdeg", "currentdirection59mdeg", "currentdirection62mdeg",
-                "currentspeed05mcm_per_s", "currentspeed08mcm_per_s", "currentspeed11mcm_per_s",
-                "currentspeed14mcm_per_s", "currentspeed17mcm_per_s", "currentspeed20mcm_per_s",
-                "currentspeed23mcm_per_s", "currentspeed26mcm_per_s", "currentspeed29mcm_per_s",
-                "currentspeed32mcm_per_s", "currentspeed35mcm_per_s", "currentspeed38mcm_per_s",
-                "currentspeed41mcm_per_s", "currentspeed44mcm_per_s", "currentspeed47mcm_per_s",
-                "currentspeed50mcm_per_s", "currentspeed53mcm_per_s", "currentspeed56mcm_per_s",
-                "currentspeed59mcm_per_s", "currentspeed62mcm_per_s", "salinity1mppt",
-                "temperature1mdegc", "watertempnortekdegc", "winddirdeg", "windgustm_per_s",
-                "windspeedm_per_s"
+                "TIMESTAMP (ISO-8601) UTC", "airHumidity %", "airPressure hPa", "airTemperature C",
+                "conductivity1m mS/cm", "currentDirection05m deg", "currentDirection08m deg",
+                "currentDirection11m deg", "currentDirection14m deg", "currentDirection17m deg",
+                "currentDirection20m deg", "currentDirection23m deg", "currentDirection26m deg",
+                "currentDirection29m deg", "currentDirection32m deg", "currentDirection35m deg",
+                "currentDirection38m deg", "currentDirection41m deg", "currentDirection44m deg",
+                "currentDirection47m deg", "currentDirection50m deg", "currentDirection53m deg",
+                "currentDirection56m deg", "currentDirection59m deg", "currentDirection62m deg",
+                "currentSpeed05m cm/s", "currentSpeed08m cm/s", "currentSpeed11m cm/s", "currentSpeed14m cm/s",
+                "currentSpeed17m cm/s", "currentSpeed20m cm/s", "currentSpeed23m cm/s", "currentSpeed26m cm/s",
+                "currentSpeed29m cm/s", "currentSpeed32m cm/s", "currentSpeed35m cm/s", "currentSpeed38m cm/s",
+                "currentSpeed41m cm/s", "currentSpeed44m cm/s", "currentSpeed47m cm/s", "currentSpeed50m cm/s",
+                "currentSpeed53m cm/s", "currentSpeed56m cm/s", "currentSpeed59m cm/s", "currentSpeed62m cm/s",
+                "salinity1m ppt", "temperature1m degC", "waterTempNortek degC", "WindDir deg", "WindGust m/s",
+                "WindSpeed m/s"
             };
 
-            // added 2 hours on the text file, since it was in utc
             string[] expectedValues =
             {
-                "2020-07-27 02:00:00", "57.65625", "1001.56250", "19.62891", "37.43591",
+                "2020-07-27 00:00:00", "57.65625", "1001.56250", "19.62891", "37.43591",
                 "5.27344", "359.64844", "295.66406", "213.75000", "202.85156", "226.05469",
                 "170.15625", "184.21875", "173.67188", "113.55469", "117.42188", "301.99219",
                 "96.67969", "55.54688", "159.60938", "180.00000", "152.57813", "150.46875",
@@ -155,14 +188,13 @@ namespace tests
                 "7.91016", "2.34375", "0.87891", "3.51563", "2.92969", "2.63672", "2.05078",
                 "0.58594", "31.65039", "13.00659", "12.99561", "125.85938", "15.52734", "10.72266"
             };
-            for (int i=0; i < dataClass.fieldIndexes.Item2; i++) {
+            for (int i=0; i < dataConfig.fieldIndexes[1]; i++) {
                 Assert.Equal(expected[i], headerArrayQuery[i]);
                 Assert.Equal(expectedValues[i], record[i]);
             }
 
             int expectedNumRows = 1488;
-            Assert.Equal(expectedNumRows, record.Count/dataClass.fieldIndexes.Item2);
+            Assert.Equal(expectedNumRows, record.Count/dataConfig.fieldIndexes[1]);
         }
-        */
     }
 }
