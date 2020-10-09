@@ -28,7 +28,7 @@ function Navbar() {
                   return (
                     <div>
                       {/* Link to LoginPage with user's name on it if logged in */}
-                      <Link to="/login" className="nav_button">
+                      <Link to="/" className="nav_button">
                         {accountInfo.account.name}
                       </Link>
                       {/* Link to users dashboards, all users have access to this if logged in */}
@@ -58,22 +58,12 @@ function Navbar() {
                     </div>
                   );
                 default:
-                  return (
-                    <div>
-                      {/* If not logged in then show Sign in link */}
-                      <Link to="/login" className="nav_button">
-                        Sign in
-                      </Link>
-                    </div>
-                  );
+                  return {
+                    /* If not logged in then show Sign in link */
+                  };
               }
             }}
           </AzureAD>
-
-          {/* All page visitors have a Home page link */}
-          <Link to="/" className="nav_button">
-            Home
-          </Link>
         </div>
       </nav>
     </div>

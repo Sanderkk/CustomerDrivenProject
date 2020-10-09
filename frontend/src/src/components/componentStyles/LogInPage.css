@@ -1,24 +1,57 @@
-#log_in_div{
+#log_in_div {
   text-align: center;
-  margin-top: 6em;
+  color: white;
+  background-color: #004299;
+  opacity: 90%;
+  padding-top: 0.25em;
+  padding-bottom: 0.5em;
+
+  margin: auto;
+  width: 35em;
 }
 
-.log_in_out_btn{
-  background-color: navy; /* Green */
+#log_in_title {
+  margin: 0;
+  font-size: 4em;
+  font-weight: bold;
+}
+
+.log_in_out_btn {
+  background-color: white;
   border: none;
-  color: white;
-  border: 2px solid white;
-  padding: 15px 32px;
+  color: black;
+  border: 0.1em solid white;
+  padding: 1em 2em;
   text-align: center;
   text-decoration: none;
   display: inline-block;
-  font-size: 16px;
+  font-size: 1em;
   transition-duration: 0.4s;
+  font-weight: bold;
 }
 
-.log_in_out_btn:hover{
-  background-color: white; /* Green */
-  color: black;
-  border: 2px solid navy;
+.log_in_out_btn:hover {
+  background-color: #004299;
+  color: white;
+  border: 0.1em solid white;
   cursor: pointer;
+}
+
+.log_in_body {
+  color: white;
+  height: 100%;
+
+  background-image: url("../../assets/login_page_bg.jpg");
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+html {
+  height: 100%;
+}
+
+#finn_email {
+  color: white;
 }
