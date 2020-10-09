@@ -2,54 +2,66 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using src.Database;
+using System.Linq;
+using parser.Config;
 
 namespace parser
 {
     public class PrepareWritingDataToDB
     {
-        public static void PrepareQuery(List<String> record, DataClass dataClass, string[] headerArrayQuery, int sensorID)
-        {
-
-            int numColumns = dataClass.fieldIndexes.Item2;  // number of columns in the file
-
-            string createTable = CreateTable(dataClass, headerArrayQuery, numColumns, record);
-
-            // create a sql string for doing bulk insert
-            string copyInto = CreateCopy(dataClass, headerArrayQuery, numColumns);
+        public static void PrepareQueryAndWrite(List<String> record,  ParserConfig dataConfig, string[] headerArrayQuery, int[] id)
+        {   
             
-            WriteToDB.WriteData(createTable, copyInto, numColumns, record, dataClass.measurement, headerArrayQuery, sensorID);
+            headerArrayQuery = cleanString(headerArrayQuery);
+            
+            for (int i=0; i < id.Length; i++) {
+
+                int numColumns = dataConfig.sensors[i+1] - dataConfig.sensors[i];
+                string createTable = CreateTable(dataConfig, headerArrayQuery, dataConfig.sensors[i], numColumns, id[i], record);
+
+                // create a sql string for doing bulk insert
+                string copyInto = CreateCopy(dataConfig, headerArrayQuery, dataConfig.sensors[i], numColumns);
+                WriteToDB.WriteData(createTable, copyInto, dataConfig.sensors[i], numColumns, record, headerArrayQuery[dataConfig.sensors[i]], headerArrayQuery, id[i]);
+            }
         }
 
-        public static string CreateTable(DataClass dataClass, string[] headerArrayQuery, int numColumns, List<String> record) {
-            string createTable = @"CREATE TABLE IF NOT EXISTS "+dataClass.measurement+@" (";
+        public static string CreateTable(ParserConfig dataConfig, string[] headerArrayQuery, int startIndex, int numTableColumns, int sensorID, List<String> record) {
+            string createTable = @"CREATE TABLE IF NOT EXISTS "+headerArrayQuery[startIndex] + @" (";
             
             createTable += "sensorid     INTEGER       NOT NULL,";
-            for (int i = 0; i < numColumns; i++) {
-                if (i == 0) {
-                    createTable += "time     TIMESTAMP       NOT NULL,";
+            createTable += "time     TIMESTAMPTZ       NOT NULL,";
+            for (int i = startIndex; i < startIndex + numTableColumns; i++) {
+                if (Decimal.TryParse(record[i], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal f)) {
+                    createTable += headerArrayQuery[i] + " NUMERIC       NULL,";
                 }
                 else {
-                    if (Decimal.TryParse(record[i], NumberStyles.Any, CultureInfo.InvariantCulture, out decimal f)) {
-                        createTable += headerArrayQuery[i] + " NUMERIC       NULL,";
-                    }
-                    else {
-                        createTable += headerArrayQuery[i] + " TEXT          NULL,";
-                    }
+                    createTable += headerArrayQuery[i] + " TEXT          NULL,";
                 }
             }
             createTable += " PRIMARY KEY (sensorid, time));";
             return createTable;
         }
 
-        public static string CreateCopy(DataClass dataClass, string[] headerArrayQuery, int numColumns) {
-            string insertInto = "COPY "+dataClass.measurement+@"(sensorid, time,";
+        public static string CreateCopy(ParserConfig dataConfig, string[] headerArrayQuery, int startIndex, int numTableColumns) {
+            string insertInto = "COPY "+headerArrayQuery[startIndex] + @"(sensorid, time,";
 
-            for (int i = 1; i < numColumns-1; i++) {
+            for (int i = startIndex; i < startIndex+numTableColumns-1; i++) {
                 insertInto += headerArrayQuery[i] + ", ";
             }
 
-            insertInto += headerArrayQuery[numColumns-1] + ") FROM STDIN";
+            insertInto += headerArrayQuery[startIndex+numTableColumns-1] + ") FROM STDIN";
             return insertInto;
+        }
+
+        private static string[] cleanString(string[] str) {
+            // make the column names on a format that the database can handle
+            str = Array.ConvertAll(str, d => d.ToLower());                    // all headers to lower since column names in timescale needs to be lower                   
+            str = str.Select(x => x.Replace(" ", string.Empty).Replace(".", string.Empty)
+                                .Replace("(", string.Empty).Replace(")", string.Empty).Replace("-", "_").Replace("[", "_")
+                                .Replace("]", "_").Replace("%", "percent").Replace("/", "_per_")).ToArray();   // remove charachters that timescaledb can not use in column names
+            str = str.Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+            return str;
         }
     }
 }
