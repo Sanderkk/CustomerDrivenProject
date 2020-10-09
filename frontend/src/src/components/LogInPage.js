@@ -13,57 +13,73 @@ function LogInPage() {
 
   return (
     <div>
-      <Navbar />
-      <div id="log_in_div">
-        <AzureAD provider={authProvider} reduxStore={store}>
-          {({ login, logout, authenticationState, error, accountInfo }) => {
-            switch (authenticationState) {
-              case AuthenticationState.Authenticated:
-                return (
-                  <div>
-                    <h1>Welcome to FishFarmData</h1>
-                    <span>
-                      You are logged in as {accountInfo.account.name}!
-                    </span>
-                    <br></br>
-                    <br></br>
-                    <button className="log_in_out_btn" onClick={logout}>
-                      Logout
-                    </button>
-                  </div>
-                );
-              case AuthenticationState.Unauthenticated:
-                return (
-                  <div>
-                    <h1>Log in to FishFarmData</h1>
-                    {error && (
-                      <p>
-                        <span>
-                          An error occured during authentication, please try
-                          again!
-                        </span>
-                      </p>
-                    )}
+      <AzureAD provider={authProvider} reduxStore={store}>
+        {({ login, logout, authenticationState, error, accountInfo }) => {
+          switch (authenticationState) {
+            case AuthenticationState.Authenticated:
+              setBodyLoggedIn();
+              return (
+                <div>
+                  <Navbar />
+                  <h1>Welcome to FishFarmData</h1>
+                  <span>You are logged in as {accountInfo.account.name}!</span>
+                  <br></br>
+                  <br></br>
+                  <button className="log_in_out_btn" onClick={logout}>
+                    Logout
+                  </button>
+                </div>
+              );
+            case AuthenticationState.Unauthenticated:
+              setBodyLoggedOut();
+              return (
+                <div id="log_in_div">
+                  <div id="log_in_title">FishFarmData</div>
+                  <p>Please sign in with your Microsoft account</p>
+                  {error && (
                     <p>
-                      <span>Please log in with your Microsoft account</span>
-                      <br></br>
-                      <br></br>
-                      <button className="log_in_out_btn" onClick={login}>
-                        Login
-                      </button>
+                      <span>
+                        An error occured during authentication, please try
+                        again!
+                      </span>
                     </p>
-                  </div>
-                );
-              case AuthenticationState.InProgress:
-                return <p>Authenticating...</p>;
-              default:
-                return <p>This is not supposed to show up</p>;
-            }
-          }}
-        </AzureAD>
-      </div>
+                  )}
+                  <p>
+                    <br></br>
+                    <button className="log_in_out_btn" onClick={login}>
+                      Sign in
+                    </button>
+                    <br />
+                    <span>
+                      Don't have access? Contact{" "}
+                      <a href="mailto:finn.o.bjornson@sintef.no" id="finn_email"> 
+                        finn.o.bjornson@sintef.no
+                      </a>
+                    </span>
+                  </p>
+                </div>
+              );
+            case AuthenticationState.InProgress:
+              setBodyLoggedOut();
+              return <p>Authenticating...</p>;
+            default:
+              return <p>This is not supposed to show up</p>;
+          }
+        }}
+      </AzureAD>
     </div>
   );
 }
+
+
+//Two functions to change body's class so it has the BG image when logged out
+function setBodyLoggedIn(){
+  document.body.className = null;
+}
+
+function setBodyLoggedOut(){
+  document.body.className = "log_in_body";
+}
+
 
 export default LogInPage;

@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import "./index.css";
-import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import store from "./globalState/store";
 import { Provider } from "react-redux";
@@ -29,8 +28,7 @@ const routing = (
       <ApolloProvider client={client}>
         <Router>
           <Switch>
-            <Route exact path="/" component={App} />
-            <Route path="/login" component={LogInPage} />
+            <Route exact path="/" component={LogInPage} />
             <Route
               // Use AccessCheckerDecorator around a main page component to make it so that only a specified groupType has access to that URL
               path="/admin"
@@ -61,16 +59,14 @@ const routing = (
               )}
             />
             <Route
-              path="/cell" 
+              path="/cell"
               component={() => (
                 <AccessCheckerDecotaor
                   mainPage={<AddCell />}
                   group={groupTypes.researcher}
-                  />
+                />
               )}
             />
-              
-
             <Route component={NotFound} />
           </Switch>
         </Router>
