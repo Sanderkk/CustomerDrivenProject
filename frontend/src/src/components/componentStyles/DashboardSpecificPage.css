@@ -1,0 +1,61 @@
+.dashboard_input,
+.dashboard_textarea {
+  padding: 9px;
+  border: solid 1px #e5e5e5;
+  outline: 0;
+  font: normal 13px/100% Verdana, Tahoma, sans-serif;
+  width: 200px;
+  background: #ffffff;
+  background: -moz-linear-gradient(top, #ffffff, #eeeeee 1px, #ffffff 25px);
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+  -moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
+}
+
+.dashboard_textarea {
+  width: 400px;
+  max-width: 400px;
+  height: 150px;
+  line-height: 150%;
+}
+
+.dashboard_input:hover,
+.dashboard_textarea:hover,
+.dashboard_input:focus,
+.dashboard_textarea:focus {
+  border-color: #c9c9c9;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.15) 0px 0px 8px;
+}
+
+.save_btn {
+  float: right;
+  margin-right: 1em;
+}
+
+.add_cell_btn {
+  float: right;
+}
+
+#name {
+  color: #004299;
+  display: inline;
+  font-size: 2em;
+  margin-block-start: 0.67em;
+  margin-block-end: 0.67em;
+  margin-inline-start: 0px;
+  margin-inline-end: 0px;
+  font-weight: bold;
+  width: 60%;
+}
+
+#description {
+  margin-top: 2em;
+  width: 100%;
+  max-width: 100%;
+  height: 6em;
+  max-height: 10em;
+}
+
+.dashboard-form {
+  margin-top: 5em;
+}

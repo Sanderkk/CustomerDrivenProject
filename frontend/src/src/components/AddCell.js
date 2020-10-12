@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useState , useEffect} from "react";
 import Navbar from "./Navbar";
 import LineGraph from "./LineGraph";
 import QueryBuilder from "./QueryBuilder";
 import GlobalButton from "./globalComponents/GlobalButton";
 import { BiCheck } from "react-icons/bi";
 import { BiX } from "react-icons/bi";
+import ViewMetadata from "./globalComponents/ViewMetadata";
+import { useSelector } from "react-redux";
 
 import './componentStyles/AddCell.css'
 
@@ -12,6 +14,8 @@ import './componentStyles/AddCell.css'
 //or modify an existing cell. 
 function AddCell() {
   const [options, setOptions] = useState({ title: 'Title', primaryAxis: '', secondaryAxis: 'Value'})
+  const [show, setShow] = useState(false);
+  const input = useSelector(state => state.queryData.input)
 
   const handleDiscard = () => {
     //TODO: Discard cell
@@ -92,6 +96,22 @@ function AddCell() {
               <input type="text" id="secondaryAxis" onChange={handleSecondaryChange} value={options.secondaryAxis}/>
           
             </form>
+
+            {input && input.sensors ?
+              <div>
+                <ViewMetadata 
+                sensorIDs={input.sensors}
+                show={show}
+                handleClose={() => setShow(false)}
+                />
+                {/* TODO: gjør knappen pen */}
+                <button type="button" onClick={() => setShow(true)}>
+                  Open
+                </button>
+              </div>
+            :
+            <div />
+            }
 
           </div>
         </div>
