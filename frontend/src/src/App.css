@@ -2,9 +2,8 @@
   text-align: center;
 }
 
-
 body {
-  background-color: #E5E5E5;
+  background-color: #e5e5e5;
 }
 
 .App-header {
@@ -20,4 +19,8 @@ body {
 
 .App-link {
   color: #61dafb;
+}
+
+h1 {
+  color: #004299;
 }

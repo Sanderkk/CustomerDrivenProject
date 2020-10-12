@@ -1,0 +1,13 @@
+.dashboard_grid_item h3 {
+  margin-top: 0;
+  color: #004299;
+}
+
+.dashboard_grid_item {
+  background-color: rgba(255, 255, 255, 0.8);
+  height: 100%;
+  padding: 10px;
+  font-size: 15px;
+  text-align: left;
+  color: black;
+}

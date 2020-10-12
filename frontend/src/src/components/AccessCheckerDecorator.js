@@ -13,6 +13,9 @@ function AccessCheckerDecorator(props) {
     If access denied, AccessDenied is rendered instead of the main page component
 
     To use this decorator, add the main page component as mainPage in props and what groupType the user has to be as group in props.
+
+    NB! Does not work on pages that require props! Ex DashboardSpecificPage.
+    (Can maybe get arond this with redux, but idk yet)
   */
 
   return (
