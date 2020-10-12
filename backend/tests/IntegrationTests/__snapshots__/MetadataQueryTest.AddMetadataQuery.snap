@@ -1,0 +1,42 @@
+﻿{
+  "Data": {
+    "addMetadata": {
+      "sensorID": 5,
+      "locationID": 65,
+      "name": "Jasmine",
+      "serialNumber": "55yh3kk3-4443-455ddw2",
+      "number": "55T77",
+      "modelNumber": "jjhj445",
+      "department": "IDI",
+      "company": "kundestyrt and co",
+      "ownerID": "33333",
+      "purchaseDate": "2002-12-25T00:00:00.000+01:00",
+      "lending": true,
+      "lendingPrice": 9000.0,
+      "cableLength": 125.0,
+      "checkOnInspectionRound": false,
+      "inspectionRound": "same like the others",
+      "servicePartner": "kundestyrt and co",
+      "voltage": "24volt",
+      "coordinate": "Moholt",
+      "altitude": 55,
+      "locationDescription": "samsy like always",
+      "identificator": "nothing special here",
+      "measureArea": "550 550",
+      "picture": "Some picture link or svg?",
+      "plannedDisposal": "2022-12-25T00:00:00.000+01:00",
+      "actualDisposal": "2022-12-25T00:00:00.000+01:00",
+      "warrantyDate": "2007-12-25T00:00:00.000+01:00",
+      "signal": "Wireless",
+      "tag1": "nada",
+      "tag2": "tag222222",
+      "tag3": "im tagged boi",
+      "timeless": false,
+      "tollerance": true,
+      "outdatedFrom": null
+    }
+  },
+  "Extensions": {},
+  "Errors": [],
+  "ContextData": {}
+}

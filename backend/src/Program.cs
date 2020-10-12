@@ -14,20 +14,7 @@ namespace src
     {
         public static void Main(string[] args)
         {
-            //Console.WriteLine("Hello World");
-            //DataClass dataClass = new Optode();
-            //Csv csv = Csv.FromTextFile("Data/Optode/20200812T082107.txt", dataClass);
-            //csv.WriteCsvFile("Data/csv/optode.csv");
-            
-            //DataClass dataClass = new Tension();
-            //Csv csv = Csv.FromTextFile("Data/Tension/2020-08-25 22.42.24.txt", dataClass, false);
-            //csv.WriteCsvFile("Data/csv/optode.csv");
 
-            //DataClass dataClass = new Wavedata();
-            //List<PointData> record = ParseFile("Data/ACE_Buoy_Wavedata.csv", dataClass, false);
-
-            //DataClass dataClass = new Metocean();
-            //List<PointData> record = ParseFile("Data/ACE_Buoy_Metoceandata.csv", dataClass, false);
             CreateHostBuilder(args).Build().Run();
         }
 

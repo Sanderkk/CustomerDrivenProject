@@ -14,7 +14,6 @@ namespace src.Api.Queries
     public class MetadataQuery
     {
         public List<MetadataType> GetLastMetadata(
-            //[GraphQLNonNullType] MetadataInput input,
             [GraphQLNonNullType] int sensorID,
             [Service] IMetadataRepository repo
             )

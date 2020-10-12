@@ -1,3 +1,4 @@
+using src.Api.Inputs;
 using src.Api.Types;
 using System;
 using System.Collections.Generic;
@@ -9,5 +10,6 @@ namespace src.Database
     public interface IMetadataRepository
     {
         Task<List<MetadataType>> GetMetadataBySensorID(string queryString);
+        Task<MetadataType> addMetadataToDatabase(MetadataInput metadata);
     }
 }
