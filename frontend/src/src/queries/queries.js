@@ -85,21 +85,21 @@ export const GET_METADATA_SENSOR_NUMBERS = gql`
 `;
 
 export const GET_DASHBOARD = gql`
-  query dashboard($userId: String!, $dashboardId: Int!) {
-    userDashboard(userId: $userId, dashboardId: $dashboardId) {
-      id
-      name
-      description
+    query dashboard($userId: String!, $dashboardId: Int!) {
+        dashboard(userId: $userId, dashboardId: $dashboardId) {
+            id,
+            name,
+            description
+        }
     }
-  }
 `;
 
 export const GET_DASHBOARDS = gql`
   query dashboards($userId: String!) {
-    userDashboard(userId: $userId) {
-      id
-      name
-      description
+    dashboards(userId: $userId) {
+        id,
+        name,
+        description
     }
   }
 `;
@@ -121,28 +121,5 @@ export const GET_DASHBOARD_CELLS = gql`
       options
       input
     }
-  }
-`;
-
-export const UPDATE_DASHBOARD = gql`
-  mutation updateDashboard($input: DashboardInput!) {
-    updateDashboard(input: $input)
-  }
-`;
-export const UPDATE_CELL = gql`
-  mutation updateCell($input: CellDataInput!) {
-    updateCell(input: $input)
-  }
-`;
-
-export const DELETE_DASHBOARD = gql`
-  mutation deleteDashboard($userId: String!, $dashboardId: Int!) {
-    deleteDashboard(userId: $userId, dashboardId: $dashboardId)
-  }
-`;
-
-export const DELETE_CELL = gql`
-  mutation deleteCell($userId: String!, $dashboardId: Int!, $cellId: Int!) {
-    deleteCell(userId: $userId, dashboardId: $dashboardId, cellId: $cellId)
   }
 `;
