@@ -22,22 +22,24 @@ function LogInPage() {
               return (
                 <div>
                   <Navbar />
-                  <h1>Welcome to FishFarmData</h1>
-                  <span>You are logged in as {accountInfo.account.name}!</span>
-                  <br/>
-                  <span>Email: {accountInfo.account.userName}</span>
-                  <h3>Groups:</h3>
-                  {accountInfo.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 && 
-                    <li>Researcher</li>}
-                  {accountInfo.account.idToken.groups.indexOf(groupTypes.engineer) >= 0 && 
-                  <li>Engineer</li>}
-                  {accountInfo.account.idToken.groups.indexOf(groupTypes.customer) >= 0 && 
-                  <li>Customer</li>}
-                  <br></br>
-                  <br></br>
-                  <button className="log_in_out_btn" onClick={logout}>
-                    Logout
-                  </button>
+                  <div className="container_div">
+                    <h1>Welcome to FishFarmData</h1>
+                    <span>You are logged in as {accountInfo.account.name}!</span>
+                    <br/>
+                    <span>Email: {accountInfo.account.userName}</span>
+                    <h3>Groups:</h3>
+                    {accountInfo.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 && 
+                      <li>Researcher</li>}
+                    {accountInfo.account.idToken.groups.indexOf(groupTypes.engineer) >= 0 && 
+                    <li>Engineer</li>}
+                    {accountInfo.account.idToken.groups.indexOf(groupTypes.customer) >= 0 && 
+                    <li>Customer</li>}
+                    <br></br>
+                    <br></br>
+                    <button className="log_in_out_btn" onClick={logout}>
+                      Logout
+                    </button>
+                  </div>
                 </div>
               );
             case AuthenticationState.Unauthenticated:

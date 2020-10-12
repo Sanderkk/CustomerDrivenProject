@@ -73,11 +73,10 @@ export const GET_LAST_METADATA = gql`
 
 export const GET_USER_DASHBOARD = gql`
   query userDashboards($userId: String!) {
-    userDashboard(userId: $userId) {
+    userDashboards(userId: $userId) {
         id,
         name,
-        description,
-        data
+        description
     }
   }
 `;

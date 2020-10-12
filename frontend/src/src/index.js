@@ -59,7 +59,7 @@ const routing = (
                 />
               )}
             />
-            <Route exact path="/dashboard/:id" component={DashboardSpecificPage} />
+            <Route exact path="/specific-dashboard" component={DashboardSpecificPage} />
             <Route
               path="/cell"
               component={() => (

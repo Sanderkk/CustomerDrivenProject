@@ -13,7 +13,7 @@ const userReducer = (state = initialState, action) => {
       authProvider.getAccessToken();
       return { ...state, aadResponse: action.payload };
     case "AAD_LOGOUT_SUCCESS":
-      return { ...state, aadResponse: null };
+      return { ...state, aadResponse: null, accessToken: null };
     case "AAD_ACQUIRED_ACCESS_TOKEN_SUCCESS":
       return { ...state, accessToken: action.payload };
     default:

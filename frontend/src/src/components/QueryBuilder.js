@@ -31,7 +31,7 @@ function QueryBuilder() {
         .then((result) => dispatch(setQueryData(input, result.data)))
         .catch((err) => console.log(err));
     }
-  });
+  }, [client, measurement, checkedItems, dates]);
 
   // Fetches data for table and columns when component is loaded
   useEffect(() => {
