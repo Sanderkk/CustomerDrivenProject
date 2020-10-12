@@ -42,6 +42,11 @@ function DashboardSpecificPage(props) {
                     {state.dashboardName}
                   </h1>
                   <h2>{state.description}</h2>
+                  <nav>
+                    <Link to="/cell" className="add_cell_btn">
+                        Add cell
+                    </Link>
+                  </nav>
                 </div>
               )
             default:

@@ -4,8 +4,8 @@ export const GET_SENSORS = gql`
   query getSensors {
     sensors {
       sensorColumns
-      sensorId
-      sensorTabel
+      sensorTypeName,
+      sensorIds,
     }
   }
 `;
@@ -13,18 +13,16 @@ export const GET_SENSORS = gql`
 export const GET_TIME_SERIES = gql`
   query TimeSeries($input: TimeSeriesRequestInput!) {
     timeSeries(input: $input) {
-      table
-      startDate
-      endDate
-      time
+      table,
+      startDate,
+      endDate,
       data {
-        key
-        value
-      }
-      numberData {
-        key
-        value
-      }
+        name,
+        startTime,
+        interval,
+        data
+      },
+      time
     }
   }
 `;

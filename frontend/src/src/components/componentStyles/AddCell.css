@@ -4,12 +4,11 @@
     margin: 0 2em 2em 2em;
 }
 
-
-
-.options {
+.options-wrapper {
     background-color: white;
-    min-width: 300px;
+    min-width: 15em;
     width: 30%;
+    text-align: center;
 }
 
 .graph_container {
@@ -37,4 +36,13 @@
     align-self: flex-end;
 }
 
+.options-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.options-form input {
+    width: 80%;
+}
 

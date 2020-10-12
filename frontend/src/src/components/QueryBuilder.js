@@ -15,7 +15,7 @@ function QueryBuilder() {
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [sensors, setSensors] = useState({}); // array of table and columns fro radio and checkboxes
-  const [measurement, setMeasurement] = useState(""); // e.g. "Metocean"
+  const [measurement, setMeasurement] = useState(""); 
   const [checkedItems, setCheckedItems] = useState({}); // e.g. {airHumidity %: true, airPressure hPa: false}
   const [dates, setDates] = useState([new Date(), new Date()]); // [fromDate, toDate]
 
@@ -38,7 +38,6 @@ function QueryBuilder() {
     sendQuery(client, GET_SENSORS, null)
       .then((result) => {
         setSensors(result.data);
-        console.log(result.data);
       })
       .catch((err) => console.log(err));
   }, [client]);
@@ -53,7 +52,6 @@ function QueryBuilder() {
   // set measurement and reset checkboxes
   const handleRadioChange = (event) => {
     setMeasurement(event.target.name);
-    setCheckedItems({});
   };
 
   // return whether a measurement column is checked or not
@@ -66,19 +64,18 @@ function QueryBuilder() {
     return checked;
   };
 
-  // Create radio buttons for measurements
+  // Create checkboxes for measurements
   const nameToRadioButton = (name, key) => (
-    <div className="qb_radio" key={key}>
-      <label>
+    <div className="qb_checkbox" key={key}>
+      <label className="category_buttons">
         {name}
         <input
-          type="radio"
+          type="checkbox"
           value={name}
           name={name}
-          checked={measurement === name}
           onChange={handleRadioChange}
         />
-        <span className="custom_button"></span>
+        <span className="checkmark"></span>
       </label>
     </div>
   );
@@ -109,16 +106,17 @@ function QueryBuilder() {
   };
 
   const getQuery = () => {
-    const selectedColumns = Object.fromEntries(
-      Object.entries(checkedItems).filter(([key, value]) => value)
+    const selectedColumns = Object.keys(Object.fromEntries(
+      Object.entries(checkedItems).filter(([key, value]) => value))
     );
-    const sensorId = sensors.sensors.filter(
-      (obj) => obj.sensorTabel === measurement
-    )[0].sensorId;
+    const intKeys = []
+    selectedColumns.map((id) =>
+      intKeys.push(parseInt(id))
+    )
+    
     return {
-      tableName: measurement,
-      sensorId: sensorId,
-      columnNames: ["time", ...Object.keys(selectedColumns)],
+      sensors: intKeys,
+      specifiedTimePeriode: true,
       from: dateToUTCDate(dates[0]),
       to: dateToUTCDate(dates[1]),
     };
@@ -127,7 +125,7 @@ function QueryBuilder() {
   return (
     <div className="qb_container">
       <div className="qb_box">
-        <h3>Select Measurement</h3>
+        <h3>Select Sensor Type</h3>
         <div>
           {/* Mapping measurement names (.data.tableAndColumns[i].key) to radio buttons*/}
           {Object.keys(sensors).length === 0 &&
@@ -136,7 +134,7 @@ function QueryBuilder() {
           ) : (
             /*data.tableAndColumns.map((obj, i) => nameToRadioButton(obj.key, i))*/
             sensors.sensors.map((obj) =>
-              nameToRadioButton(obj.sensorTabel, obj.sensorId)
+              nameToRadioButton(obj.sensorTypeName, obj.sensorIds)
             )
           )}
         </div>
@@ -147,13 +145,9 @@ function QueryBuilder() {
           {/* If measurement selected: filter data to selected measurement, select value array of first object, 
           remove "time" from array and map array to checkboxes*/}
           {measurement ? (
-            /*data.tableAndColumns
-              .filter((obj) => obj.key === measurement)[0]
-              .value.filter((item) => item !== "time")
-              .map((item, i) => fieldToCheckbox(item, i))*/
             sensors.sensors
-              .filter((obj) => obj.sensorTabel === measurement)[0]
-              .sensorColumns.filter((item) => !item.includes("time"))
+              .filter((obj) => obj.sensorTypeName === measurement)[0]
+              .sensorIds.filter((item) => item !== 0)
               .map((item, i) => fieldToCheckbox(item, i))
           ) : (
             <p>Please select a measurement</p>
