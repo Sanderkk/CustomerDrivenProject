@@ -60,7 +60,9 @@ const routing = (
               )}
             />
             <Route exact path="/specific-dashboard" component={DashboardSpecificPage} />
-            <Route
+            <Route exact path="/cell" component={AddCell} />
+            {/* TODO: make /cell safe */}
+            {/* <Route
               path="/cell"
               component={() => (
                 <AccessCheckerDecotaor
@@ -68,7 +70,7 @@ const routing = (
                   group={groupTypes.researcher}
                 />
               )}
-            />
+            /> */}
             <Route component={NotFound} />
           </Switch>
         </Router>

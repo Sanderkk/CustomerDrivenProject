@@ -7,7 +7,7 @@ import GlobalButton from "./globalComponents/GlobalButton";
 import { BiPlus } from "react-icons/bi";
 import groupTypes from "../groupTypes";
 import sendQuery from "../queries/sendQuery";
-import { GET_USER_DASHBOARD } from "../queries/queries";
+import { GET_DASHBOARDS } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import { useSelector } from "react-redux";
 
@@ -26,12 +26,14 @@ function DashboardsPage() {
     if(user !== null){
       // const userId = user.account.accountIdentifier;
       const userId = "123"; //Test user with data
-      sendQuery(client, GET_USER_DASHBOARD, { userId })
+      sendQuery(client, GET_DASHBOARDS, { userId })
       .then((result) => {
-        console.log(result.data.userDashboards);
-        setDashboards(result.data.userDashboards);
+        console.log(result);
+        // setDashboards(result.data.userDashboards);
       }).catch((err) => console.log(err));
     }
+
+    // setDashboards([{id: 3, name: "Beste dashboard"}]);
   }, [client, user]);
 
 

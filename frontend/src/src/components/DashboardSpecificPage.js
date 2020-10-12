@@ -9,10 +9,13 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import GlobalButton from "./globalComponents/GlobalButton";
 import sendMutation from "../queries/sendMutation";
-import { UPDATE_DASHBOARD } from "../queries/queries";
+import { UPDATE_DASHBOARD } from "../queries/mutations";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus } from "react-icons/bi";
 import LineGraph from "./LineGraph";
+import DashboardCellCard from "./DashboardCellCard";
+import { useSelector } from "react-redux";
+import groupTypes from "../groupTypes";
 
 function DashboardSpecificPage(props) {
   /*
@@ -27,9 +30,12 @@ function DashboardSpecificPage(props) {
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [dashboard, setDashboard] = useState(null);
+  const [cells, setCells] = useState(null);
+  const user = useSelector((store) => store.user.aadResponse);
+
 
   // Cell mock data
-  const cells = [
+  const cellsMockData = [
     {
       id: 1,
       input: {
@@ -73,8 +79,9 @@ function DashboardSpecificPage(props) {
       }
     }
   ];
+
   
-  // If user is sat in redux, fetch dashboards for that user
+  // If state is null, then set the dashboard as empty, if not, set dashboard as the one given in state
   useEffect(() => {
     if(typeof state === 'undefined' || state === null){
       dispatch(setCurrentDashboard(emptyDashboard));
@@ -83,6 +90,21 @@ function DashboardSpecificPage(props) {
       dispatch(setCurrentDashboard(state));
       setDashboard(state);
     }}, []);
+
+  // If dashboard and user is sat in redux, fetch and set cells for given dashboard
+  useEffect(() => {
+    if(user !== null && dashboard !== null){
+      // TODO: fetch cells and setCells()
+      // const userId = user.account.accountIdentifier;
+      // const userId = "123"; //Test user with data
+      // sendQuery(client, GET_CELLS_FOR_DASHBOARD, { dashboardId })
+      // .then((result) => {
+      //   setCells(result.data.cells);
+      // }).catch((err) => console.log(err));
+      setCells(cellsMockData);
+    }
+  }, [client, user, dashboard]);
+
 
   const handleSave = () => {
     sendMutation(client, UPDATE_DASHBOARD, { dashboard })
@@ -111,30 +133,38 @@ function DashboardSpecificPage(props) {
             case AuthenticationState.Authenticated:
               return(
                 <div className="container_div">
-                  {dashboard === null ? 
+                  {dashboard === null || user === null ? 
                     <h1>Loading</h1> 
                   : 
                   <div>
                     <form className="dashboard-form">
-                      <div>
-                        <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} />
-                        <div className="add_cell_btn">
-                          <Link to="/cell">
-                            <GlobalButton primary={true} btnText="Add Cell">
-                              <BiPlus />
-                            </GlobalButton>
-                          </Link>
-                        </div>
-                        <div className="save_btn">
-                          <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
-                            <BiSave />
-                          </GlobalButton>
-                        </div>
-                      </div>
-                      <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
+                      {/* Only give editing tools to researchers */}
+                        {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
+                          <div>
+                            <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} />
+                            <div className="add_cell_btn">
+                              <Link to="/cell">
+                                <GlobalButton primary={true} btnText="Add Cell">
+                                  <BiPlus />
+                                </GlobalButton>
+                              </Link>
+                            </div>
+                            <div className="save_btn">
+                              <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
+                                <BiSave />
+                              </GlobalButton>
+                            </div>
+                            <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
+                          </div>
+                          :
+                          <div>
+                            <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} disabled={true}/>
+                            <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} disabled={true}/>
+                          </div>
+                        }
                     </form>
 
-                    {state === null ?
+                    {cells === null || cells.length === 0 ?
                     <div>
                       <h1>You have no cells</h1>
                     </div>
@@ -143,14 +173,7 @@ function DashboardSpecificPage(props) {
                       {cells.map((cell) => {
                         return (
                           <div key={cell.id} >
-                            <Link key={"cell"+cell.id} to={{pathname: `/cell`, state: cell}}>
-                              {/* 
-                                TODO: Perhaps create a component for "DashboardPreviewCard", using Card at the end of the name, following the deisgn in Figma. 
-                                TODO: The graphs link to the Add Cell page, but not the right graph. 
-                              */}
-                              
-                              <LineGraph key={cell.name} options={cell.options} input={cell.input} cellId={cell.id} />
-                            </Link>
+                            <DashboardCellCard cell={cell}/>
                           </div>
                         );
                       })}

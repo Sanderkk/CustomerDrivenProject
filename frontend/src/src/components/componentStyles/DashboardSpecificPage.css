@@ -69,3 +69,12 @@
 .dashboard-form {
   margin-top: 5em;
 }
+
+.cell_grid_container {
+  justify-content: center;
+  display: grid;
+  margin-top: 2em;
+  grid-template-columns: auto, auto;
+  grid-template-rows: auto;
+  grid-gap: 3em;
+}
