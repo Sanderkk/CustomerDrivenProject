@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using HotChocolate;
 using HotChocolate.AspNetCore;
 using src.Api.Queries;
+using src.Api.Mutations;
 using src.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
@@ -88,6 +89,8 @@ namespace src
                 .AddType<DashboardQuery>()
                 .AddType<DashboardMutation>()
                 .AddType<UploadDataMutation>()
+                .AddAuthorizeDirectiveType()
+                .AddType<MetadataMutation>()
                 .AddAuthorizeDirectiveType()
                 .Create()
             );

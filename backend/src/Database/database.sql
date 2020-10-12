@@ -56,7 +56,8 @@ create table location(
 	id serial primary key,
 	description text,
 	coordinate text,
-	altitude numeric
+	altitude numeric,
+	created timestamp not null default now()
 );
 
 
