@@ -34,7 +34,7 @@ function Navbar() {
                       </Link>
                       {/* Link to users dashboards, all users have access to this if logged in */}
                       <Link to="/dashboards" className="nav_button">
-                        My Dashboards
+                        Dashboards
                       </Link>
                       {/* If the user is a part of the Engineer group then the Admin page link appears */}
                       {accountInfo.account.idToken.groups.indexOf(

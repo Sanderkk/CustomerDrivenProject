@@ -14,6 +14,7 @@ import DashboardsPage from "./components/DashboardsPage";
 import AccessCheckerDecotaor from "./components/AccessCheckerDecorator";
 import groupTypes from "./groupTypes";
 import AddCell from "./components/AddCell";
+import DashboardSpecificPage from "./components/DashboardSpecificPage";
 
 const client = new ApolloClient({
   uri: "http://api-customerdriven.sanderkk.com/playground/..",
@@ -58,6 +59,7 @@ const routing = (
                 />
               )}
             />
+            <Route exact path="/dashboard/:id" component={DashboardSpecificPage} />
             <Route
               path="/cell"
               component={() => (
