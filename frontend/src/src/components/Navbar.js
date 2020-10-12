@@ -5,6 +5,7 @@ import logo from "../assets/sintef_logo.png";
 import { AzureAD, AuthenticationState } from "react-aad-msal";
 import { authProvider } from "../authProvider";
 import groupTypes from "../groupTypes";
+import store from "../globalState/store";
 
 function Navbar() {
   /*
@@ -21,7 +22,7 @@ function Navbar() {
           {/* AzureAD component uses the authProvider to retrieve authenticationState and accountInfo. Either with retrival of Token or by using already retrived Token (hopefully)
           This takes a bit of time, and is the reason some parts of the page uses some extra time before appearing. 
           Might be able to use the redux state instead of the AzureAD component to increase retrival speed. However this did not work when barely tried.*/}
-          <AzureAD provider={authProvider}>
+          <AzureAD provider={authProvider} reduxStore={store}>
             {({ authenticationState, accountInfo }) => {
               switch (authenticationState) {
                 case AuthenticationState.Authenticated:
