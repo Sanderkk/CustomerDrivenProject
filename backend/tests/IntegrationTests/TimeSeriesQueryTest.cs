@@ -18,7 +18,7 @@ namespace tests.IntegrationTests
     public class TimeSeriesQueryTest
     {
 
-        private string dbConnectionString = "Host=sanderkk.com;Username=sintef;Password=123456;Database=fishfarm";
+        private string dbConnectionString = "Host=sanderkk.com;Username=sintef;Password=123456;Database=fishfarm2";
 
         [Fact]
         public async Task TestTimeSeriesQuery()
@@ -43,10 +43,12 @@ namespace tests.IntegrationTests
 
             var input = new TimeSeriesRequestInput()
             {
-                TableName = "tension",
+                TableName = "airsaturation_percent_",
+                SensorId = 2,
                 ColumnNames = new List<string>(),
-                From = DateTime.Parse("2020-08-25T23:59:58.000Z"),
-                To = DateTime.Parse("2020-08-26T00:00:00.000Z")
+                SpecifiedTimePeriode = true,
+                From = DateTime.Parse("2020-08-12T08:21:19.000Z"),
+                To = DateTime.Parse("2020-08-17T12:47:21.000Z")
             };
 
             IReadOnlyQueryRequest request =
@@ -56,15 +58,13 @@ namespace tests.IntegrationTests
                                 table,
                                 startDate,
                                 endDate,
-                                time,
                                 data {
-                                  key,
-                                  value
+                                    name,
+                                    startTime
+                                    interval
+                                    data
                                 },
-                                numberData {
-                                  key,
-                                  value
-                                }
+                                time
                               }
                             }")
                 .SetServices(serviceProvider)
@@ -76,6 +76,63 @@ namespace tests.IntegrationTests
             //Snapshot.Match(result);
             result.MatchSnapshot();
         }
+
+        [Fact]
+        public async Task TestTimeSeriesQueryBackwards()
+        {
+            IServiceProvider serviceProvider =
+                new ServiceCollection()
+                .AddSingleton<IFishFarmRepository, FishFarmRepository>()
+                .AddSingleton<IDatabaseConfig>(sp =>
+                new DatabaseConfig()
+                {
+                    DatabaseConnectionString = dbConnectionString
+                }
+                )
+                .BuildServiceProvider();
+
+            IQueryExecutor executor = Schema.Create(c =>
+            {
+                c.RegisterQueryType(new ObjectType<TimeSeriesQuery>(d => d.Name("Query")));
+                c.RegisterType<GenericObject>();
+            })
+            .MakeExecutable();
+
+            var input = new TimeSeriesRequestInput()
+            {
+                TableName = "airsaturation_percent_",
+                SensorId = 2,
+                ColumnNames = new List<string>(),
+                SpecifiedTimePeriode = false,
+                TicksBackwards = 53556090190067
+            };
+
+            IReadOnlyQueryRequest request =
+                QueryRequestBuilder.New()
+                .SetQuery(@"query TimeSeries($input: TimeSeriesRequestInput!){
+                              timeSeries(input: $input) {
+                                table,
+                                startDate,
+                                endDate,
+                                data {
+                                    name,
+                                    startTime
+                                    interval
+                                    data
+                                },
+                                time
+                              }
+                            }")
+                .SetServices(serviceProvider)
+                .AddVariableValue("input", input)
+                .Create();
+
+            // act
+            IExecutionResult result = await executor.ExecuteAsync(request);
+            //Snapshot.Match(result);
+            result.MatchSnapshot();
+        }
+
 
         public async Task TestSensorsQuery()
         {
@@ -100,8 +157,8 @@ namespace tests.IntegrationTests
                 QueryRequestBuilder.New()
                 .SetQuery(@"query sensors{
                               sensors {
-                                sensorId,
-                                sensorTabel,
+                                sensorTypeName,
+                                sensorIds,
                                 sensorColumns
                               }
                             }")
@@ -137,7 +194,7 @@ namespace tests.IntegrationTests
 
             var input = new TimeSeriesPeriodeInput()
             {
-                TableName = "Tension",
+                TableName = "airsaturation_percent_",
                 SensorId = 2
             };
 

@@ -8,7 +8,7 @@ namespace src.Database
 {
     public interface IFishFarmRepository
     {
-        Task<GenericObject> GetTimeSeries(string queryString);
+        Task<GenericObject> GetTimeSeries(string tableName, string queryString);
         Task<List<SensorType>> GetSensorsData(string queryString);
         Task<GenericTimeType> GetTimeSeriesPeriode(string queryString);
         //Task<List<MetadataType>> GetMetadataBySensorID(string queryString);

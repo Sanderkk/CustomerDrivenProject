@@ -6,6 +6,9 @@ using Npgsql;
 using src.Config;
 using Newtonsoft.Json;
 using src.Api.Types;
+using HotChocolate.Types;
+using HotChocolate.Execution;
+using HotChocolate;
 
 namespace src.Database
 {
@@ -20,7 +23,29 @@ namespace src.Database
             _databaseSettings = databaseSettings;
         }
 
-        public async Task<GenericObject> GetTimeSeries(string queryString)
+        public void ReadTimeSeriesData<T>(NpgsqlDataReader dataReader, DataObject<T> dataObject, int pos)
+        {
+            var value = dataReader.GetFieldValue<T>(pos);
+            dataObject.Data.Add(value);
+        }
+
+        public List<(string, int)> GetColumnNames(NpgsqlDataReader dataReader)
+        {
+            var fieldsCount = dataReader.GetColumnSchema().Count();
+            List<(string, int)> fieldNames = new List<(string, int)>();
+            for (var i = 0; i < fieldsCount; i++)
+            {
+                var fieldName = dataReader.GetName(i);
+                if (fieldName.Equals("time") || fieldName.Equals("sensorid"))
+                {
+                    continue;
+                }
+                fieldNames.Add((fieldName, i));
+            }
+            return fieldNames;
+        }
+
+        public async Task<GenericObject> GetTimeSeries(string tableName, string queryString)
         {
             NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
             await _npgsqlConnection.OpenAsync();
@@ -29,45 +54,42 @@ namespace src.Database
             var dataReader = await cmd.ExecuteReaderAsync();
 
             var timeData = new List<DateTime>();
-            var data = new Dictionary<string, List<string>>();
-            var numberData = new Dictionary<string, List<Decimal>>();
+            var data = new List<DataObject<Decimal>>();
 
-            var fieldsCount = dataReader.GetColumnSchema().Count();
-            List<string> fieldNames = new List<string>();
-            for(var i = 0; i < fieldsCount; i++) {
-                var fieldName = dataReader.GetName(i);
-                fieldNames.Add(fieldName);
+            List<(string, int)> tableColumns = this.GetColumnNames(dataReader);
+            foreach(var column in tableColumns)
+            {
+                data.Add(
+                    new DataObject<Decimal>() {
+                        Data = new List<Decimal>()
+                    }
+                );
             }
 
             while(dataReader.Read())
             {
-                for (var i = 0; i < fieldNames.Count(); i++)
+                DateTime date = dataReader.GetFieldValue<DateTime>(dataReader.GetOrdinal("time")).ToUniversalTime();
+                timeData.Add(date);
+                for (var i = 0; i < tableColumns.Count(); i++)
                 {
-                    if (fieldNames[i].Equals("time"))
-                    {
-                        timeData.Add(dataReader.GetFieldValue<DateTime>(i).ToUniversalTime());
-                    } else
-                    {
-                        var dataValue = dataReader.GetFieldValue<dynamic>(i);
-                        Type dataType = dataValue.GetType();
-                        if (dataType.Equals(typeof(Decimal)))
-                        {
-                            if (!numberData.ContainsKey(fieldNames[i]))
-                            {
-                                numberData[dataReader.GetName(i)] = new List<Decimal>();
-                            }
-                            numberData[fieldNames[i]].Add(dataValue);
-                        } else
-                        {
-                            if (!data.ContainsKey(fieldNames[i]))
-                            {
-                                data[dataReader.GetName(i)] = new List<string>();
-                            }
-                            data[fieldNames[i]].Add(dataReader.GetFieldValue<dynamic>(i).ToString());
-                        }
-                    }
+                    var dataValue = dataReader.GetFieldValue<dynamic>(tableColumns[i].Item2);
+                    Type dataType = dataValue.GetType();
+                    ReadTimeSeriesData<Decimal>(dataReader, data[i], tableColumns[i].Item2);
                 }
             };
+            if (timeData.Count() == 0)
+            {
+                throw new QueryException(ErrorBuilder.New().SetMessage("No data.").Build());
+            }
+
+            var startTime = timeData[0].Ticks;
+            var interval = timeData[1].Ticks - startTime;
+            for (var i = 0; i < tableColumns.Count(); i++)
+            {
+                data[i].Name = tableColumns[0].Item1;
+                data[i].StartTime = startTime;
+                data[i].Interval = interval;
+            }
 
             cmd.Parameters.Clear();
             await dataReader.CloseAsync();
@@ -75,12 +97,11 @@ namespace src.Database
 
             var result = new GenericObject()
             {
-                Table = "tension",
-                StartDate = timeData.Count > 0 ? timeData[0] : DateTime.UtcNow,
-                EndDate = timeData.Count > 0 ? timeData[timeData.Count - 1] : DateTime.UtcNow,
+                Table = tableName,
+                StartDate = timeData.Count > 0 ? timeData[0].ToUniversalTime() : DateTime.UtcNow,
+                EndDate = timeData.Count > 0 ? timeData[timeData.Count - 1].ToUniversalTime() : DateTime.UtcNow,
                 Time = timeData,
-                Data = data,
-                NumberData = numberData
+                Data = data
             };
             return result;
         }
@@ -98,15 +119,22 @@ namespace src.Database
             var sensorData = new List<SensorType>();
             while (dataReader.Read())
             {
-                var result = new SensorType()
+                var sensorTypeName = dataReader.GetFieldValue<string>(1);
+                var sensor = sensorData.Where(x => x.SensorTypeName.Equals(sensorTypeName)).FirstOrDefault();
+                if (sensor == null)
                 {
-                    SensorId = dataReader.GetFieldValue<int>(0),
-                    SensorTabel = dataReader.GetFieldValue<string>(1),
-                    SensorColumns = dataReader.GetFieldValue<string>(2)?.Split(".").ToList()
-                };
-                sensorData.Add(result);
+                    var result = new SensorType()
+                    {
+                        SensorTypeName = dataReader.GetFieldValue<string>(1),
+                        SensorIds = new List<int>() { dataReader.GetFieldValue<int>(0) },
+                        SensorColumns = dataReader.GetFieldValue<string>(2)?.Split(".").ToList()
+                    };
+                    sensorData.Add(result);
+                } else
+                {
+                    sensor.SensorIds.Add(dataReader.GetFieldValue<int>(0));
+                }
             };
-
             cmd.Parameters.Clear();
             await dataReader.CloseAsync();
             await _npgsqlConnection.CloseAsync();
@@ -127,8 +155,8 @@ namespace src.Database
             {
                 result = new GenericTimeType()
                 {
-                    From = dataReader.GetFieldValue<DateTime>(0),
-                    To = dataReader.GetFieldValue<DateTime>(1),
+                    From = dataReader.GetFieldValue<DateTime>(0).ToUniversalTime(),
+                    To = dataReader.GetFieldValue<DateTime>(1).ToUniversalTime(),
                 };
             };
 

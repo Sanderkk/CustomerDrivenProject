@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace src.Database
 {
@@ -8,6 +9,12 @@ namespace src.Database
         
         public static string CreateTimeSeriesQueryString(int? sensorId, string tableName, List<string> columnNames, DateTime startDate, DateTime endDate)
         {
+            if (columnNames.Count > 0)
+            {
+                columnNames = columnNames.Select(x => x.ToLower()).ToList();
+                columnNames.Add("time");
+                columnNames.Distinct();
+            }
             var selectString = "SELECT " + (columnNames.Count > 0 ? string.Join(",", columnNames) : "*");
             var tableString = "FROM " + tableName;
             var timeFilterString = $"WHERE time >= '{startDate.ToString("s")}.000Z' AND time < '{endDate.ToString("s")}.000Z'";
