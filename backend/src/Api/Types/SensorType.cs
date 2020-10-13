@@ -7,8 +7,8 @@ namespace src.Api.Types
 {
     public class SensorType
     {
-        public int SensorId { get; set; }
-        public string SensorTabel { get; set; }
+        public string SensorTypeName { get; set; }
+        public List<int> SensorIds { get; set; }
         public List<string> SensorColumns { get; set; }
     }
 }

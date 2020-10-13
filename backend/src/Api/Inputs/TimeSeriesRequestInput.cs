@@ -7,14 +7,19 @@ namespace src.Api.Inputs
 {
     public class TimeSeriesRequestInput
     {
+        [GraphQLNonNullType]
         public int? SensorId { get; set; }
         [GraphQLNonNullType]
         public string TableName {get;set;}
         [GraphQLNonNullType]
         public List<string> ColumnNames {get;set;}
+
         [GraphQLNonNullType]
-        public DateTime From { get; set; }
-        [GraphQLNonNullType]
-        public DateTime To { get; set; }
+        public bool SpecifiedTimePeriode { get; set; }
+
+        public DateTime? From { get; set; }
+        public DateTime? To { get; set; }
+
+        public long? TicksBackwards { get; set; }
     }
 }
