@@ -20,17 +20,7 @@ namespace src.Api.Queries
             [Service] ITimeSeriesRepository repo
             )
         {
-            var sensorsQueryString = TimeSeriesQueryBuilder.CreateSensorsQueryString();
-            var sensors = repo.GetSensorsData(sensorsQueryString).Result;
-            var sensorNameIdPairs = input.Sensors.Select(
-                x => (
-                    x,
-                    sensors.Where(y => y.SensorIds.Contains(x) && !y.SensorTypeName.Equals("")).Select(y => y.SensorTypeName).FirstOrDefault()
-                    ??
-                    throw new QueryException(ErrorBuilder.New().SetMessage("There exists no sensor with id "+x.ToString()+".").Build())
-                      )
-            ).ToList();
-
+            List<(int, string)> sensorNameIdPairs = repo.GetSensorTablePair(input.Sensors);
             DateTime from;
             DateTime to;
             if (input.SpecifiedTimePeriode)

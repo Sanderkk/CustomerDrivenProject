@@ -14,11 +14,13 @@ using src.Database;
 using src.Api.Inputs;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using HotChocolate.AspNetCore.Interceptors;
+using HotChocolate.Subscriptions;
 using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication;
 using src.Api.Mutations;
+using src.Api.Subscriptions;
 using src.Database.User;
 
 namespace src
@@ -76,19 +78,23 @@ namespace src
             services.AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>();
             services.AddSingleton<IMetadataRepository, MetadataRepository>();
             services.AddSingleton<IUploadDataRepository, UploadDataRepository>();
-         //   services.AddErrorFilter<GraphQLErrorFilter>();
-
-
+            services.AddErrorFilter<GraphQLErrorFilter>();
+            
+            services.AddInMemorySubscriptionProvider();
+    
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
                 .AddQueryType(d => d.Name("Query"))
                 .AddMutationType(d => d.Name("Mutation"))
+                .AddSubscriptionType(d => d.Name("Subscription"))
                 .AddType<TimeSeriesQuery>()
                 .AddType<TestQuery>()
                 .AddType<MetadataQuery>()
+                .AddType<DataSubscription>()
                 .AddType<DashboardQuery>()
                 .AddType<DashboardMutation>()
                 .AddType<UploadDataMutation>()
+                .AddType<DataSubscription>()
                 .AddAuthorizeDirectiveType()
                 .AddType<MetadataMutation>()
                 .AddAuthorizeDirectiveType()
@@ -108,6 +114,7 @@ namespace src
             }
 
             app.UseCors();
+            app.UseWebSockets();
 
             app.UseAuthentication();
             app.UseAuthorization();

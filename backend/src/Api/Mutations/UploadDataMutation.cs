@@ -7,6 +7,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using HotChocolate;
+using HotChocolate.Subscriptions;
+using HotChocolate.Types;
+using src.Database;
+using src.Api.Subscriptions;
+using src.Api.Types;
 
 namespace src.Api.Mutations
 {
@@ -14,14 +20,28 @@ namespace src.Api.Mutations
     public class UploadDataMutation
     {
 
-        public bool UploadData(
+        public async Task<bool> UploadData(
                 [GraphQLNonNullType] UploadDataInput input,
-                [Service] IUploadDataRepository repo
+                [Service]IUploadDataRepository repo,
+                [Service]IEventSender eventSender
             )
         {
             try
             {
-                repo.UploadData(input.encodedData, input.encodedConfig);
+                var dataobj = repo.UploadData(input.encodedData, input.encodedConfig);
+                foreach (var sensorId in dataobj.sensorIds)
+                {
+                    await eventSender.SendAsync(new OnDataInsert(
+                        sensorId,
+                        new CreatedDataValues()
+                        {
+                            sensorId = sensorId,
+                            fromDate = dataobj.fromDate,
+                            toDate = dataobj.toDate
+                        }
+                        )).ConfigureAwait(true);
+
+                }
                 return true;
             } catch
             {

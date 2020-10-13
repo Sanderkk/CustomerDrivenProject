@@ -174,6 +174,21 @@ namespace src.Database
             return result;
         }
 
+        public List<(int, string)> GetSensorTablePair(
+            List<int> sensorIds
+        )
+        {
+            var sensorsQueryString = TimeSeriesQueryBuilder.CreateSensorsQueryString();
+            var sensors = this.GetSensorsData(sensorsQueryString).Result;
+            return sensorIds.Select(
+                x => (
+                    x,
+                    sensors.Where(y => y.SensorIds.Contains(x) && !y.SensorTypeName.Equals("")).Select(y => y.SensorTypeName).FirstOrDefault()
+                    ??
+                    throw new QueryException(ErrorBuilder.New().SetMessage("There exists no sensor with id "+x.ToString()+".").Build())
+                )
+            ).ToList();
+        }
 
     }
 }
