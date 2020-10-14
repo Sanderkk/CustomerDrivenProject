@@ -1,3 +1,52 @@
-h1 {
-  margin-top: 2em;
+.admin h1 {
+  margin-top: 80px;
+  color: #004299;
+  font-size: 30px;
+}
+
+.tab-container {
+  margin: 0 20px 0 20px;
+}
+
+.tab-container ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+.tab-container li {
+  float: left;
+  display: block;
+  text-align: center;
+  font-size: 13px;
+  padding: 5px 25px;
+  text-decoration: none;
+  background-color: #c9c9c9;
+  font-weight: 400;
+}
+
+.tab-container li + li {
+  border-left: 2px solid #9b9b9b;
+}
+
+.tab-container li:hover:not(.active) {
+  background-color: #cfcfcf;
+  cursor: pointer;
+}
+
+.tab-container li:hover {
+  cursor: pointer;
+}
+
+.tab-container .active {
+  background-color: #fff;
+  border-top: 2px solid #004299;
+  padding-top: 3px;
+}
+
+.tab-container .content {
+  background-color: #fff;
+  min-height: 65vh;
+  padding: 12px 20px;
 }
