@@ -53,55 +53,62 @@ namespace src.Database
             cmd.Connection = _npgsqlConnection;
             var dataReader = await cmd.ExecuteReaderAsync();
 
-            var timeData = new List<DateTime>();
-            var data = new List<DataObject<Decimal>>();
+            var completeTimeData = new List<List<DateTime>>();
+            var completeData = new List<DataObject<Decimal>>();
 
-            List<(string, int)> tableColumns = this.GetColumnNames(dataReader);
-            foreach(var column in tableColumns)
+            do
             {
-                data.Add(
-                    new DataObject<Decimal>() {
-                        Data = new List<Decimal>()
+                var timeData = new List<DateTime>();
+                var data = new List<DataObject<Decimal>>();
+                List<(string, int)> tableColumns = this.GetColumnNames(dataReader);
+                foreach(var column in tableColumns)
+                {
+                    data.Add(
+                        new DataObject<Decimal>() {
+                            Data = new List<Decimal>()
+                        }
+                    );
+                }
+                while(dataReader.Read())
+                {
+                    DateTime date = dataReader.GetFieldValue<DateTime>(dataReader.GetOrdinal("time")).ToUniversalTime();
+                    timeData.Add(date);
+                    for (var i = 0; i < tableColumns.Count(); i++)
+                    {
+                        var dataValue = dataReader.GetFieldValue<dynamic>(tableColumns[i].Item2);
+                        Type dataType = dataValue.GetType();
+                        ReadTimeSeriesData<Decimal>(dataReader, data[i], tableColumns[i].Item2);
                     }
-                );
-            }
+                };
+                if (timeData.Count() == 0)
+                {
+                    throw new QueryException(ErrorBuilder.New().SetMessage("No data.").Build());
+                }
 
-            while(dataReader.Read())
-            {
-                DateTime date = dataReader.GetFieldValue<DateTime>(dataReader.GetOrdinal("time")).ToUniversalTime();
-                timeData.Add(date);
+                var startTime = timeData[0].Ticks;
+                var interval = timeData[1].Ticks - startTime;
                 for (var i = 0; i < tableColumns.Count(); i++)
                 {
-                    var dataValue = dataReader.GetFieldValue<dynamic>(tableColumns[i].Item2);
-                    Type dataType = dataValue.GetType();
-                    ReadTimeSeriesData<Decimal>(dataReader, data[i], tableColumns[i].Item2);
+                    data[i].Name = tableColumns[0].Item1;
+                    data[i].StartTime = startTime;
+                    data[i].Interval = interval;
                 }
-            };
-            if (timeData.Count() == 0)
-            {
-                throw new QueryException(ErrorBuilder.New().SetMessage("No data.").Build());
-            }
-
-            var startTime = timeData[0].Ticks;
-            var interval = timeData[1].Ticks - startTime;
-            for (var i = 0; i < tableColumns.Count(); i++)
-            {
-                data[i].Name = tableColumns[0].Item1;
-                data[i].StartTime = startTime;
-                data[i].Interval = interval;
-            }
+                completeTimeData.Add(timeData);
+                completeData.AddRange(data);
+            } while (dataReader.NextResult());
 
             cmd.Parameters.Clear();
             await dataReader.CloseAsync();
             await _npgsqlConnection.CloseAsync();
 
+            var selectedTimeData = completeTimeData.FirstOrDefault();
             var result = new GenericObject()
             {
                 Table = tableName,
-                StartDate = timeData.Count > 0 ? timeData[0].ToUniversalTime() : DateTime.UtcNow,
-                EndDate = timeData.Count > 0 ? timeData[timeData.Count - 1].ToUniversalTime() : DateTime.UtcNow,
-                Time = timeData,
-                Data = data
+                StartDate = selectedTimeData.Count > 0 ? selectedTimeData[0].ToUniversalTime() : DateTime.UtcNow,
+                EndDate = selectedTimeData.Count > 0 ? selectedTimeData[selectedTimeData.Count - 1].ToUniversalTime() : DateTime.UtcNow,
+                Time = selectedTimeData,
+                Data = completeData
             };
             return result;
         }

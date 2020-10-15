@@ -30,7 +30,7 @@ pipeline {
             agent any
             steps {
                 dir('./backend') {
-                    sh returnStdout:true, script:'sudo dotnet test --logger \"trx;LogFileName=unit_tests.trx\" --no-build'
+                    sh returnStdout:true, script:'dotnet test'
                 }
             }
         }

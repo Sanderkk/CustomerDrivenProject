@@ -8,12 +8,7 @@ namespace src.Api.Inputs
     public class TimeSeriesRequestInput
     {
         [GraphQLNonNullType]
-        public int? SensorId { get; set; }
-        [GraphQLNonNullType]
-        public string TableName {get;set;}
-        [GraphQLNonNullType]
-        public List<string> ColumnNames {get;set;}
-
+        public List<int> Sensors { get; set; }
         [GraphQLNonNullType]
         public bool SpecifiedTimePeriode { get; set; }
 
