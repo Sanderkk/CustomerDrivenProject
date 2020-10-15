@@ -34,11 +34,11 @@ services:
       - VIRTUAL_PORT=3014
       - LETSENCRYPT_HOST=api-customerdriven.sanderkk.com
       - LETSENCRYPT_EMAIL=sander.k.kilen@gmail.com
+    networks:
+      - proxy
+      - app
 networks:
-  - proxy
-  - app
-  networks:
-    proxy:
-      external:
-        name: nginx-proxy
-    app:
+  proxy:
+    external:
+      name: nginx-proxy
+  app:
