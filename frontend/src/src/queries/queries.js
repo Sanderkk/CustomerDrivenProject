@@ -72,3 +72,20 @@ export const GET_LAST_METADATA = gql`
     }
   }
 `;
+
+export const GET_USER_DASHBOARD = gql`
+  query userDashboards($userId: String!) {
+    userDashboard(userId: $userId) {
+        id,
+        name,
+        description,
+        data
+    }
+  }
+`;
+
+export const UPDATE_DASHBOARD = gql`
+  mutation updateDashboard($input: DashboardInput!) {
+    updateDashboard(input: $input)
+  }  
+`
