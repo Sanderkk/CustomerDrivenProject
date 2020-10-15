@@ -19,8 +19,8 @@
         "altitude": 500,
         "locationDescription": "nowimhere",
         "createdAt": "2020-10-09T13:54:26.000+02:00",
-        "updatedAt": "2020-10-10T16:28:28.000+02:00",
-        "outdatedFrom": null
+        "updatedAt": "2020-10-13T17:10:15.000+02:00",
+        "outdatedFrom": "2020-10-13T17:10:15.000+02:00"
       }
     ]
   },

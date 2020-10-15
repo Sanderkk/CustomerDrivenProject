@@ -7,19 +7,13 @@ namespace src.Database
     public class DbQueryBuilder
     {
         
-        public static string CreateTimeSeriesQueryString(int? sensorId, string tableName, List<string> columnNames, DateTime startDate, DateTime endDate)
+        public static string CreateTimeSeriesQueryString(int? sensorId, string tableName, DateTime startDate, DateTime endDate)
         {
-            if (columnNames.Count > 0)
-            {
-                columnNames = columnNames.Select(x => x.ToLower()).ToList();
-                columnNames.Add("time");
-                columnNames.Distinct();
-            }
-            var selectString = "SELECT " + (columnNames.Count > 0 ? string.Join(",", columnNames) : "*");
+            var selectString = "SELECT *";
             var tableString = "FROM " + tableName;
             var timeFilterString = $"WHERE time >= '{startDate.ToString("s")}.000Z' AND time < '{endDate.ToString("s")}.000Z'";
             var sensor = sensorId != null ? " AND sensorId = " + sensorId.ToString() : "";
-            var order = "Order BY time ASC";
+            var order = "Order BY time ASC;";
             var queryString = selectString + " " + tableString + " " + timeFilterString + sensor + " " + order;
             return queryString;
         }

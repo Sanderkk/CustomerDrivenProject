@@ -80,19 +80,18 @@ namespace src
             services.AddGraphQL(sp => SchemaBuilder.New()
                 .AddServices(sp)
                 .AddQueryType(d => d.Name("Query"))
-                .AddAuthorizeDirectiveType()
                 .AddMutationType(d => d.Name("Mutation"))
                 .AddType<TimeSeriesQuery>()
                 .AddType<TestQuery>()
-                .AddAuthorizeDirectiveType()
                 .AddType<MetadataQuery>()
                 .AddType<DashboardQuery>()
                 .AddType<DashboardMutation>()
+                .AddAuthorizeDirectiveType()
                 .Create()
             );
 
             //Overwrite basic error messages with ones with more info
-            services.AddErrorFilter<GraphQLErrorFilter>();
+            //services.AddErrorFilter<GraphQLErrorFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

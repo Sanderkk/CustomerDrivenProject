@@ -20,6 +20,17 @@ namespace src.Api.Queries
             [Service] IFishFarmRepository repo
             )
         {
+            var sensorsQueryString = DbQueryBuilder.CreateSensorsQueryString();
+            var sensors = repo.GetSensorsData(sensorsQueryString).Result;
+            var sensorNameIdPairs = input.Sensors.Select(
+                x => (
+                    x,
+                    sensors.Where(y => y.SensorIds.Contains(x)).Select(y => y.SensorTypeName).FirstOrDefault()
+                    ??
+                    throw new QueryException(ErrorBuilder.New().SetMessage("There exists no sensor with id "+x.ToString()+".").Build())
+                      )
+            ).ToList();
+
             DateTime from;
             DateTime to;
             if (input.SpecifiedTimePeriode)
@@ -39,9 +50,12 @@ namespace src.Api.Queries
                 from = new DateTime(DateTime.Now.Ticks - input.TicksBackwards ?? 1 );
                 to = DateTime.Now;
             }
-            var variance = DateTime.UtcNow.Ticks - DateTime.Parse("2020-08-12T08:21:19.000Z").Ticks;
-            var queryString = DbQueryBuilder.CreateTimeSeriesQueryString(input.SensorId, input.TableName, input.ColumnNames, from, to);
-            return repo.GetTimeSeries(input.TableName, queryString).Result;
+            var queryString = "";
+            foreach(var sensorNameIdPair in sensorNameIdPairs)
+            {
+                queryString = queryString + DbQueryBuilder.CreateTimeSeriesQueryString(sensorNameIdPair.Item1, sensorNameIdPair.Item2, from, to);
+            }
+            return repo.GetTimeSeries("", queryString).Result;
         }
 
         public List<SensorType> GetSensors(
