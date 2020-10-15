@@ -30,7 +30,7 @@ pipeline {
             agent any
             steps {
                 dir('./backend') {
-                    sh returnStdout:true, script:'sudo dotnet test --logger \"trx;LogFileName=unit_tests.trx\" --no-build'
+                    sh returnStdout:true, script:'sudo dotnet test'
                 }
             }
         }
@@ -55,6 +55,20 @@ pipeline {
             agent any
             steps {
                 sh 'docker-compose up -d --build'
+            }
+        }
+        stage('Save docker images as tar') {
+            agent any
+            steps {
+                sh 'docker save -o /home/sanderkk/backend.tar customerdrivencd_customerdriven-backend'
+                sh 'docker save -o /home/sanderkk/frontend.tar customerdrivencd_customerdriven-frontend'
+            }
+        }
+        stage('Transfer docker images to azure server'){
+            agent any
+            steps {
+                // Use scp for file transfer
+                
             }
         }
         stage('End to end tests') {

@@ -10,7 +10,16 @@ services:
       - '.:/app'
       - '/app/node_modules'
     ports:
-      - '44000:80'
+      - '3013:80'
+    environment:
+      - VIRTUAL_HOST=customerdriven.sanderkk.com
+      - VIRTUAL_PORT=3013
+      - LETSENCRYPT_HOST=customerdriven.sanderkk.com
+      - LETSENCRYPT_EMAIL=sander.k.kilen@gmail.com
+      - BACKEND_HOST=customerdriven-backend
+    networks:
+      - proxy
+      - app
   customerdriven-backend:
     container_name: customerdriven-backend
     build:
@@ -19,4 +28,17 @@ services:
     volumes:
       - '.:/app'
     ports:
-      - '44001:80'
+      - '3014:80'
+      environment:
+        - VIRTUAL_HOST=api-customerdriven.sanderkk.com
+        - VIRTUAL_PORT=3014
+        - LETSENCRYPT_HOST=api-customerdriven.sanderkk.com
+        - LETSENCRYPT_EMAIL=sander.k.kilen@gmail.com
+networks:
+  - proxy
+  - app
+  networks:
+    proxy:
+      external:
+        name: nginx-proxy
+    app:
