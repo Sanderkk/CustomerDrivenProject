@@ -43,9 +43,7 @@ namespace tests.IntegrationTests
 
             var input = new TimeSeriesRequestInput()
             {
-                TableName = "airsaturation_percent_",
-                SensorId = 2,
-                ColumnNames = new List<string>(),
+                Sensors = new List<int>() { 2, 3 },
                 SpecifiedTimePeriode = true,
                 From = DateTime.Parse("2020-08-12T08:21:19.000Z"),
                 To = DateTime.Parse("2020-08-17T12:47:21.000Z")
@@ -100,9 +98,7 @@ namespace tests.IntegrationTests
 
             var input = new TimeSeriesRequestInput()
             {
-                TableName = "airsaturation_percent_",
-                SensorId = 2,
-                ColumnNames = new List<string>(),
+                Sensors = new List<int>() { 2, 3 },
                 SpecifiedTimePeriode = false,
                 TicksBackwards = 53556090190067
             };
