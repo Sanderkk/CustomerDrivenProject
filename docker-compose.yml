@@ -29,11 +29,11 @@ services:
       - '.:/app'
     ports:
       - '3014:80'
-      environment:
-        - VIRTUAL_HOST=api-customerdriven.sanderkk.com
-        - VIRTUAL_PORT=3014
-        - LETSENCRYPT_HOST=api-customerdriven.sanderkk.com
-        - LETSENCRYPT_EMAIL=sander.k.kilen@gmail.com
+    environment:
+      - VIRTUAL_HOST=api-customerdriven.sanderkk.com
+      - VIRTUAL_PORT=3014
+      - LETSENCRYPT_HOST=api-customerdriven.sanderkk.com
+      - LETSENCRYPT_EMAIL=sander.k.kilen@gmail.com
 networks:
   - proxy
   - app
