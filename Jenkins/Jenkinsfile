@@ -68,7 +68,8 @@ pipeline {
             agent any
             steps {
                 // Use scp for file transfer
-                
+                sh 'scp ./backend.tar FishFarmAdmin@137.116.234.188:/home/FishFarmAdmin/build'
+                sh 'scp ./frontend.tar FishFarmAdmin@137.116.234.188:/home/FishFarmAdmin/build'
             }
         }
         stage('End to end tests') {
