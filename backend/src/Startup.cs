@@ -74,6 +74,7 @@ namespace src
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IFishFarmRepository, FishFarmRepository>();
             services.AddSingleton<IMetadataRepository, MetadataRepository>();
+            services.AddSingleton<IUploadDataRepository, UploadDataRepository>();
             services.AddErrorFilter<GraphQLErrorFilter>();
 
 
@@ -86,6 +87,7 @@ namespace src
                 .AddType<MetadataQuery>()
                 .AddType<DashboardQuery>()
                 .AddType<DashboardMutation>()
+                .AddType<UploadDataMutation>()
                 .AddAuthorizeDirectiveType()
                 .Create()
             );
