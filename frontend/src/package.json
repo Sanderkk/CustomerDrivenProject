@@ -24,6 +24,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0"
   },
+  "homepage": "https://customerdriven.sanderkk.com/",
   "scripts": {
     "start": "set PORT=3013 && react-scripts start",
     "build": "react-scripts build",
