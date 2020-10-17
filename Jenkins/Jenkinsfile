@@ -57,6 +57,12 @@ pipeline {
                 sh 'docker-compose up -d --build'
             }
         }
+        stage('Deploy to server') {
+            agent any
+            steps {
+                sh './deployToServer.sh'
+            }
+        }
         stage('End to end tests') {
             agent any
             steps{
