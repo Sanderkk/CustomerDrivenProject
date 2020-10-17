@@ -38,24 +38,25 @@ namespace parser
             /*
             Parse file into list of data points
 
-            :param str file_path: file to read
+            :param str data: one long string with all the data
             :param debug: enables logging of parsed lines
             :return: (List<String>, string[]) of parsed data and headers
             */
 
             string[] dataList = data.Split(new[] { Environment.NewLine }, StringSplitOptions.None);
-
             List<String> record = new List<String>();  // array of parsed lines
             string line = null;
-            for (int i = 0; i < headerRow; i++) {
+            for (int i = 0; i < headerRow-1; i++) {
                 dataList = dataList.Skip(1).ToArray();
             }
-
             string[] headerArray = dataList[0].Split(columnSeparator);
             var headerArrayQuery = headerArray.Where(val => val != headerExtra).ToArray();    // remove entries of extra text
+            headerArrayQuery = headerArrayQuery.Where(x => !string.IsNullOrEmpty(x)).ToArray();
 
             if (debug) {
-                Console.WriteLine(headerArrayQuery);
+                foreach (string str in headerArrayQuery) {
+                    Console.WriteLine(str);
+                }
             }
 
             dataList = dataList.Skip(1).ToArray(); // skips the header after saving it to a new variable
@@ -67,9 +68,7 @@ namespace parser
                 line = row.Replace("\t\t", "\t"); // replace double tab with single tab
                 string[] lineArray = line.Split(columnSeparator);
                 DateTime date;
-                foreach (string s in lineArray) {
-                    Console.WriteLine(s);
-                }
+
                 if (DateTime.TryParseExact(lineArray[timeIndex], timeFormat, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal, out date)) {
                 }
                 else {
@@ -82,11 +81,14 @@ namespace parser
                     record.Add(lineArray[i]);
                 }
                 for (int i = fieldIndexes[0]; i < fieldIndexes[1]; i++) {
-                    record.Add(lineArray[i]); // CultureInfo.InvariantCulture because the numbers contain "."
+                    record.Add(lineArray[i].Replace("\n", "").Replace("\r", "")); // CultureInfo.InvariantCulture because the numbers contain "."
                 }
                 if (debug) {
-                    Console.WriteLine(headerArrayQuery);
+                    foreach (string str in headerArrayQuery) {
+                        Console.WriteLine(str);
+                    }
                 }
+                
             }
             (List<String>, string[]) result = (record, headerArrayQuery);
 

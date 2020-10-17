@@ -22,6 +22,7 @@ namespace parser
                 // create a sql string for doing bulk insert
                 string copyInto = CreateCopy(dataConfig, headerArrayQuery, dataConfig.sensors[i], numColumns);
                 WriteToDB.WriteData(createTable, copyInto, dataConfig.sensors[i], numColumns, record, headerArrayQuery[dataConfig.sensors[i]], headerArrayQuery, id[i]);
+
             }
         }
 
@@ -56,11 +57,11 @@ namespace parser
         private static string[] cleanString(string[] str) {
             // make the column names on a format that the database can handle
             str = Array.ConvertAll(str, d => d.ToLower());                    // all headers to lower since column names in timescale needs to be lower                   
-            str = str.Select(x => x.Replace(" ", string.Empty).Replace(".", string.Empty)
+            str = str.Select(x => x.Replace(" ", string.Empty).Replace(".", string.Empty).Replace("\n", "")
                                 .Replace("(", string.Empty).Replace(")", string.Empty).Replace("-", "_").Replace("[", "_")
-                                .Replace("]", "_").Replace("%", "percent").Replace("/", "_per_")).ToArray();   // remove charachters that timescaledb can not use in column names
+                                .Replace("]", "_").Replace("%", "percent").Replace("/", "_per_").Replace("\r", "")).ToArray();   // remove charachters that timescaledb can not use in column names
             str = str.Where(x => !string.IsNullOrEmpty(x)).ToArray();
-
+            str = str.Where(x => !string.IsNullOrWhiteSpace(x)).ToArray();
             return str;
         }
     }

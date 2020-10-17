@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <_ContentIncludedByDefault Remove="QueueStorage\App.config" />
+    <ProjectReference Include="..\services\Parser\parser.csproj" />
   </ItemGroup>
 
 </Project>

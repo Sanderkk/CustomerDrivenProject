@@ -13,6 +13,6 @@ namespace src.Api.Inputs
         [GraphQLNonNullType]
         public string parserType { get; set; }
         [GraphQLNonNullType]
-        public List<int> sensorIds { get; set; }
+        public int[] sensorIds { get; set; }
     }
 }
