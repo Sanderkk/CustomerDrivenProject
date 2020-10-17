@@ -1,9 +1,8 @@
 using Npgsql;
 using System.Collections.Generic;
-using System;
 using System.IO;
 using Microsoft.Extensions.Configuration;
-using src.Config;
+using parser.Config;
 
 namespace src.Database
 {
@@ -15,10 +14,9 @@ namespace src.Database
             
             // Get config from appsetting.json file
             var path = Directory.GetCurrentDirectory();
-            var newPath = Path.GetFullPath(Path.Combine(path, @"../../src/"));
             var builder = new ConfigurationBuilder()
-                .SetBasePath(newPath)
-                .AddJsonFile("appsettings.json")
+                .SetBasePath(path)
+                .AddJsonFile("database.json")
                 .Build();
 
             var databaseSettings = builder.GetSection("DatabaseConfig").Get<DatabaseConfig>();

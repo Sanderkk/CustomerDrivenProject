@@ -7,6 +7,6 @@ namespace src.Database
 {
     public interface IUploadDataRepository
     {
-        bool UploadData(string encodedString, string parserTypeName, List<int> sensorIds);
+        void UploadData(string encodedString, string parserTypeName, int[] sensorIds);
     }
 }

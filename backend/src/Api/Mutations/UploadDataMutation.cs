@@ -19,7 +19,7 @@ namespace src.Api.Mutations
                 [Service] IUploadDataRepository repo
             )
         {
-            if (input.sensorIds == null || input.sensorIds.Count <= 0)
+            if (input.sensorIds == null || input.sensorIds.Length <= 0)
             {
                 throw new QueryException(ErrorBuilder.New().SetMessage("There were no sensorIds as input").Build());
             }

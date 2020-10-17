@@ -1,9 +1,5 @@
 using System;
-using System.IO;
-using System.Linq;
-using System.Globalization;
 using System.Collections.Generic;
-using parser.Config;
 
 
 namespace parser
