@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text.Json;
+using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Types;
 using src.Api.Inputs;
@@ -23,24 +24,30 @@ namespace src.Api.Mutations
 
         public bool DeleteDashboard(
             int dashboardId,
+            string userId,
             [Service] IUserRepository repo
         )
         {
-            return repo.DeleteDashboard(dashboardId).Result;
+            return repo.DeleteDashboard(userId, dashboardId).Result;
         }
         
-        public bool CreateDashboard(
-            [GraphQLNonNullType] string userId,
-            string accessLevel,
-            string name,
-            string description,
-            [GraphQLNonNullType] string data,
+        public Task<bool> UpdateCell(
+            CellDataInput input,
             [Service] IUserRepository repo
         )
         {
-            JsonElement jsonData = JsonSerializer.Deserialize<JsonElement>(data);
-            string queryString = UserQueryBuilder.CreateDashboardQueryString(name, description, jsonData);
-            return repo.CreateDashboard(queryString).Result;
+            return repo.UpdateCell(input);
+        }
+
+        public Task<bool> DeleteCell(
+            [GraphQLNonNullType] string userId,
+            [GraphQLNonNullType] int dashboardId,
+            [GraphQLNonNullType] int cellId,
+            [Service] IUserRepository repo
+        )
+        {
+            string queryString = UserQueryBuilder.DeleteDashboardCellQueryString(userId, dashboardId, cellId);
+            return repo.DeleteDashboardCell(queryString);
         }
     }
 }
