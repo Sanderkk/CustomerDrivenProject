@@ -20,6 +20,14 @@ namespace src.Api.Mutations
         {
             return repo.UpdateDashboard(input).Result;
         }
+
+        public bool DeleteDashboard(
+            int dashboardId,
+            [Service] IUserRepository repo
+        )
+        {
+            return repo.DeleteDashboard(dashboardId).Result;
+        }
         
         public bool CreateDashboard(
             [GraphQLNonNullType] string userId,

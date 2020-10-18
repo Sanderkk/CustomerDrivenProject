@@ -62,7 +62,17 @@ namespace src.Database.User
 
         public static string GetSharedUserDashboardQueryString(string userId)
         {
-            return $@"SELECT * FROM dashboard INNER JOIN user__group_access_to_dashboard ON dashboard.id=user__group_access_to_dashboard.dashboard_id WHERE user_id='{userId}';";
+            return $@"SELECT * FROM dashboard INNER JOIN user__group_access_to_dashboard ON dashboard.id=user_group_access_to_dashboard.dashboard_id WHERE user_id='{userId}';";
+        }
+
+        public static string DeleteDashboardQueryString(int dashboardId)
+        {
+            return $@"DELETE FROM dashboard INNER JOIN user_access_to_dashboard ON dashboard.id=user_access_to_dashboard.dashboard_id WHERE id={dashboardId}";
+        }
+
+        public static string DeleteUserAccessToDashboardQueryString(int dashboardId)
+        {
+            return $@"DELETE FROM user_access_to_dashboard WHERE dashboard_id = {dashboardId}";
         }
     }
 }

@@ -46,7 +46,6 @@ namespace src.Database.User
             await dataReader.CloseAsync();
             await _npgsqlConnection.CloseAsync();
             return result;
-
         }
         
         public async Task<List<Dashboard>> GetDashboards(string queryString)
@@ -75,7 +74,6 @@ namespace src.Database.User
             await dataReader.CloseAsync();
             await _npgsqlConnection.CloseAsync();
             return result;
-
         }
 
         public async Task<bool> UpdateDashboard(DashboardInput input)
@@ -97,6 +95,27 @@ namespace src.Database.User
             }
             
             await npgsqlConnection.CloseAsync();
+            return true;
+        }
+        
+        public async Task<bool> DeleteDashboard(int dashboardId)
+        {
+            NpgsqlConnection npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
+            await npgsqlConnection.OpenAsync();
+            string queryString = UserQueryBuilder.DeleteDashboardQueryString(dashboardId);
+            await using NpgsqlCommand cmd = new NpgsqlCommand(queryString);
+            cmd.Connection = npgsqlConnection;
+            await cmd.ExecuteNonQueryAsync();
+            cmd.Parameters.Clear();
+            string accessQueryString =
+                UserQueryBuilder.DeleteUserAccessToDashboardQueryString(dashboardId);
+            await using NpgsqlCommand cmd2 = new NpgsqlCommand(accessQueryString);
+            cmd2.Connection = npgsqlConnection;
+            await cmd2.ExecuteNonQueryAsync();
+            cmd2.Parameters.Clear();
+            cmd.Parameters.Clear();
+            await npgsqlConnection.CloseAsync();
+            
             return true;
         }
 
@@ -141,6 +160,4 @@ namespace src.Database.User
             cmd.Parameters.Clear();
         }
     }
-
-
 }
