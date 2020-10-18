@@ -13,7 +13,7 @@ function DashboardPreviewCard(props) {
  
   return (
     <div className="dashboard_grid_item">
-      <h3>{props.dashoboardName}</h3>
+      <h3>{props.dashboardName}</h3>
       {props.description}
     </div>
   );

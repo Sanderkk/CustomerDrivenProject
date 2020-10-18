@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { setQueryData } from "../globalState/actions/queryDataActions";
 import "./componentStyles/QueryBuilder.css";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
@@ -15,23 +15,25 @@ function QueryBuilder() {
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [sensors, setSensors] = useState({}); // array of table and columns fro radio and checkboxes
-  const [measurement, setMeasurement] = useState(""); 
+  const [measurement, setMeasurement] = useState("");
+  //const inputQuery = useSelector(state => state.queryData.input)
   const [checkedItems, setCheckedItems] = useState({}); // e.g. {airHumidity %: true, airPressure hPa: false}
   const [dates, setDates] = useState([new Date(), new Date()]); // [fromDate, toDate]
+  let oldInput = null
 
   // Validates input, query api and updates global state
   useEffect(() => {
     const existTrueItem = Object.keys(checkedItems).some(
       (k) => checkedItems[k] === true
     ); // checks if any of the checkedIems are true
-    if (measurement.length > 0 && existTrueItem) {
-      const input = getQuery();
+    const input = getQuery()
+    if (measurement.length > 0 && existTrueItem ) {
       // fetch time series and update global state
       sendQuery(client, GET_TIME_SERIES, { input })
-        .then((result) => dispatch(setQueryData(input, result.data)))
+        .then((result) =>  dispatch(setQueryData(input, result.data)))
         .catch((err) => console.log(err));
     }
-  });
+  }, [dates, sensors, measurement]);
 
   // Fetches data for table and columns when component is loaded
   useEffect(() => {
@@ -113,7 +115,7 @@ function QueryBuilder() {
     selectedColumns.map((id) =>
       intKeys.push(parseInt(id))
     )
-    
+
     return {
       sensors: intKeys,
       specifiedTimePeriode: true,

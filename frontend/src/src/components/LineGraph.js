@@ -5,7 +5,7 @@ import './componentStyles/LineGraph.css'
 import { useSelector } from "react-redux";
 
 
-const DisplayHighcharts = ({userOptions}) => {
+const DisplayHighcharts = ({userOptions, graphdata}) => {
 
    /*
     Component for creating the actual graph. The component listent to changes in redux store,
@@ -15,37 +15,9 @@ const DisplayHighcharts = ({userOptions}) => {
     e.g: {title: 'Title', primaryAxis: 'Value', secondaryAxis: 'Value'}
   */
 
-  const dataSeries = useSelector(state => state.queryData.response)
-  const [graphdata, setGraphData] = useState([])
 
-  useEffect(() => { 
-    //Update the series displayed in the graph when state is updated in the store.
-    if(dataSeries !== undefined) {
-      let numberData = dataSeries.timeSeries.data
-      if(numberData !== undefined) {
-        let dataFromStore = numberData.map((sensorData) => ({
-          name: sensorData.name,
-          data: sensorData.data,
-          pointStart: sensorData.startTime / 10000,
-          pointInterval: sensorData.interval / 10000,
-          yAxis: determineAxis(sensorData.data[10])
-        }))
-        setGraphData(dataFromStore)
-      }
-    }
-  }, [dataSeries]);
 
-  //Determine whether the line should be on the right or left y-axis.
-  let axis2 = 0;
-  const determineAxis = (value) => {
-    if(value > 50){
-      axis2 = 1;  
-    }
-    else {
-      axis2 = 0;
-    }
-    return axis2;
-  }
+
 
   //Customizing the graph
   const options = {

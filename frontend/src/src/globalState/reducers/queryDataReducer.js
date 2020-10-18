@@ -5,17 +5,20 @@ import {
   REMOVE_QUERY_DATA,
 } from "../actions/actionTypes";
 
-const initialState = {};
+const initialState = {
+  input: null,
+  response: null,
+};
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case SET_QUERY_DATA:
-      return Object.assign({}, state, {
+      return { ...state,
         input: action.payload.input,
         response: action.payload.response,
-      });
+      };
     case SET_QUERY_DATA_INPUT:
-      return Object.assign({}, state, { input: action.payload.input });
+      return { ...state,  input: action.payload.input };
     case SET_QUERY_DATA_RESPONSE:
       return Object.assign({}, state, { response: action.payload.response });
     case REMOVE_QUERY_DATA:

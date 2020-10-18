@@ -6,6 +6,7 @@ import DashboardPreviewCard from "./DashboardPreviewCard";
 import { AzureAD, AuthenticationState } from "react-aad-msal";
 import { authProvider } from "../authProvider";
 import AccessDenied from "./AccessDenied";
+import {useSelector} from "react-redux";
 
 function DashboardSpecificPage(props) {
   /*
@@ -13,6 +14,7 @@ function DashboardSpecificPage(props) {
   */
 
   const state = props.location.state;
+  const cells = useSelector(state => state.user.dashboards)
 
   //Check if state is undefined, if so => we have no data and don't know which dashboard this is.
   if(typeof state === 'undefined'){
@@ -27,6 +29,8 @@ function DashboardSpecificPage(props) {
     )
   }
 
+  const cellId = cells[state.id] ? Object.keys(cells[state.id].data).length : 0
+
  
   return (
     <div>
@@ -38,12 +42,14 @@ function DashboardSpecificPage(props) {
             case AuthenticationState.Authenticated:
               return(
                 <div>
+                  <h1>ID: {state.id}</h1>
+                  <h1>Current Cell Id: {cellId}</h1>
                   <h1>
                     {state.dashboardName}
                   </h1>
                   <h2>{state.description}</h2>
                   <nav>
-                    <Link to="/cell" className="add_cell_btn">
+                    <Link to={{pathname: `${state.id}/cell/${cellId}`, state: {dashboardId: state.id, cellId: cellId}}} className="add_cell_btn">
                         Add cell
                     </Link>
                   </nav>

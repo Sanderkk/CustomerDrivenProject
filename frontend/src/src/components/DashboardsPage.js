@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Navbar from "./Navbar";
 import "./componentStyles/DashboardsPage.css";
 import { Link } from "react-router-dom";
@@ -9,13 +9,27 @@ import store from "../globalState/store";
 import groupTypes from "../groupTypes";
 import AzureAD from "react-aad-msal";
 import { authProvider} from "../authProvider";
+import { GET_USER_DASHBOARDS} from "../queries/queries";
+import {useApolloClient} from "@apollo/client";
+import sendQuery from "../queries/sendQuery";
+import {useSelector} from "react-redux";
 
 function DashboardsPage() {
   /*
     Main page for /dashboards
   */
+  const [dashboards1, setUserDashboards] = useState()
+  const client = useApolloClient();
+  const dashboards2 = useSelector(state => state.user.dashboards)
 
-  //TODO: fetch dashboards and make 
+  //TODO: fetch dashboards and make
+  useEffect(() => {
+    sendQuery(client, GET_USER_DASHBOARDS, null)
+        .then((result) => {
+          setUserDashboards(result.data);
+        })
+        .catch((err) => console.log(err));
+  }, [client]);
 
   const dashboards = [
     {
@@ -77,6 +91,7 @@ function DashboardsPage() {
 
 //Renders what will be shown on the dashboard page, depending on user role/group and if dashboards are empty
 function renderDashboards(dashboards){
+  if (!dashboards) return <h3>No dashboards</h3>
   if(Object.keys(dashboards).length !== 0){
     return(
       <div>
@@ -128,7 +143,7 @@ function renderDashboards(dashboards){
 }
 
 function renderDashboardPreviewCard(name, description) {
-  return <DashboardPreviewCard dashoboardName={name} description={description}/>
+  return <DashboardPreviewCard dashboardName={name} description={description}/>
 }
 
 export default DashboardsPage;

@@ -61,13 +61,8 @@ const routing = (
             />
             <Route exact path="/dashboard/:id" component={DashboardSpecificPage} />
             <Route
-              path="/cell"
-              component={() => (
-                <AccessCheckerDecotaor
-                  mainPage={<AddCell />}
-                  group={groupTypes.researcher}
-                />
-              )}
+              exact path="/dashboard/:id/cell/:id"
+              component={AddCell}
             />
             <Route component={NotFound} />
           </Switch>
