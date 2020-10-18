@@ -11,6 +11,7 @@ namespace src.Database.User
         Task<List<Dashboard>> GetDashboards(string queryString);
         Task<bool> UpdateDashboard(DashboardInput input);
         Task<bool> CreateDashboard(string queryString);
+        Task<bool> DeleteDashboard(int dashboardId);
     }
     
 }
