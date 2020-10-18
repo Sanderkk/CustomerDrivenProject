@@ -15,21 +15,43 @@ namespace src.Api.Queries
     public class DashboardQuery
     {
         public Dashboard GetDashboard(
+            [GraphQLNonNullType] string userId,
             [GraphQLNonNullType] int dashboardId,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.GetDashboardQueryString(dashboardId);
+            string queryString = UserQueryBuilder.GetDashboardQueryString(userId, dashboardId);
             return repo.GetDashboard(queryString).Result;
         }
         
-        public List<Dashboard> GetUserDashboards(
+        public List<Dashboard> GetDashboards(
             [GraphQLNonNullType] string userId,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.GetUserDashboardQueryString(userId);
+            string queryString = UserQueryBuilder.GetUserDashboardsQueryString(userId);
             return repo.GetDashboards(queryString).Result;
+        }
+        
+        public Cell GetCell(
+            [GraphQLNonNullType] string userId,
+            [GraphQLNonNullType] int dashboardId,
+            [GraphQLNonNullType] int cellId,
+            [Service] IUserRepository repo
+        )
+        {
+            string queryString = UserQueryBuilder.GetDashboardCellQueryString(userId, dashboardId, cellId);
+            return repo.GetCell(queryString).Result;
+        }
+        
+        public List<Cell> GetCells(
+            [GraphQLNonNullType] string userId,
+            [GraphQLNonNullType] int dashboardId,
+            [Service] IUserRepository repo
+        )
+        {
+            string queryString = UserQueryBuilder.GetDashboardCellsQueryString(userId, dashboardId);
+            return repo.GetCells(queryString).Result;
         }
 
         public List<Dashboard> GetSharedUserDashboards(
@@ -40,15 +62,5 @@ namespace src.Api.Queries
             string queryString = UserQueryBuilder.GetSharedUserDashboardQueryString(userId);
             return repo.GetDashboards(queryString).Result;
         }
-
-        public List<Dashboard> GetAllDashboards(
-            [Service] IUserRepository repo
-        )
-        {
-            string queryString = UserQueryBuilder.GetAllDashboardsQueryString();
-            return repo.GetDashboards(queryString).Result;
-        }
-
-
     }
 }
