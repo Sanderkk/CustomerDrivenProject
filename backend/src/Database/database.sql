@@ -184,9 +184,19 @@ drop table if exists dashboard cascade;
 create table dashboard(
 	id serial primary key,
 	name text,
-	description text,
-	data json not null
-);
+	description text);
+
+
+drop table if exists cell cascade;
+create table cell(
+    id serial primary key,
+	dashboard_id integer not null
+		references dashboard(id)
+		on delete cascade
+		on update cascade,
+    input json not null,
+    options json
+    );
 
 drop table if exists user_access_to_dashboard cascade;
 create table user_access_to_dashboard(

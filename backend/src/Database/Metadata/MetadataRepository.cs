@@ -109,7 +109,7 @@ namespace src.Database
             
             await _npgsqlConnection.OpenAsync();
             //Retrieve the last metadata from database if exists
-            String lastMetadataQuery = Database.DbQueryBuilder.CreateMetadataBySensorIDString(newMetadata.SensorID, true);
+            String lastMetadataQuery = MetadataQueryBuilder.CreateMetadataString(newMetadata.SensorID,null,true);
             int? locationID = null;
             MetadataType lastMetadata =null;
             var result = GetMetadataBySensorID(lastMetadataQuery).Result;
@@ -123,7 +123,7 @@ namespace src.Database
             if (addNewLocation)
             {
                 //Add the new location to the database and update the locationID with the returned ID from the Database
-                string newLocationQuery = DbQueryBuilder.InsertLocationString(newMetadata);
+                string newLocationQuery = MetadataQueryBuilder.InsertLocationString(newMetadata);
                 
                 using var cmdLocation = new NpgsqlCommand(newLocationQuery);
                 cmdLocation.Connection = _npgsqlConnection;
@@ -136,7 +136,7 @@ namespace src.Database
                 }
                 await dataReaderLocation.CloseAsync();
             }
-            String newMetadataQuery = DbQueryBuilder.CreateInsertMetadataString(newMetadata, locationID);
+            String newMetadataQuery = MetadataQueryBuilder.CreateInsertMetadataString(newMetadata, locationID);
             using var cmdMetadata = new NpgsqlCommand(newMetadataQuery);
             cmdMetadata.Connection = _npgsqlConnection;
             var dataReader = await cmdMetadata.ExecuteReaderAsync();
@@ -150,7 +150,7 @@ namespace src.Database
  
             //Update outdated timestamp on last metadata if exists
             if(result.Count==1){
-            String updateQuery = Database.DbQueryBuilder.UpdateOldMetadataString(addedMetadata.CreatedAt, lastMetadata.MetadataID);
+            String updateQuery = MetadataQueryBuilder.UpdateOldMetadataString(addedMetadata.CreatedAt, lastMetadata.MetadataID);
             using var cmdUpdate = new NpgsqlCommand(updateQuery);
             cmdUpdate.Connection = _npgsqlConnection;
             await cmdUpdate.ExecuteNonQueryAsync();

@@ -1,6 +1,44 @@
 ﻿{
   "Data": {
-    "allMetadata": [
+    "metadata": [
+      {
+        "metadataID": 194,
+        "sensorID": 1,
+        "locationID": 2,
+        "name": "Oxygen optode 4531D",
+        "serialNumber": "588",
+        "number": "RO.038-50m",
+        "modelNumber": "4531D",
+        "department": null,
+        "company": null,
+        "ownerID": null,
+        "purchaseDate": null,
+        "lending": null,
+        "lendingPrice": null,
+        "cableLength": 50.0,
+        "checkOnInspectionRound": null,
+        "inspectionRound": null,
+        "servicePartner": null,
+        "voltage": "12V DC",
+        "coordinate": "55°24'12.2″N 2°10'26.5″E",
+        "altitude": 500,
+        "locationDescription": "nowimhere",
+        "identificator": null,
+        "measureArea": null,
+        "picture": null,
+        "plannedDisposal": null,
+        "actualDisposal": null,
+        "warrantyDate": null,
+        "signal": "RS232",
+        "tag1": null,
+        "tag2": null,
+        "tag3": null,
+        "timeless": null,
+        "tollerance": null,
+        "createdAt": "2020-10-19T12:11:38.000+02:00",
+        "updatedAt": "2020-10-19T12:11:38.000+02:00",
+        "outdatedFrom": null
+      },
       {
         "metadataID": 2,
         "sensorID": 1,
@@ -36,8 +74,8 @@
         "timeless": null,
         "tollerance": null,
         "createdAt": "2020-10-09T13:54:26.000+02:00",
-        "updatedAt": "2020-10-13T17:10:15.000+02:00",
-        "outdatedFrom": "2020-10-13T17:10:15.000+02:00"
+        "updatedAt": "2020-10-19T12:11:38.000+02:00",
+        "outdatedFrom": "2020-10-19T12:11:38.000+02:00"
       },
       {
         "metadataID": 1,
