@@ -18,9 +18,7 @@ namespace src.Api.Mutations
             [Service] IUserRepository repo
         )
         {
-            JsonElement jsonData = JsonSerializer.Deserialize<JsonElement>(input.data);
-            string queryString = UserQueryBuilder.InsertOrUpdateDashboardQueryString(input.name, input.description, jsonData);
-            return repo.UpdateDashboard(input.userId, input.accessLevel, queryString).Result;
+            return repo.UpdateDashboard(input).Result;
         }
         
         public bool CreateDashboard(
