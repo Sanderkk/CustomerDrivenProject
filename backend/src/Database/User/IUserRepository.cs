@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using src.Api.Inputs;
 using src.Api.Types;
 
 namespace src.Database.User
@@ -8,7 +9,7 @@ namespace src.Database.User
     {
         Task<Dashboard> GetDashboard(string queryString);
         Task<List<Dashboard>> GetDashboards(string queryString);
-        Task<bool> UpdateDashboard(string userId,string accessLevel, string queryString);
+        Task<bool> UpdateDashboard(DashboardInput input);
         Task<bool> CreateDashboard(string queryString);
     }
     

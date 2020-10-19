@@ -14,7 +14,9 @@ namespace src.Database.User
         public static string CreateDashboardQueryString(string name, string description, JsonElement data)
         {
             return
-                $@"INSERT INTO Dashboard (Name, Description, Data) VALUES ('{name}','{description}','{data}')";
+                $@"INSERT INTO Dashboard (Name, Description, Data) 
+                   VALUES ('{name}','{description}','{data}')
+                   RETURNING Id";
         }
 
         public static string GetAllDashboardsQueryString()
@@ -22,10 +24,10 @@ namespace src.Database.User
             return $@"SELECT * FROM Dashboard;";
         }
 
-        public static string UpdateDashboardQueryString(int id, string name, string description, JsonElement jsonData)
+        public static string UpdateDashboardQueryString(int dashboardId, string name, string description, JsonElement jsonData)
         {
             return
-                $@"UPDATE Dashboard SET Name = '{name}', Description = '{description}',Data = '{jsonData}' WHERE Id={id}";
+                $@"UPDATE Dashboard SET Name = '{name}', Description = '{description}',Data = '{jsonData}' WHERE Id={dashboardId}";
         }
 
         public static string InsertOrUpdateDashboardQueryString(string name, string description, JsonElement jsonData)
@@ -42,9 +44,7 @@ namespace src.Database.User
         {
             return 
                 $@"INSERT INTO user_access_to_dashboard (user_id, dashboard_id, access_level) 
-                    VALUES ('{userId}','{dashboardId}','{accessLevel}')
-                    ON CONFLICT (dashboard_id) DO UPDATE 
-                    SET user_id = '{userId}', dashboard_id = '{dashboardId}', access_level = '{accessLevel}'";
+                    VALUES ('{userId}','{dashboardId}','{accessLevel}')";
         }
         public static string UpdateUserGroupAccessToDashboardQueryString(string userId, int dashboardId, string accessLevel)
         {
