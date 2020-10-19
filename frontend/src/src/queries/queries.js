@@ -4,8 +4,8 @@ export const GET_SENSORS = gql`
   query getSensors {
     sensors {
       sensorColumns
-      sensorTypeName,
-      sensorIds,
+      sensorTypeName
+      sensorIds
     }
   }
 `;
@@ -13,23 +13,27 @@ export const GET_SENSORS = gql`
 export const GET_TIME_SERIES = gql`
   query TimeSeries($input: TimeSeriesRequestInput!) {
     timeSeries(input: $input) {
-      table,
-      startDate,
-      endDate,
+      table
+      startDate
+      endDate
       data {
-        name,
-        startTime,
-        interval,
+        name
+        startTime
+        interval
         data
-      },
+      }
       time
     }
   }
 `;
 
-export const GET_LAST_METADATA = gql`
-  query lastMetadata($sensorID: Int!) {
-    lastMetadata(sensorID: $sensorID) {
+export const GET_METADATA = gql`
+  query metadata($sensorID: Int, $onlyLast: Boolean, $sensorNumber: String) {
+    metadata(
+      sensorID: $sensorID
+      onlyLast: $onlyLast
+      sensorNumber: $sensorNumber
+    ) {
       sensorID
       metadataID
       number
@@ -71,12 +75,21 @@ export const GET_LAST_METADATA = gql`
   }
 `;
 
+export const GET_METADATA_SENSOR_NUMBERS = gql`
+  query getMetadataSensors {
+    metadata(onlyLast: true) {
+      number
+      sensorID
+    }
+  }
+`;
+
 export const GET_USER_DASHBOARD = gql`
   query userDashboards($userId: String!) {
     userDashboards(userId: $userId) {
-        id,
-        name,
-        description
+      id
+      name
+      description
     }
   }
 `;
@@ -84,5 +97,5 @@ export const GET_USER_DASHBOARD = gql`
 export const UPDATE_DASHBOARD = gql`
   mutation updateDashboard($input: DashboardInput!) {
     updateDashboard(input: $input)
-  }  
-`
+  }
+`;

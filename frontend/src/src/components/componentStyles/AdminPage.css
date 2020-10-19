@@ -17,7 +17,6 @@
 
 .tab-container li {
   float: left;
-  display: block;
   text-align: center;
   font-size: 13px;
   padding: 5px 25px;
@@ -47,6 +46,6 @@
 
 .tab-container .content {
   background-color: #fff;
-  min-height: 65vh;
-  padding: 12px 20px;
+  min-height: 68vh;
+  padding: 12px 0px;
 }

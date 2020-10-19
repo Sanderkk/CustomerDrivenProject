@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { BiX } from "react-icons/bi";
 import "../componentStyles/globalStyles/ViewMetadata.css";
-import { GET_LAST_METADATA } from "../../queries/queries";
+import { GET_METADATA } from "../../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import sendQuery from "../../queries/sendQuery";
 
@@ -20,9 +20,9 @@ function ViewMetadata({ sensorIDs, show, handleClose }) {
   useEffect(() => {
     setMetadata({});
     sensorIDs.forEach((id, index) => {
-      sendQuery(client, GET_LAST_METADATA, { sensorID: id })
+      sendQuery(client, GET_METADATA, { sensorID: id, onlyLast: true })
         .then((result) => {
-          const data = result.data.lastMetadata[0];
+          const data = result.data.metadata[0];
           data
             ? appendMetadata(id, filterOutNullValues(data))
             : appendMetadata(id, { Error: "No metadata for sensor" });
