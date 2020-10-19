@@ -47,7 +47,7 @@ namespace tests.IntegrationTests
 
             IReadOnlyQueryRequest request =
                 QueryRequestBuilder.New()
-                .SetQuery(@"{allMetadata(sensorID:1)
+                .SetQuery(@"{metadata(sensorID:1)
                             {metadataID,sensorID,locationID,name,serialNumber,number, modelNumber,department,company, ownerID,
                             purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,inspectionRound, company, servicePartner,voltage,coordinate, 
                             altitude, locationDescription, cableLength, identificator, measureArea, picture,
@@ -86,7 +86,47 @@ namespace tests.IntegrationTests
             .MakeExecutable();
             IReadOnlyQueryRequest request =
                 QueryRequestBuilder.New()
-                .SetQuery(@"{lastMetadata(sensorID:1)
+                .SetQuery(@"{metadata(sensorID:1, onlyLast:true)
+                            {metadataID,sensorID,locationID,name,serialNumber,number, modelNumber,department,company, ownerID,
+                            purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,inspectionRound, company, servicePartner,voltage,coordinate, 
+                            altitude, locationDescription, cableLength, identificator, measureArea, picture,
+                            plannedDisposal, actualDisposal, warrantyDate, voltage, signal, tag1, tag2, tag3, timeless, tollerance
+                            createdAt, updatedAt, outdatedFrom}}")
+                .SetServices(serviceProvider)
+                .Create();
+
+            // act
+            IExecutionResult result = await executor.ExecuteAsync(request);
+            //Assert
+            Snapshot.Match(result);
+            //result.MatchSnapshot();
+        }
+
+        [Fact]
+        public async Task LastMetadataByNumberQuery()
+        {
+            //Arrange
+            //Connect to database
+            IServiceProvider serviceProvider =
+                new ServiceCollection()
+                .AddSingleton<IMetadataRepository, MetadataRepository>()
+                .AddSingleton<IDatabaseConfig>(sp =>
+                new DatabaseConfig()
+                {
+                    DatabaseConnectionString = dbConnectionString
+                }
+                )
+                .BuildServiceProvider();
+
+            IQueryExecutor executor = Schema.Create(c =>
+            {
+                c.RegisterQueryType(new ObjectType<MetadataQuery>(d => d.Name("Query")));
+                c.RegisterType<List<MetadataType>>();
+            })
+            .MakeExecutable();
+            IReadOnlyQueryRequest request =
+                QueryRequestBuilder.New()
+                .SetQuery(@"{metadata(sensorNumber: ""RO.038-50m"", onlyLast:true)
                             {metadataID,sensorID,locationID,name,serialNumber,number, modelNumber,department,company, ownerID,
                             purchaseDate,lending,lendingPrice,cableLength,checkOnInspectionRound,inspectionRound, company, servicePartner,voltage,coordinate, 
                             altitude, locationDescription, cableLength, identificator, measureArea, picture,

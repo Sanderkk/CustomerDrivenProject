@@ -13,23 +13,17 @@ namespace src.Api.Queries
     [ExtendObjectType(Name = "Query")]
     public class MetadataQuery
     {
-        public List<MetadataType> GetLastMetadata(
-            [GraphQLNonNullType] int sensorID,
+        public List<MetadataType> GetMetadata(
+            string sensorNumber,
+            int? sensorID,
+            bool? onlyLast,
             [Service] IMetadataRepository repo
             )
-        {
-            var queryString = DbQueryBuilder.CreateMetadataBySensorIDString(sensorID,true);
+        { 
+            var queryString = MetadataQueryBuilder.CreateMetadataString(sensorID, sensorNumber, onlyLast);
             return repo.GetMetadataBySensorID(queryString).Result;
         }
+     }
 
-        public List<MetadataType> GetAllMetadata(
-            [GraphQLNonNullType] int sensorID,
-            [Service] IMetadataRepository repo
-            )
-        {
-            var queryString = DbQueryBuilder.CreateMetadataBySensorIDString(sensorID,false);
-            return repo.GetMetadataBySensorID(queryString).Result;
-        }
-            }
 }
 
