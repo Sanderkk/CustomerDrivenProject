@@ -1,21 +1,19 @@
 using System;
-using System.Collections.Generic;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using src.Api.Types;
+using HotChocolate;
+using HotChocolate.Types;
 
 namespace src.Api.Models
 {
     public class Metadata
     {
+        [GraphQLNonNullType]
         public int SensorID { get; set; }
+        [GraphQLNonNullType]
+        public string Number { get; set; }
         public string? Coordinate { get; set; }
         public int? Altitude { get; set; }
         public string? LocationDescription { get; set; }
         public string Name { get; set; }
-        public string Number { get; set; }
         public string Company { get; set; }
         public string ServicePartner { get; set; }
         public string Department { get; set; }
