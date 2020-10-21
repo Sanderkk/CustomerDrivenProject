@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import LineGraph from "./LineGraph";
 import QueryBuilder from "./QueryBuilder";
@@ -13,10 +13,11 @@ import './componentStyles/AddCell.css'
 //This component presents a page to the user where he/she can add a new cell
 //or modify an existing cell. 
 function AddCell() {
-  const [options, setOptions] = useState({ title: 'Title', primaryAxis: '', secondaryAxis: 'Value'})
+  const [options, setOptions] = useState({ title: 'Title', RYAxis: '', LYAxis: 'Value'})
   const [show, setShow] = useState(false);
   const input = useSelector(state => state.queryData.input)
 
+  //props.location.state 
   const handleDiscard = () => {
     //TODO: Discard cell
   }
@@ -39,12 +40,12 @@ function AddCell() {
 
   const handlePrimaryChange = e => {
     e.preventDefault()
-    setOptions({...options, primaryAxis: e.target.value})
+    setOptions({...options, RYAxis: e.target.value})
   }
 
   const handleSecondaryChange = e => {
     e.preventDefault()
-    setOptions({...options, secondaryAxis: e.target.value})
+    setOptions({...options, LYAxis: e.target.value})
   }
 
   return(
@@ -68,7 +69,7 @@ function AddCell() {
         <div className="flex_container">
           <div className="graph_container">
             <div className="graph">
-              <LineGraph userOptions={options} />
+              <LineGraph options={options} />
             </div>
             <div className="query_builder">
               <QueryBuilder />
@@ -88,12 +89,12 @@ function AddCell() {
               <label className="options_label" htmlFor="primaryAxis">
                 Right Y-axis:
               </label>
-              <input type="text" id="primaryAxis" onChange={handlePrimaryChange} value={options.primaryAxis}/>
+              <input type="text" id="primaryAxis" onChange={handlePrimaryChange} value={options.RYAxis}/>
 
               <label className="options_label" htmlFor="secondaryAxis">
                 Left Y-axis:
               </label>
-              <input type="text" id="secondaryAxis" onChange={handleSecondaryChange} value={options.secondaryAxis}/>
+              <input type="text" id="secondaryAxis" onChange={handleSecondaryChange} value={options.LYAxis}/>
           
             </form>
 

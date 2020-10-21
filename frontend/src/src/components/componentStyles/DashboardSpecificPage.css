@@ -1,3 +1,13 @@
+.cell_grid_container {
+  justify-content: center;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-template-rows: 30em 30em;
+  grid-gap: 3em;
+  row-gap: 2em;
+  margin: 2em 0.5em 0 1.5em;
+}
+
 .dashboard_input,
 .dashboard_textarea {
   padding: 9px;

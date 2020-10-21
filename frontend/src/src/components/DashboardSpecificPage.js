@@ -12,6 +12,7 @@ import sendMutation from "../queries/sendMutation";
 import { UPDATE_DASHBOARD } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus } from "react-icons/bi";
+import LineGraph from "./LineGraph";
 
 function DashboardSpecificPage(props) {
   /*
@@ -32,10 +33,10 @@ function DashboardSpecificPage(props) {
     {
       id: 1,
       input: {
-        sensors: [1, 11],
+        sensors: [1],
         specifiedTimePeriode: true,
-        from:"2020-08-01T18:21:05.774Z",
-        to:"2020-08-19T18:21:05.774Z"
+        from:"2020-08-01T08:21:19.000Z",
+        to:"2020-08-30T12:47:21.000Z"
       },
       options: {
         title: "Oksygen graf",
@@ -46,10 +47,10 @@ function DashboardSpecificPage(props) {
     {
       id: 5,
       input: {
-        sensors: [13],
+        sensors: [3],
         specifiedTimePeriode: true,
-        from:"2020-08-01T18:21:05.774Z",
-        to:"2020-08-19T18:21:05.774Z"
+        from:"2020-08-01T08:21:19.000Z",
+        to:"2020-08-30T12:47:21.000Z"
       },
       options: {
         title: "Temp graf",
@@ -60,10 +61,10 @@ function DashboardSpecificPage(props) {
     {
       id: 3,
       input: {
-        sensors: [1,2,3],
+        sensors: [1,3],
         specifiedTimePeriode: true,
-        from:"2020-08-01T18:21:05.774Z",
-        to:"2020-08-19T18:21:05.774Z"
+        from:"2020-08-01T08:21:19.000Z",
+        to:"2020-08-30T12:47:21.000Z"
       },
       options: {
         title: "Alle gode ting er 3",
@@ -133,22 +134,28 @@ function DashboardSpecificPage(props) {
                       <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
                     </form>
 
-                    {/* TODO: Create a new grid_container instead of reusing the one from dashboard.*/}
-                    <div className="grid_container">
+                    {state === null ?
+                    <div>
+                      <h1>You have no cells</h1>
+                    </div>
+                    :
+                    <div className="cell_grid_container">
                       {cells.map((cell) => {
                         return (
-                          <Link key={"cell"+cell.id} to={{pathname: `/cell`, state: cell}}>
-                            <h1>{cell.options.title}</h1>
-                            {/* 
-                              TODO: Add graphs here. 
-                              Perhaps create a component for "DashboardPreviewCard", using Card at the end of the name, following the deisgn in Figma. 
-                              The h1 above can be deleted. This header links to the AddCell page, but it is not connected to a specific graph. 
-                            */}
-                          </Link>
+                          <div key={cell.id} >
+                            <Link key={"cell"+cell.id} to={{pathname: `/cell`, state: cell}}>
+                              {/* 
+                                TODO: Perhaps create a component for "DashboardPreviewCard", using Card at the end of the name, following the deisgn in Figma. 
+                                TODO: The graphs link to the Add Cell page, but not the right graph. 
+                              */}
+                              
+                              <LineGraph key={cell.name} options={cell.options} input={cell.input} cellId={cell.id} />
+                            </Link>
+                          </div>
                         );
                       })}
                     </div>
-
+                    }
                   </div>
                   }
                 </div>
