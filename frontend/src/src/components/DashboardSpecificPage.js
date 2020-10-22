@@ -9,9 +9,11 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import GlobalButton from "./globalComponents/GlobalButton";
 import sendMutation from "../queries/sendMutation";
-import { UPDATE_DASHBOARD } from "../queries/mutations";
+import sendQuery from "../queries/sendQuery";
+import { UPDATE_DASHBOARD, DELETE_DASHBOARD } from "../queries/mutations";
+import { GET_DASHBOARD_CELLS, GET_DASHBOARD } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
-import { BiSave, BiPlus } from "react-icons/bi";
+import { BiSave, BiPlus, BiTrash } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
 import groupTypes from "../groupTypes";
@@ -25,7 +27,7 @@ function DashboardSpecificPage(props) {
     name: "Name this Dashboard",
     description: "Write description for this Dashboard"
   }
-  const state = props.location.state;
+  let state = props.location.state;
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [dashboard, setDashboard] = useState(null);
@@ -36,7 +38,7 @@ function DashboardSpecificPage(props) {
   // Cell mock data
   const cellsMockData = [
     {
-      id: 1,
+      cellId: 1,
       input: {
         sensors: [1],
         specifiedTimePeriode: true,
@@ -50,7 +52,7 @@ function DashboardSpecificPage(props) {
       }
     },
     {
-      id: 5,
+      cellId: 5,
       input: {
         sensors: [3],
         specifiedTimePeriode: true,
@@ -64,7 +66,7 @@ function DashboardSpecificPage(props) {
       }
     },
     {
-      id: 3,
+      cellId: 3,
       input: {
         sensors: [1,3],
         specifiedTimePeriode: true,
@@ -82,32 +84,89 @@ function DashboardSpecificPage(props) {
   
   // If state is null, then set the dashboard as empty, if not, set dashboard as the one given in state
   useEffect(() => {
-    if(typeof state === 'undefined' || state === null){
-      dispatch(setCurrentDashboard(emptyDashboard));
-      setDashboard(emptyDashboard);
-    }else{
-      dispatch(setCurrentDashboard(state));
-      setDashboard(state);
-    }}, []);
-
-  // If dashboard and user is sat in redux, fetch and set cells for given dashboard
-  useEffect(() => {
-    if(user !== null && dashboard !== null){
-      // TODO: fetch cells and setCells()
+    if(user !== null){
+      var toBeSetAsDashboard = {};
+      // TODO: use real userId not just "123"
       // const userId = user.account.accountIdentifier;
-      // const userId = "123"; //Test user with data
-      // sendQuery(client, GET_CELLS_FOR_DASHBOARD, { dashboardId })
-      // .then((result) => {
-      //   setCells(result.data.cells);
-      // }).catch((err) => console.log(err));
-      setCells(cellsMockData);
+      const userId = "123";
+      if(typeof state === 'undefined' || state === null){
+        toBeSetAsDashboard = emptyDashboard;
+        toBeSetAsDashboard.userId = userId;
+        dispatch(setCurrentDashboard(toBeSetAsDashboard));
+        setDashboard(toBeSetAsDashboard);
+        fetchCells(toBeSetAsDashboard);
+      }else{
+        // Must make new variable and not use state to remove state's _typename
+        const dashboardId = state.dashboardId;
+        sendQuery(client, GET_DASHBOARD, { userId, dashboardId})
+          .then((result) => {
+            toBeSetAsDashboard = {
+              dashboardId: result.data.dashboard.dashboardId,
+              description: result.data.dashboard.description,
+              name: result.data.dashboard.name,
+            };
+            toBeSetAsDashboard.userId = userId;
+            dispatch(setCurrentDashboard(toBeSetAsDashboard));
+            setDashboard(toBeSetAsDashboard);
+            fetchCells(toBeSetAsDashboard);
+          }).catch((err) => console.log(err));
+      }
+    }}, [user]);
+
+
+  function fetchCells(dashboard){
+    if(user !== null && dashboard !== null && typeof dashboard !== 'undefined' && state !== null){
+
+      // TODO: fetch cells and setCells()
+      // TODO: change to real user
+      // const userId = user.account.accountIdentifier;
+      const userId = "123"; //Test user with data
+      const dashboardId = dashboard.dashboardId;
+      if(dashboardId === undefined || dashboardId === null){
+        setCells(null);
+      } else{
+        sendQuery(client, GET_DASHBOARD_CELLS, { userId, dashboardId})
+        .then((result) => {
+          
+          // console.log("CELLER");
+          // console.log(result.data.cells);
+          // setCells(result.data.cells);
+        }).catch((err) => console.log(err));
+        setCells(cellsMockData);
+      }
     }
-  }, [client, user, dashboard]);
+  }
 
 
   const handleSave = () => {
-    sendMutation(client, UPDATE_DASHBOARD, { dashboard })
+    sendMutation(client, UPDATE_DASHBOARD, { input: dashboard })
       .then((result) => {
+        //TODO: when back end returns dashboardId in result. check if dashboard.dashboardId (or state.dashboardId) is undefined. If undefined: add the dashboardId to dashboard.
+        // ^ this is to not continuosly create new dashboards when Save is pressed and to not have to route back to dashboards when created new dahsboard
+        const dashboardId = dashboard.dashboardId;
+        if(dashboardId === undefined || dashboardId === null){
+          //Add dashboardId to the newly created dashboard
+          let toBeSetAsDashboard = {
+            dashboardId: result.data.updateDashboard,
+            description: dashboard.description,
+            name: dashboard.name,
+            userId: dashboard.userId,
+          };
+          setDashboard(toBeSetAsDashboard);
+          dispatch(setCurrentDashboard(toBeSetAsDashboard));
+        }else {
+          dispatch(setCurrentDashboard(dashboard));
+        }
+      }).catch((err) => console.log(err));
+  }
+
+  const handleDelete = () => {
+    // TODO: change to real user
+    // const userId = user.account.accountIdentifier;
+    const userId = "123"; //Test user with data
+    const dashboardId = dashboard.dashboardId;
+    sendMutation(client, DELETE_DASHBOARD, { userId, dashboardId })
+      .then(() => {
       }).catch((err) => console.log(err));
   }
 
@@ -149,9 +208,23 @@ function DashboardSpecificPage(props) {
                               </Link>
                             </div>
                             <div className="save_btn">
-                              <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
-                                <BiSave />
-                              </GlobalButton>
+                                <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
+                                  <BiSave />
+                                </GlobalButton>
+                            </div>
+                            <div className="save_btn">
+                              <Link to="/dashboards">
+                                <GlobalButton primary={false} btnText="Delete" handleButtonClick={handleDelete}>
+                                  <BiTrash />
+                                </GlobalButton>
+                              </Link>
+                            </div>
+                            <div className="save_btn">
+                              <Link to="/dashboards">
+                                <GlobalButton primary={false} btnText="Delete" handleButtonClick={handleDelete}>
+                                  <BiTrash />
+                                </GlobalButton>
+                              </Link>
                             </div>
                             <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
                           </div>
@@ -171,7 +244,7 @@ function DashboardSpecificPage(props) {
                     <div className="cell_grid_container">
                       {cells.map((cell) => {
                         return (
-                          <div key={cell.id} >
+                          <div key={cell.cellId} >
                             <DashboardCellCard cell={cell}/>
                           </div>
                         );

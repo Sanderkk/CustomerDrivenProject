@@ -28,12 +28,9 @@ function DashboardsPage() {
       const userId = "123"; //Test user with data
       sendQuery(client, GET_DASHBOARDS, { userId })
       .then((result) => {
-        console.log(result);
-        // setDashboards(result.data.userDashboards);
+        setDashboards(result.data.dashboards);
       }).catch((err) => console.log(err));
     }
-
-    setDashboards([{id: 3, name: "Beste dashboard"}]);
   }, [client, user]);
 
 
@@ -63,7 +60,7 @@ function DashboardsPage() {
               <div className="grid_container">
                 {dashboards.map((e,i) => {
                   return (
-                    <Link key={e.id} className="dashboard_link" to={{pathname: `/specific-dashboard`, state: e}}>
+                    <Link key={e.dashboardId} className="dashboard_link" to={{pathname: `/specific-dashboard`, state: e}}>
                       <DashboardPreviewCard name={e.name} description={e.description}/>
                     </Link>
                   );
