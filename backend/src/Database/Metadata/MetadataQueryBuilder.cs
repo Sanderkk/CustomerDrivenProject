@@ -42,7 +42,9 @@ namespace src.Database
         public static string InsertLocationString(MetadataInput newMetadata)
         {
             String query = "INSERT INTO location(description, coordinate, altitude) VALUES('{0}','{1}',{2}) returning id;";
-            return String.Format(query, newMetadata.LocationDescription, newMetadata.Coordinate, newMetadata.Altitude);
+            return String.Format(query, newMetadata.LocationDescription, newMetadata.Coordinate,
+                (newMetadata.Altitude==null)?"null": newMetadata.Altitude.ToString())
+                .Replace("''", "null");
         }
 
         public static string UpdateOldMetadataString(DateTime timestamp, int metadataID)
