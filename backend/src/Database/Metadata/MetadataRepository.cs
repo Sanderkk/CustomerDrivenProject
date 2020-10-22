@@ -14,12 +14,12 @@ namespace src.Database
     {
 
         private IDatabaseConfig _databaseSettings;
-
         public MetadataRepository(IDatabaseConfig databaseSettings)
         {
             _databaseSettings = databaseSettings;
         }
 
+        //Helping methods
         public MetadataType BuildMetadataObject(NpgsqlDataReader dataReader)
         {
             var tmpResult = new MetadataType()
@@ -67,21 +67,49 @@ namespace src.Database
             };
             return tmpResult;
         }
-
         public bool isLocationNew(MetadataInput newMetadata, MetadataType lastMetadata){
-            if (newMetadata.Coordinate == null){
-                                return false;
-
-            }
-         if(newMetadata.Coordinate.Equals(lastMetadata.Coordinate) && 
-                newMetadata.Altitude.Equals(lastMetadata.Altitude) &&
-                newMetadata.LocationDescription.Equals(lastMetadata.LocationDescription)){
+        if(newMetadata.Coordinate == lastMetadata.Coordinate && 
+                newMetadata.Altitude == lastMetadata.Altitude &&
+                newMetadata.LocationDescription == lastMetadata.LocationDescription){
                 return false;
             }
          return true;
         }
+        public bool isLocationNotEmpty(MetadataInput newMetadata){
+        return newMetadata.Coordinate != null || newMetadata.Altitude != null || newMetadata.LocationDescription != null; 
+        }
+        public async Task<int?> saveLocationToDB(MetadataInput newMetadata, NpgsqlConnection connection){
+            string newLocationQuery = MetadataQueryBuilder.InsertLocationString(newMetadata);
+            int? locationID = null;
+            using var cmdLocation = new NpgsqlCommand(newLocationQuery);
+            cmdLocation.Connection = connection;
+            var dataReaderLocation = await cmdLocation.ExecuteReaderAsync();
 
-        public async Task<List<MetadataType>> GetMetadataBySensorID(string queryString)
+            var fieldsCountLocation = dataReaderLocation.GetColumnSchema().Count();
+            while (dataReaderLocation.Read())
+            {
+                locationID = dataReaderLocation["id"] == DBNull.Value ? (int?)null : dataReaderLocation.GetFieldValue<int>(dataReaderLocation.GetOrdinal("id"));
+            }
+            await dataReaderLocation.CloseAsync();
+            return locationID;
+        }
+        public async Task<MetadataType> saveMetadataToDB(int? locationID, MetadataInput newMetadata, NpgsqlConnection connection){
+                String newMetadataQuery = MetadataQueryBuilder.CreateInsertMetadataString(newMetadata, locationID);
+                using var cmd = new NpgsqlCommand(newMetadataQuery);
+                cmd.Connection = connection;
+                var dataReader = await cmd.ExecuteReaderAsync();
+
+                MetadataType addedMetadata = null;
+                while (dataReader.Read())
+                {
+                    addedMetadata = BuildMetadataObject(dataReader);
+                };
+                await dataReader.CloseAsync();
+            return addedMetadata;
+        }
+
+        //Queries
+        public async Task<List<MetadataType>> GetMetadata(string queryString)
         {
 
             NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
@@ -112,53 +140,47 @@ namespace src.Database
             String lastMetadataQuery = MetadataQueryBuilder.CreateMetadataString(newMetadata.SensorID,null,true);
             int? locationID = null;
             MetadataType lastMetadata =null;
-            var result = GetMetadataBySensorID(lastMetadataQuery).Result;
+            var queryResult = GetMetadata(lastMetadataQuery).Result;
             bool addNewLocation = true;
-            if(result.Count == 1){
-                lastMetadata = result.ElementAt(0);
+            // If the sensor has previous metadata
+            if(queryResult.Count == 1){
+                lastMetadata = queryResult.ElementAt(0);
                 locationID = lastMetadata.LocationID;
                 addNewLocation = isLocationNew(newMetadata, lastMetadata);
-            }    
-            //If location is new for that metadata, registrer it.
-            if (addNewLocation)
-            {
-                //Add the new location to the database and update the locationID with the returned ID from the Database
-                string newLocationQuery = MetadataQueryBuilder.InsertLocationString(newMetadata);
-                
-                using var cmdLocation = new NpgsqlCommand(newLocationQuery);
-                cmdLocation.Connection = _npgsqlConnection;
-                var dataReaderLocation = await cmdLocation.ExecuteReaderAsync();
 
-                var fieldsCountLocation = dataReaderLocation.GetColumnSchema().Count();
-                while (dataReaderLocation.Read())
+                //If location is new for that metadata, registrer it.
+                if (isLocationNew(newMetadata, lastMetadata))
                 {
-                    locationID = dataReaderLocation["id"] == DBNull.Value ? (int?)null : dataReaderLocation.GetFieldValue<int>(dataReaderLocation.GetOrdinal("id"));
+                    if(isLocationNotEmpty(newMetadata)){
+                        //Add the new location to the database and update the locationID with the returned ID from the Database
+                        locationID = await saveLocationToDB(newMetadata, _npgsqlConnection);
+                    } else {
+                        // if all of location fields are empty then set locationID to null
+                        locationID = null;
+                        }
                 }
-                await dataReaderLocation.CloseAsync();
+
+                //save the new metadata to DB
+                MetadataType addedMetadata = await saveMetadataToDB(locationID, newMetadata, _npgsqlConnection);
+
+                //Update outdated timestamp on last metadata
+                String updateQuery = MetadataQueryBuilder.UpdateOldMetadataString(addedMetadata.CreatedAt, lastMetadata.MetadataID);
+                using var cmdUpdate = new NpgsqlCommand(updateQuery);
+                cmdUpdate.Connection = _npgsqlConnection;
+                await cmdUpdate.ExecuteNonQueryAsync();
+                await _npgsqlConnection.CloseAsync();
+            
+                return addedMetadata;
+            } else {
+                //save location to DB if not empty
+                if(isLocationNotEmpty(newMetadata)){
+                    //Add the new location to the database and update the locationID with the returned ID from the Database
+                    locationID = await saveLocationToDB(newMetadata, _npgsqlConnection);
+                }
+            
+                //save the new metadata to DB
+                return await saveMetadataToDB(locationID, newMetadata, _npgsqlConnection);
             }
-            String newMetadataQuery = MetadataQueryBuilder.CreateInsertMetadataString(newMetadata, locationID);
-            using var cmdMetadata = new NpgsqlCommand(newMetadataQuery);
-            cmdMetadata.Connection = _npgsqlConnection;
-            var dataReader = await cmdMetadata.ExecuteReaderAsync();
-
-            MetadataType addedMetadata = null;
-            while (dataReader.Read())
-            {
-                addedMetadata = BuildMetadataObject(dataReader);
-            };
-            await dataReader.CloseAsync();
- 
-            //Update outdated timestamp on last metadata if exists
-            if(result.Count==1){
-            String updateQuery = MetadataQueryBuilder.UpdateOldMetadataString(addedMetadata.CreatedAt, lastMetadata.MetadataID);
-            using var cmdUpdate = new NpgsqlCommand(updateQuery);
-            cmdUpdate.Connection = _npgsqlConnection;
-            await cmdUpdate.ExecuteNonQueryAsync();
-            await _npgsqlConnection.CloseAsync();
-            }
-
-
-            return addedMetadata;
         }
     }
 }

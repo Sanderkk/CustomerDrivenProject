@@ -21,7 +21,7 @@ namespace src.Api.Queries
             )
         { 
             var queryString = MetadataQueryBuilder.CreateMetadataString(sensorID, sensorNumber, onlyLast);
-            return repo.GetMetadataBySensorID(queryString).Result;
+            return repo.GetMetadata(queryString).Result;
         }
      }
 

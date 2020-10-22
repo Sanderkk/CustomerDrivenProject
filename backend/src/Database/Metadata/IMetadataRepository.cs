@@ -9,7 +9,7 @@ namespace src.Database
 {
     public interface IMetadataRepository
     {
-        Task<List<MetadataType>> GetMetadataBySensorID(string queryString);
+        Task<List<MetadataType>> GetMetadata(string queryString);
         Task<MetadataType> addMetadataToDatabase(MetadataInput metadata);
     }
 }
