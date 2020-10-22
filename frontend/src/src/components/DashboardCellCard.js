@@ -4,6 +4,11 @@ import { DropdownMenu, MenuItem } from 'react-bootstrap-dropdown-menu';
 import ViewMetadata from "./globalComponents/ViewMetadata";
 import { Link } from "react-router-dom";
 import LineGraph from "./LineGraph";
+import { DELETE_CELL } from "../queries/mutations";
+import { useSelector } from "react-redux";
+import sendMutation from "../queries/sendMutation";
+import { useApolloClient } from "@apollo/client";
+import store from "../globalState/store";
 
 function DashboardCellCard(props) {
   /*
@@ -31,18 +36,31 @@ function DashboardCellCard(props) {
  
  const [show, setShow] = useState(false);
 
+  const client = useApolloClient();
+  const user = useSelector((store) => store.user.aadResponse);
+
+
+ const handleDeleteCell = () => {
+  // TODO: change from userId 123 to real one
+  // const userId = user.account.accountIdentifier;
+  const userId = "123";
+  sendMutation(client, DELETE_CELL, { userId: userId, dashboardId: store.getState().currentDashboard.input.dashboardId, cellId: props.cell.cellId})
+    .then(() => {
+    }).catch((err) => console.log(err));
+}
+
   return (
     <div className="cell_grid_item">
       <DropdownMenu>
-        <Link key={"cell"+props.cell.id} to={{pathname: `/cell`, state: props.cell}}>
+        <Link key={"cell"+props.cell.cellId} to={{pathname: `/cell`, state: props.cell}}>
           Edit graf
         </Link>
-        <MenuItem text="Download"/>
+        <MenuItem text="Download" />
         <MenuItem text="Metadata" onClick={() => setShow(true)}/>
-        <MenuItem text="Delete"/>
+        <MenuItem text="Delete" onClick={() => handleDeleteCell()}/>
       </DropdownMenu>
       <ViewMetadata sensorIDs={props.cell.input.sensors} show={show} handleClose={() => setShow(false)}/>  
-      <LineGraph key={props.cell.name} options={props.cell.options} input={props.cell.input} cellId={props.cell.id} />
+      <LineGraph key={props.cell.name} options={props.cell.options} input={props.cell.input} cellId={props.cell.cellId} />
     </div>
   );
 }

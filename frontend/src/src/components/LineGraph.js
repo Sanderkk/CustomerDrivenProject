@@ -98,6 +98,7 @@ const DisplayHighcharts = (props) => {
     chart: {
       type: 'line',
       zoomType: 'x',
+      animation: false,
     },
     
     title: {
