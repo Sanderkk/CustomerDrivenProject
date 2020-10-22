@@ -28,8 +28,8 @@ function DashboardsPage() {
       const userId = "123"; //Test user with data
       sendQuery(client, GET_DASHBOARDS, { userId })
       .then((result) => {
-        console.log(result);
-        // setDashboards(result.data.userDashboards);
+        // console.log(result);
+        setDashboards(result.data.dashboards);
       }).catch((err) => console.log(err));
     }
 
