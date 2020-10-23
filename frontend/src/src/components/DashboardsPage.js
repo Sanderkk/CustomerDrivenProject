@@ -33,7 +33,7 @@ function DashboardsPage() {
       }).catch((err) => console.log(err));
     }
 
-    // setDashboards([{id: 3, name: "Beste dashboard"}]);
+    setDashboards([{id: 3, name: "Beste dashboard"}]);
   }, [client, user]);
 
 
