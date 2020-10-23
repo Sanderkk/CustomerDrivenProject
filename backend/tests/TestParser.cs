@@ -24,7 +24,7 @@ namespace tests
 
             var dataConfig = builder.GetSection("ParserConfig:Optode").Get<ParserConfig>();
 
-            Parser parser = new Parser(dataConfig);
+            ParserFilePath parser = new ParserFilePath(dataConfig);
             (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/Optode/20200812T082107.txt", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
@@ -72,7 +72,7 @@ namespace tests
 
             var dataConfig = builder.GetSection("ParserConfig:Tension").Get<ParserConfig>();
 
-            Parser parser = new Parser(dataConfig);
+            ParserFilePath parser = new ParserFilePath(dataConfig);
             (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/Tension/2020-08-25 22.42.24.txt", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
@@ -117,7 +117,7 @@ namespace tests
 
             var dataConfig = builder.GetSection("ParserConfig:Wavedata").Get<ParserConfig>();
 
-            Parser parser = new Parser(dataConfig);
+            ParserFilePath parser = new ParserFilePath(dataConfig);
             (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/ACE_Buoy_Wavedata.csv", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;
@@ -154,7 +154,7 @@ namespace tests
 
             var dataConfig = builder.GetSection("ParserConfig:Metocean").Get<ParserConfig>();
 
-            Parser parser = new Parser(dataConfig);
+            ParserFilePath parser = new ParserFilePath(dataConfig);
             (List<String>, string[]) parsedFile = parser.ParseFile("../../../../services/parser/Data/ACE_Buoy_Metoceandata.csv", false);
             List<String> record = parsedFile.Item1;
             string[] headerArrayQuery = parsedFile.Item2;

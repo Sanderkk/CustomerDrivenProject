@@ -1,4 +1,4 @@
-import React, { useState , useEffect} from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import LineGraph from "./LineGraph";
 import QueryBuilder from "./QueryBuilder";
@@ -13,7 +13,8 @@ import './componentStyles/AddCell.css'
 //This component presents a page to the user where he/she can add a new cell
 //or modify an existing cell. 
 function AddCell(props) {
-  const [options, setOptions] = useState({ title: 'Title', RYAxis: '', LYAxis: 'Value'})
+  const state = props.location.state;
+  const [options, setOptions] = useState(state !== undefined ? state.options : { title: '', RYAxis: '', LYAxis: ''})
   const [show, setShow] = useState(false);
   const input = useSelector(state => state.queryData.input)
 
@@ -68,9 +69,14 @@ function AddCell(props) {
 
         <div className="flex_container">
           <div className="graph_container">
-            <div className="graph">
+          <div className="graph">
+              {state !== undefined ?
+              <LineGraph options={options} input={state.input} cellId={state.id} />
+              :
               <LineGraph options={options} />
+              }
             </div>
+
             <div className="query_builder">
               <QueryBuilder />
             </div>

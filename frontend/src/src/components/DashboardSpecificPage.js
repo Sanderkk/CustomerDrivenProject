@@ -12,7 +12,6 @@ import sendMutation from "../queries/sendMutation";
 import { UPDATE_DASHBOARD } from "../queries/mutations";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus } from "react-icons/bi";
-import LineGraph from "./LineGraph";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
 import groupTypes from "../groupTypes";
