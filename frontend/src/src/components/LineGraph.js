@@ -56,12 +56,15 @@ const DisplayHighcharts = (props) => {
 
   //Query data based on the input prop. 
   useEffect(() => {
+    let mounted = true;
     if (props.input !== undefined) {
       const input = props.input
       
+      if(mounted){
       sendQuery(client, GET_TIME_SERIES, { input })
         .then((result) => setDataFromBackend(result.data.timeSeries.data))
         .catch((err) => console.log(err));
+      }
 
       if(dataFromBackend.length > 0) {
       let dataFromStore = dataFromBackend.map((sensorData) => ({
@@ -74,6 +77,7 @@ const DisplayHighcharts = (props) => {
       setGraphData(dataFromStore) 
       }
     }
+    return () => mounted = false;
   }, [client, props.input, dataFromBackend]);
 
 
