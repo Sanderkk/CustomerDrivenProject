@@ -39,7 +39,7 @@ function DashboardSpecificPage(props) {
   // Cell mock data
   const cellsMockData = [
     {
-      id: 1,
+      cellId: 1,
       input: {
         sensors: [1],
         specifiedTimePeriode: true,
@@ -53,7 +53,7 @@ function DashboardSpecificPage(props) {
       }
     },
     {
-      id: 5,
+      cellId: 5,
       input: {
         sensors: [3],
         specifiedTimePeriode: true,
@@ -67,7 +67,7 @@ function DashboardSpecificPage(props) {
       }
     },
     {
-      id: 3,
+      cellId: 3,
       input: {
         sensors: [1,3],
         specifiedTimePeriode: true,
