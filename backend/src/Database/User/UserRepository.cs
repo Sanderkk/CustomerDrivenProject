@@ -36,7 +36,7 @@ namespace src.Database.User
             {
                 result = new Dashboard()
                 {
-                    Id = dataReader.GetFieldValue<int>(0),
+                    DashboardId = dataReader.GetFieldValue<int>(0),
                     Name = dataReader.GetFieldValue<string>(1),
                     Description = dataReader.GetFieldValue<string>(2),
                 };
@@ -60,7 +60,7 @@ namespace src.Database.User
             {
                 Dashboard dashboard = new Dashboard()
                 {
-                    Id = dataReader.GetFieldValue<int>(0),
+                    DashboardId = dataReader.GetFieldValue<int>(0),
                     Name = dataReader.GetFieldValue<string>(1),
                     Description = dataReader.GetFieldValue<string>(2),
                 };
@@ -86,7 +86,7 @@ namespace src.Database.User
             {
                 cell = new Cell()
                 {
-                    Id = dataReader.GetFieldValue<int>(0),
+                    CellId = dataReader.GetFieldValue<int>(0),
                     DashboardId = dataReader.GetFieldValue<int>(1),
                     Input = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(2)),
                     Options = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(3)),
@@ -111,7 +111,7 @@ namespace src.Database.User
             {
                 Cell cell = new Cell()
                 {
-                    Id = dataReader.GetFieldValue<int>(0),
+                    CellId = dataReader.GetFieldValue<int>(0),
                     DashboardId = dataReader.GetFieldValue<int>(1),
                     Input = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(2)),
                     Options = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(3)),
