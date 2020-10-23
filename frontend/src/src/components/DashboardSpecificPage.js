@@ -9,12 +9,15 @@ import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import GlobalButton from "./globalComponents/GlobalButton";
 import sendMutation from "../queries/sendMutation";
+import sendQuery from "../queries/sendQuery";
 import { UPDATE_DASHBOARD } from "../queries/mutations";
+import { GET_DASHBOARD_CELLS, GET_DASHBOARD } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
 import groupTypes from "../groupTypes";
+import store from "../globalState/store";
 
 function DashboardSpecificPage(props) {
   /*
@@ -25,7 +28,7 @@ function DashboardSpecificPage(props) {
     name: "Name this Dashboard",
     description: "Write description for this Dashboard"
   }
-  const state = props.location.state;
+  let state = props.location.state;
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [dashboard, setDashboard] = useState(null);
@@ -84,36 +87,56 @@ function DashboardSpecificPage(props) {
   useEffect(() => {
     if(user !== null){
       var toBeSetAsDashboard = {};
+      // TODO: use real userId not just "123"
+      // const userId = user.account.accountIdentifier;
+      const userId = "123";
       if(typeof state === 'undefined' || state === null){
         toBeSetAsDashboard = emptyDashboard;
+        toBeSetAsDashboard.userId = userId;
+        dispatch(setCurrentDashboard(toBeSetAsDashboard));
+        setDashboard(toBeSetAsDashboard);
+        fetchCells(toBeSetAsDashboard);
       }else{
-        toBeSetAsDashboard = JSON.parse(JSON.stringify(state));
+        // Must make new variable and not use state to remove state's _typename
+        const dashboardId = state.dashboardId;
+        sendQuery(client, GET_DASHBOARD, { userId, dashboardId})
+          .then((result) => {
+            toBeSetAsDashboard = {
+              dashboardId: result.data.dashboard.dashboardId,
+              description: result.data.dashboard.description,
+              name: result.data.dashboard.name,
+            };
+            toBeSetAsDashboard.userId = userId;
+            dispatch(setCurrentDashboard(toBeSetAsDashboard));
+            setDashboard(toBeSetAsDashboard);
+            fetchCells(toBeSetAsDashboard);
+          }).catch((err) => console.log(err));
       }
-      // TODO: use real userId not just "123"
-      //toBeSetAsDashboard.userId = user.account.accountIdentifier;
-      toBeSetAsDashboard.userId = "123"
-      dispatch(setCurrentDashboard(toBeSetAsDashboard));
-      setDashboard(toBeSetAsDashboard);
     }}, [user]);
 
-  // If dashboard and user is sat in redux, fetch and set cells for given dashboard
-  useEffect(() => {
-    if(user !== null && dashboard !== null){
+
+  function fetchCells(dashboard){
+    if(user !== null && dashboard !== null && typeof dashboard !== 'undefined' && state !== null){
+
       // TODO: fetch cells and setCells()
       // const userId = user.account.accountIdentifier;
-      // const userId = "123"; //Test user with data
-      // sendQuery(client, GET_CELLS_FOR_DASHBOARD, { dashboardId })
-      // .then((result) => {
-      //   setCells(result.data.cells);
-      // }).catch((err) => console.log(err));
+      const userId = "123"; //Test user with data
+      const dashboardId = dashboard.dashboardId;
+      sendQuery(client, GET_DASHBOARD_CELLS, { userId, dashboardId})
+      .then((result) => {
+        
+        // console.log("CELLER");
+        // console.log(result.data.cells);
+        // setCells(result.data.cells);
+      }).catch((err) => console.log(err));
       setCells(cellsMockData);
     }
-  }, [client, user, dashboard]);
+  }
 
 
   const handleSave = () => {
     sendMutation(client, UPDATE_DASHBOARD, { input: dashboard })
-      .then((result) => {
+      .then(() => {
       }).catch((err) => console.log(err));
   }
 
@@ -177,7 +200,7 @@ function DashboardSpecificPage(props) {
                     <div className="cell_grid_container">
                       {cells.map((cell) => {
                         return (
-                          <div key={cell.id} >
+                          <div key={cell.cellId} >
                             <DashboardCellCard cell={cell}/>
                           </div>
                         );

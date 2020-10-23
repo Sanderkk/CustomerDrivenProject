@@ -60,7 +60,7 @@ function DashboardsPage() {
               <div className="grid_container">
                 {dashboards.map((e,i) => {
                   return (
-                    <Link key={e.id} className="dashboard_link" to={{pathname: `/specific-dashboard`, state: e}}>
+                    <Link key={e.dashboardId} className="dashboard_link" to={{pathname: `/specific-dashboard`, state: e}}>
                       <DashboardPreviewCard name={e.name} description={e.description}/>
                     </Link>
                   );
