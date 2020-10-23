@@ -9,6 +9,7 @@ async function sendMutation(client, mutation, variables) {
   return await client.mutate({
     mutation: mutation,
     variables: variables,
+    fetchPolicy: 'no-cache',
   });
 }
 

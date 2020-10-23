@@ -10,14 +10,13 @@ import { useDispatch } from "react-redux";
 import GlobalButton from "./globalComponents/GlobalButton";
 import sendMutation from "../queries/sendMutation";
 import sendQuery from "../queries/sendQuery";
-import { UPDATE_DASHBOARD } from "../queries/mutations";
+import { UPDATE_DASHBOARD, DELETE_DASHBOARD } from "../queries/mutations";
 import { GET_DASHBOARD_CELLS, GET_DASHBOARD } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
-import { BiSave, BiPlus } from "react-icons/bi";
+import { BiSave, BiPlus, BiTrash } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
 import groupTypes from "../groupTypes";
-import store from "../globalState/store";
 
 function DashboardSpecificPage(props) {
   /*
@@ -119,6 +118,7 @@ function DashboardSpecificPage(props) {
     if(user !== null && dashboard !== null && typeof dashboard !== 'undefined' && state !== null){
 
       // TODO: fetch cells and setCells()
+      // TODO: change to real user
       // const userId = user.account.accountIdentifier;
       const userId = "123"; //Test user with data
       const dashboardId = dashboard.dashboardId;
@@ -135,7 +135,20 @@ function DashboardSpecificPage(props) {
 
 
   const handleSave = () => {
+    console.log(dashboard)
     sendMutation(client, UPDATE_DASHBOARD, { input: dashboard })
+      .then((result) => {
+        //TODO: when back end returns dashboardId in result. check if dashboard.dashboardId (or state.dashboardId) is undefined. If undefined: add the dashboardId to dashboard.
+        // ^ this is to not continuosly create new dashboards when Save is pressed and to not have to route back to dashboards when created new dahsboard
+      }).catch((err) => console.log(err));
+  }
+
+  const handleDelete = () => {
+    // TODO: change to real user
+    // const userId = user.account.accountIdentifier;
+    const userId = "123"; //Test user with data
+    const dashboardId = dashboard.dashboardId;
+    sendMutation(client, DELETE_DASHBOARD, { userId, dashboardId })
       .then(() => {
       }).catch((err) => console.log(err));
   }
@@ -181,6 +194,13 @@ function DashboardSpecificPage(props) {
                               <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
                                 <BiSave />
                               </GlobalButton>
+                            </div>
+                            <div className="save_btn">
+                              <Link to="/dashboards">
+                                <GlobalButton primary={false} btnText="Delete" handleButtonClick={handleDelete}>
+                                  <BiTrash />
+                                </GlobalButton>
+                              </Link>
                             </div>
                             <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
                           </div>
