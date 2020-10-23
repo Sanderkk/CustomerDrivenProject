@@ -82,13 +82,19 @@ function DashboardSpecificPage(props) {
   
   // If state is null, then set the dashboard as empty, if not, set dashboard as the one given in state
   useEffect(() => {
-    if(typeof state === 'undefined' || state === null){
-      dispatch(setCurrentDashboard(emptyDashboard));
-      setDashboard(emptyDashboard);
-    }else{
-      dispatch(setCurrentDashboard(state));
-      setDashboard(state);
-    }}, []);
+    if(user !== null){
+      var toBeSetAsDashboard = {};
+      if(typeof state === 'undefined' || state === null){
+        toBeSetAsDashboard = emptyDashboard;
+      }else{
+        toBeSetAsDashboard = JSON.parse(JSON.stringify(state));
+      }
+      // TODO: use real userId not just "123"
+      //toBeSetAsDashboard.userId = user.account.accountIdentifier;
+      toBeSetAsDashboard.userId = "123"
+      dispatch(setCurrentDashboard(toBeSetAsDashboard));
+      setDashboard(toBeSetAsDashboard);
+    }}, [user]);
 
   // If dashboard and user is sat in redux, fetch and set cells for given dashboard
   useEffect(() => {
@@ -106,7 +112,7 @@ function DashboardSpecificPage(props) {
 
 
   const handleSave = () => {
-    sendMutation(client, UPDATE_DASHBOARD, { dashboard })
+    sendMutation(client, UPDATE_DASHBOARD, { input: dashboard })
       .then((result) => {
       }).catch((err) => console.log(err));
   }
