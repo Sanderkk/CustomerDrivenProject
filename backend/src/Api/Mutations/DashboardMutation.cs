@@ -32,7 +32,7 @@ namespace src.Api.Mutations
         }
         
         public Task<int> UpdateCell(
-            CellDataInput input,
+            CellInput input,
             [Service] IUserRepository repo
         )
         {

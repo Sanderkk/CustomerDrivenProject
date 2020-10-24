@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace src.Api.Inputs
+namespace src.Api.Types
 {
-    public class CellGraphInput
+    public class CellGraphData
     {
         public string From { get; set; }
         public string To { get; set; } 

@@ -88,8 +88,8 @@ namespace src.Database.User
                 {
                     CellId = dataReader.GetFieldValue<int>(0),
                     DashboardId = dataReader.GetFieldValue<int>(1),
-                    Input = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(2)),
-                    Options = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(3)),
+                    Input = JsonSerializer.Deserialize<CellGraphData>(dataReader.GetFieldValue<JsonElement>(2).GetRawText()),
+                    Options = JsonSerializer.Deserialize<CellOptions>(dataReader.GetFieldValue<JsonElement>(3).GetRawText()),
                 };
             };
             cmd.Parameters.Clear();
@@ -113,8 +113,8 @@ namespace src.Database.User
                 {
                     CellId = dataReader.GetFieldValue<int>(0),
                     DashboardId = dataReader.GetFieldValue<int>(1),
-                    Input = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(2)),
-                    Options = JsonSerializer.Serialize(dataReader.GetFieldValue<JsonElement>(3)),
+                    Input = JsonSerializer.Deserialize<CellGraphData>(dataReader.GetFieldValue<JsonElement>(2).GetRawText()),
+                    Options = JsonSerializer.Deserialize<CellOptions>(dataReader.GetFieldValue<JsonElement>(3).GetRawText()),
                 };
                 result.Add(cell);
             };
@@ -180,10 +180,12 @@ namespace src.Database.User
 
         }
         
-        public async Task<int> UpdateCell(CellDataInput input)
+        public async Task<int> UpdateCell(CellInput input)
         {
-            JsonElement options = JsonSerializer.Deserialize<JsonElement>(input.options);
-            JsonElement inputQuery = JsonSerializer.Deserialize<JsonElement>(input.input);
+            string jsonOptions = JsonSerializer.Serialize(input.options);
+            JsonElement options = JsonSerializer.Deserialize<JsonElement>(jsonOptions);
+            string jsonInput = JsonSerializer.Serialize(input.input);
+            JsonElement inputQuery = JsonSerializer.Deserialize<JsonElement>(jsonInput);
             if (input.cellId != null)
             {
                 int id = input.cellId.GetValueOrDefault();

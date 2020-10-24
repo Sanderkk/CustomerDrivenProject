@@ -13,7 +13,7 @@ namespace src.Database.User
         Task<List<Cell>> GetCells(string queryString);
         Task<int> UpdateDashboard(DashboardInput input);
         Task<bool> DeleteDashboard(string userId, int dashboardId);
-        Task<int> UpdateCell(CellDataInput input);
+        Task<int> UpdateCell(CellInput input);
         Task<bool> DeleteDashboardCell(string queryString);
     }
     
