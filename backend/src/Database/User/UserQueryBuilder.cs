@@ -34,8 +34,8 @@ namespace src.Database.User
             return 
                 $@"SELECT * FROM cell AS C 
                    INNER JOIN dashboard AS D ON C.dashboard_id=D.id
-                   INNER JOIN user_access_to_dashboard AS A ON C.dashboard_id=A.dashboard_id 
-                   WHERE C.dashboard_id='{dashboardId}' AND A.user_id='{userId}';";
+                   INNER JOIN user_access_to_dashboard AS UA ON C.dashboard_id=UA.dashboard_id 
+                   WHERE C.dashboard_id='{dashboardId}' AND UA.user_id='{userId}';";
         }
         
         public static string CreateDashboardQueryString(string name, string description)
@@ -46,27 +46,33 @@ namespace src.Database.User
                    RETURNING Id";
         }
 
-        public static string UpdateDashboardQueryString(int dashboardId, string name, string description)
+        public static string UpdateDashboardQueryString(string userId, int dashboardId, string name, string description)
         {
             return
-                $@"UPDATE Dashboard 
+                $@"UPDATE Dashboard AS D
                    SET Name = '{name}', Description = '{description}' 
-                   WHERE Id={dashboardId}";
+                   FROM user_access_to_dashboard AS UA
+                   WHERE D.Id={dashboardId} AND UA.user_id='{userId}'
+                   RETURNING D.Id";
+
         }
         
         public static string CreateCellQueryString(int dashboardId, JsonElement options, JsonElement input)
         {
             return 
                 $@"INSERT INTO Cell (dashboard_id, input, options) 
-                   VALUES ({dashboardId},'{input}','{options}')";
+                   VALUES ({dashboardId},'{input}','{options}')
+                   RETURNING Id";
         }
 
-        public static string UpdateCellQueryString(int id, int dashboardId, JsonElement options, JsonElement inputQuery)
+        public static string UpdateCellQueryString(string userId, int cellId, int dashboardId, JsonElement options, JsonElement inputQuery)
         {
             return 
-                $@"UPDATE Cell SET options = '{options}', input = '{inputQuery}' 
-                   FROM Cell AS C INNER JOIN dashboard AS D ON D.id = C.dashboard_id 
-                   WHERE C.Id={id} AND C.dashboard_id={dashboardId}";
+                $@"UPDATE Cell AS C 
+                   SET options = '{options}', input = '{inputQuery}' 
+                   FROM user_access_to_dashboard AS UA 
+                   WHERE C.Id={cellId} AND C.dashboard_id={dashboardId} AND UA.user_id='{userId}'
+                   RETURNING C.Id";
         }
 
 
@@ -98,9 +104,8 @@ namespace src.Database.User
         {
             return 
                 $@"DELETE FROM cell AS C 
-                   USING dashboard AS D 
-                   USING user_access_to_dashboard AS A 
-                   WHERE C.id={cellId} AND D.id={dashboardId} AND A.user_id='{userId}'";
+                   USING user_access_to_dashboard AS UA 
+                   WHERE C.id={cellId} AND C.dashboard_id={dashboardId} AND UA.user_id='{userId}'";
         }
 
         public static string DeleteUserAccessToDashboardQueryString(string userId, int dashboardId)

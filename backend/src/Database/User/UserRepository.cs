@@ -124,23 +124,24 @@ namespace src.Database.User
             return result;
         }
         
-        public async Task<bool> UpdateDashboard(DashboardInput input)
+        public async Task<int> UpdateDashboard(DashboardInput input)
         {
             NpgsqlConnection npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
             await npgsqlConnection.OpenAsync();
+            int id = -1;
             if (input.dashboardId != null)
             {
-                int id = input.dashboardId.GetValueOrDefault();
-                string queryString = UserQueryBuilder.UpdateDashboardQueryString(id, input.name, input.description);
+                id = input.dashboardId.GetValueOrDefault();
+                string queryString = UserQueryBuilder.UpdateDashboardQueryString(input.userId, id, input.name, input.description);
                 await executeQuery(npgsqlConnection, queryString);
             }
             else
             {
-                await CreateDashboard(input, npgsqlConnection);
+                id = await CreateDashboard(input, npgsqlConnection);
             }
             
             await npgsqlConnection.CloseAsync();
-            return true;
+            return id;
         }
         
         public async Task<bool> DeleteDashboard(string userId, int dashboardId)
@@ -164,22 +165,22 @@ namespace src.Database.User
             return true;
         }
 
-        public async Task CreateDashboard(DashboardInput input, NpgsqlConnection connection)
+        public async Task<int> CreateDashboard(DashboardInput input, NpgsqlConnection connection)
         {
                 string queryString = UserQueryBuilder.CreateDashboardQueryString(input.name, input.description);
                 await using NpgsqlCommand cmd = new NpgsqlCommand(queryString);
                 cmd.Connection = connection;
                 int dashboardId = (int) cmd.ExecuteScalar();
-                Console.WriteLine(dashboardId);
                 cmd.Parameters.Clear();
                 
                 string accessQueryString =
                     UserQueryBuilder.InsertUserAccessToDashboardQueryString(input.userId, dashboardId, input.accessLevel);
                 await executeQuery(connection, accessQueryString);
+                return dashboardId;
 
         }
         
-        public async Task<bool> UpdateCell(CellDataInput input)
+        public async Task<int> UpdateCell(CellDataInput input)
         {
             JsonElement options = JsonSerializer.Deserialize<JsonElement>(input.options);
             JsonElement inputQuery = JsonSerializer.Deserialize<JsonElement>(input.input);
@@ -187,8 +188,8 @@ namespace src.Database.User
             {
                 int id = input.cellId.GetValueOrDefault();
                 string queryString =
-                    UserQueryBuilder.UpdateCellQueryString(id, input.dashboardId, options, inputQuery);
-                return await executeMutation(queryString);
+                    UserQueryBuilder.UpdateCellQueryString(input.UserId, id, input.dashboardId, options, inputQuery);
+                return await executeQueryString(queryString);
             }
             else
             {
@@ -196,10 +197,10 @@ namespace src.Database.User
             }
         }
 
-        private async Task<bool> CreateCell(int dashboardId, JsonElement options, JsonElement input)
+        private async Task<int> CreateCell(int dashboardId, JsonElement options, JsonElement input)
         {
                 string queryString = UserQueryBuilder.CreateCellQueryString(dashboardId, options, input);
-                return await executeMutation(queryString);
+                return await executeQueryString(queryString);
         }
 
         public Task<bool> DeleteDashboardCell(string queryString)
@@ -217,6 +218,17 @@ namespace src.Database.User
             cmd.Parameters.Clear();
             await npgsqlConnection.CloseAsync();
             return true;
+        }
+        public async Task<int> executeQueryString(string queryString) {
+            NpgsqlConnection npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
+            await npgsqlConnection.OpenAsync();
+            await using NpgsqlCommand cmd = new NpgsqlCommand(queryString);
+            cmd.Connection = npgsqlConnection;
+            int output = (int) cmd.ExecuteScalar();
+            
+            cmd.Parameters.Clear();
+            await npgsqlConnection.CloseAsync();
+            return output;
         }
 
         public async Task executeQuery(NpgsqlConnection connection, string query)

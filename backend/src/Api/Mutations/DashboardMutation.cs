@@ -14,7 +14,7 @@ namespace src.Api.Mutations
     {
         
 
-        public bool UpdateDashboard(
+        public int UpdateDashboard(
             DashboardInput input,
             [Service] IUserRepository repo
         )
@@ -31,7 +31,7 @@ namespace src.Api.Mutations
             return repo.DeleteDashboard(userId, dashboardId).Result;
         }
         
-        public Task<bool> UpdateCell(
+        public Task<int> UpdateCell(
             CellDataInput input,
             [Service] IUserRepository repo
         )
