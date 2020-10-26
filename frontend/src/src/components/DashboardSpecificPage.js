@@ -122,14 +122,18 @@ function DashboardSpecificPage(props) {
       // const userId = user.account.accountIdentifier;
       const userId = "123"; //Test user with data
       const dashboardId = dashboard.dashboardId;
-      sendQuery(client, GET_DASHBOARD_CELLS, { userId, dashboardId})
-      .then((result) => {
-        
-        // console.log("CELLER");
-        // console.log(result.data.cells);
-        // setCells(result.data.cells);
-      }).catch((err) => console.log(err));
-      setCells(cellsMockData);
+      if(dashboardId === undefined || dashboardId === null){
+        setCells(null);
+      } else{
+        sendQuery(client, GET_DASHBOARD_CELLS, { userId, dashboardId})
+        .then((result) => {
+          
+          // console.log("CELLER");
+          // console.log(result.data.cells);
+          // setCells(result.data.cells);
+        }).catch((err) => console.log(err));
+        setCells(cellsMockData);
+      }
     }
   }
 
@@ -139,7 +143,20 @@ function DashboardSpecificPage(props) {
       .then((result) => {
         //TODO: when back end returns dashboardId in result. check if dashboard.dashboardId (or state.dashboardId) is undefined. If undefined: add the dashboardId to dashboard.
         // ^ this is to not continuosly create new dashboards when Save is pressed and to not have to route back to dashboards when created new dahsboard
-        dispatch(setCurrentDashboard(dashboard));
+        const dashboardId = dashboard.dashboardId;
+        if(dashboardId === undefined || dashboardId === null){
+          //Add dashboardId to the newly created dashboard
+          let toBeSetAsDashboard = {
+            dashboardId: result.data.updateDashboard,
+            description: dashboard.description,
+            name: dashboard.name,
+            userId: dashboard.userId,
+          };
+          setDashboard(toBeSetAsDashboard);
+          dispatch(setCurrentDashboard(toBeSetAsDashboard));
+        }else {
+          dispatch(setCurrentDashboard(dashboard));
+        }
       }).catch((err) => console.log(err));
   }
 

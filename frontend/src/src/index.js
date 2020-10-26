@@ -17,7 +17,7 @@ import AddCell from "./components/AddCell";
 import DashboardSpecificPage from "./components/DashboardSpecificPage";
 
 const client = new ApolloClient({
-  uri: "http://api-customerdriven.sanderkk.com/playground/..",
+  uri: "http://customerdriven.sanderkk.com:5000/",
   cache: new InMemoryCache(),
 });
 
