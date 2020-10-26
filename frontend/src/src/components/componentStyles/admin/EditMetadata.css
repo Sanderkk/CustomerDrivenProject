@@ -2,14 +2,14 @@
   float: left;
   width: 100%;
   background-color: #fff;
-  padding: 10px 0;
+  padding: 0.7em 0;
 }
 .edit_metadata_container .search {
-  margin-bottom: 20px;
-  margin-left: 25px;
+  margin-bottom: 1.3em;
+  margin-left: 1.6em;
 }
 .search span {
-  margin-right: 8px;
+  margin-right: 0.5em;
   font-size: 14px;
 }
 
@@ -39,19 +39,19 @@
   font-size: 16px;
   padding: 5px 20px;
   display: inline;
-  margin-right: 5px;
-  margin-bottom: 20px;
+  margin-right: 1em;
+  margin-bottom: 1em;
 }
 
 .edit_metadata_container .form {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   font-size: 13px;
-  margin: 30px 0;
+  margin: 3em 0;
 }
 
 .form .line {
-  margin-bottom: 6px;
+  margin-bottom: 0.5em;
 }
 
 .form .line span {
@@ -63,7 +63,7 @@
 .form .line input {
   text-align: left;
   display: inline-block;
-  margin-left: 10px;
+  margin-left: 0.7em;
 }
 
 .edit_metadata_container .add_new {
@@ -80,13 +80,13 @@
 }
 
 .add_new {
-  margin-left: 25px;
+  margin-left: 1.6em;
 }
 
 .add_new button {
-  margin: 13px 0 0 10px;
+  margin: 1em 0 0 0.6em;
   padding: 2px 5px;
-  width: 87px;
+  width: 5.4em;
   background-color: #323232;
 }
 

@@ -2,12 +2,16 @@
   text-align: center;
   color: white;
   background-color: #004299;
-  opacity: 0.9;
-  padding-top: 0.25em;
-  padding-bottom: 0.5em;
-
+  opacity: 0.94;
+  padding-top: 2em;
+  padding-bottom: 2em;
   margin: auto;
-  width: 35em;
+  width: 40em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 #log_in_title {
@@ -28,6 +32,8 @@
   font-size: 1em;
   transition-duration: 0.4s;
   font-weight: bold;
+  opacity: 1;
+  margin-bottom: 1.5em;
 }
 
 .log_in_out_btn:hover {

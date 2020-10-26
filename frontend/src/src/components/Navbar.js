@@ -4,8 +4,8 @@ import "./componentStyles/Navbar.css";
 import logo from "../assets/sintef_logo.png";
 import { AzureAD, AuthenticationState } from "react-aad-msal";
 import { authProvider } from "../authProvider";
-import groupTypes from "../groupTypes";
 import store from "../globalState/store";
+import NavLinks from "./NavLinks";
 
 function Navbar() {
   /*
@@ -26,38 +26,7 @@ function Navbar() {
             {({ authenticationState, accountInfo }) => {
               switch (authenticationState) {
                 case AuthenticationState.Authenticated:
-                  return (
-                    <div>
-                      {/* Link to LoginPage with user's name on it if logged in */}
-                      <Link to="/" className="nav_button">
-                        {accountInfo.account.name}
-                      </Link>
-                      {/* Link to users dashboards, all users have access to this if logged in */}
-                      <Link to="/dashboards" className="nav_button">
-                        Dashboards
-                      </Link>
-                      {/* If the user is a part of the Engineer group then the Admin page link appears */}
-                      {accountInfo.account.idToken.groups.indexOf(
-                        groupTypes.engineer
-                      ) >= 0 ? (
-                        <Link to="/admin" className="nav_button">
-                          Admin Page
-                        </Link>
-                      ) : (
-                        ""
-                      )}
-                      {/* If the user is part of the Researcher group then the Customers page link appears */}
-                      {accountInfo.account.idToken.groups.indexOf(
-                        groupTypes.researcher
-                      ) >= 0 ? (
-                        <Link to="/customers" className="nav_button">
-                          Customers
-                        </Link>
-                      ) : (
-                        ""
-                      )}
-                    </div>
-                  );
+                  return <NavLinks accountInfo={accountInfo} />;
                 default:
                   return {
                     /* If not logged in then show Sign in link */

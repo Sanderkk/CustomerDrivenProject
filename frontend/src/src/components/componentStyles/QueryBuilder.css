@@ -12,9 +12,9 @@
 
 .qb_box {
   background-color: white;
-  max-width: 400px;
-  min-width: 230px;
-  height: 300px;
+  max-width: 25em;
+  min-width: 14em;
+  height: 18em;
   overflow: auto;
   padding: 0 1em;
   margin: 0 1em;
@@ -39,8 +39,8 @@
 .qb_box label {
   display: block;
   position: relative;
-  padding-left: 30px;
-  margin-bottom: 10px;
+  padding-left: 2em;
+  margin-bottom: 0.6em;
   cursor: pointer;
   font-size: 17px;
 }
