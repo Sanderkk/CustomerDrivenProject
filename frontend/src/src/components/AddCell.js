@@ -3,8 +3,7 @@ import Navbar from "./Navbar";
 import LineGraph from "./LineGraph";
 import QueryBuilder from "./QueryBuilder";
 import GlobalButton from "./globalComponents/GlobalButton";
-import { BiCheck } from "react-icons/bi";
-import { BiX } from "react-icons/bi";
+import { BiCheck, BiX, BiNews } from "react-icons/bi";
 import ViewMetadata from "./globalComponents/ViewMetadata";
 import { useSelector } from "react-redux";
 import { setQueryData } from "../globalState/actions/queryDataActions";
@@ -118,7 +117,11 @@ function AddCell(props) {
             </div>
 
             <div className="query_builder">
+              {state !== undefined ?
+              <QueryBuilder graphInput={state.input} />
+              :
               <QueryBuilder />
+              }
             </div>
           </div>
       
@@ -151,10 +154,13 @@ function AddCell(props) {
                 show={show}
                 handleClose={() => setShow(false)}
                 />
-                {/* TODO: gjør knappen pen */}
-                <button type="button" onClick={() => setShow(true)}>
-                  Open
-                </button>
+                <div className="metadata_button" >
+                  <GlobalButton primary={false} btnText="View Metadata" handleButtonClick={() => setShow(true)} >
+                    <BiNews />
+                  </GlobalButton>
+                </div>
+
+                
               </div>
             :
             <div />
