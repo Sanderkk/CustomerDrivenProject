@@ -10,13 +10,14 @@ import { useDispatch } from "react-redux";
 import GlobalButton from "./globalComponents/GlobalButton";
 import sendMutation from "../queries/sendMutation";
 import sendQuery from "../queries/sendQuery";
-import { UPDATE_DASHBOARD, DELETE_DASHBOARD } from "../queries/mutations";
-import { GET_DASHBOARD_CELLS, GET_DASHBOARD } from "../queries/queries";
+import { UPDATE_DASHBOARD, DELETE_DASHBOARD, DELETE_CELL } from "../queries/mutations";
+import { GET_DASHBOARD_CELLS, GET_DASHBOARD, GET_TIME_SERIES } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus, BiTrash } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
 import groupTypes from "../groupTypes";
+import { setQueryData } from "../globalState/actions/queryDataActions";
 
 function DashboardSpecificPage(props) {
   /*
@@ -27,59 +28,13 @@ function DashboardSpecificPage(props) {
     name: "Name this Dashboard",
     description: "Write description for this Dashboard"
   }
-  let state = props.location.state;
+  // let state = props.location.state;
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [dashboard, setDashboard] = useState(null);
   const [cells, setCells] = useState(null);
+  const currentDashboard = useSelector(store => store.currentDashboard.input)
   const user = useSelector((store) => store.user.aadResponse);
-
-
-  // Cell mock data
-  const cellsMockData = [
-    {
-      cellId: 1,
-      input: {
-        sensors: [1],
-        specifiedTimePeriode: true,
-        from:"2020-08-01T08:21:19.000Z",
-        to:"2020-08-30T12:47:21.000Z"
-      },
-      options: {
-        title: "Oksygen graf",
-        RYAxis: "kul akse",
-        LYAxis: "venstreee"
-      }
-    },
-    {
-      cellId: 5,
-      input: {
-        sensors: [3],
-        specifiedTimePeriode: true,
-        from:"2020-08-01T08:21:19.000Z",
-        to:"2020-08-30T12:47:21.000Z"
-      },
-      options: {
-        title: "Temp graf",
-        RYAxis: "temp",
-        LYAxis: "enda mere temp"
-      }
-    },
-    {
-      cellId: 3,
-      input: {
-        sensors: [1,3],
-        specifiedTimePeriode: true,
-        from:"2020-08-01T08:21:19.000Z",
-        to:"2020-08-30T12:47:21.000Z"
-      },
-      options: {
-        title: "Alle gode ting er 3",
-        RYAxis: "3",
-        LYAxis: "tre"
-      }
-    }
-  ];
 
   
   // If state is null, then set the dashboard as empty, if not, set dashboard as the one given in state
@@ -89,7 +44,7 @@ function DashboardSpecificPage(props) {
       // TODO: use real userId not just "123"
       // const userId = user.account.accountIdentifier;
       const userId = "123";
-      if(typeof state === 'undefined' || state === null){
+      if(typeof currentDashboard === 'undefined' || currentDashboard === null){
         toBeSetAsDashboard = emptyDashboard;
         toBeSetAsDashboard.userId = userId;
         dispatch(setCurrentDashboard(toBeSetAsDashboard));
@@ -97,7 +52,7 @@ function DashboardSpecificPage(props) {
         fetchCells(toBeSetAsDashboard);
       }else{
         // Must make new variable and not use state to remove state's _typename
-        const dashboardId = state.dashboardId;
+        const dashboardId = currentDashboard.dashboardId;
         sendQuery(client, GET_DASHBOARD, { userId, dashboardId})
           .then((result) => {
             toBeSetAsDashboard = {
@@ -115,9 +70,8 @@ function DashboardSpecificPage(props) {
 
 
   function fetchCells(dashboard){
-    if(user !== null && dashboard !== null && typeof dashboard !== 'undefined' && state !== null){
+    if(user !== null && dashboard !== null && typeof dashboard !== 'undefined'){
 
-      // TODO: fetch cells and setCells()
       // TODO: change to real user
       // const userId = user.account.accountIdentifier;
       const userId = "123"; //Test user with data
@@ -128,11 +82,19 @@ function DashboardSpecificPage(props) {
         sendQuery(client, GET_DASHBOARD_CELLS, { userId, dashboardId})
         .then((result) => {
           
-          // console.log("CELLER");
-          // console.log(result.data.cells);
-          // setCells(result.data.cells);
+          const cellsWithoutTypeName = JSON.parse(JSON.stringify(result.data.cells))
+
+          // Strip __typename from cellsWithoutTypeName and item list
+          delete cellsWithoutTypeName.__typename
+          cellsWithoutTypeName.map((item) => (
+            // eslint-disable-next-line no-param-reassign
+            delete item.__typename,
+            delete item.input.__typename,
+            delete item.options.__typename
+          ))
+
+          setCells(cellsWithoutTypeName);
         }).catch((err) => console.log(err));
-        setCells(cellsMockData);
       }
     }
   }
@@ -181,6 +143,30 @@ function DashboardSpecificPage(props) {
   }
 
 
+  const handleDeleteCell = (cellId) => {
+    // TODO: change from userId 123 to real one
+    // const userId = user.account.accountIdentifier;
+    const userId = "123";
+    sendMutation(client, DELETE_CELL, { userId: userId, dashboardId: currentDashboard.dashboardId, cellId: cellId})
+      .then(() => {
+        fetchCells(currentDashboard)
+        
+      }).catch((err) => console.log(err));
+  }
+
+
+  const handleAddCell = () => {
+    handleSave();
+    dispatch(setQueryData(null, undefined));
+  }
+
+  const handleEditCell = (cell) => {
+    const input = cell.input
+    sendQuery(client, GET_TIME_SERIES, { input })
+      .then((result) => dispatch(setQueryData(input, result.data)))
+      .catch((err) => console.log(err));
+  }
+
   return (
     <div>
       <Navbar />
@@ -201,8 +187,8 @@ function DashboardSpecificPage(props) {
                           <div>
                             <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} />
                             <div className="add_cell_btn">
-                              <Link to="/cell">
-                                <GlobalButton primary={true} btnText="Add Cell">
+                              <Link to={{pathname: `/cell`, state: undefined}}>
+                                <GlobalButton primary={true} btnText="Add Cell" handleButtonClick={handleAddCell}>
                                   <BiPlus />
                                 </GlobalButton>
                               </Link>
@@ -238,7 +224,7 @@ function DashboardSpecificPage(props) {
                       {cells.map((cell) => {
                         return (
                           <div key={cell.cellId} >
-                            <DashboardCellCard cell={cell}/>
+                            <DashboardCellCard handleEditCell={handleEditCell} handleDeleteCell={handleDeleteCell} cell={cell}/>
                           </div>
                         );
                       })}

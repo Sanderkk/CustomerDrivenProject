@@ -7,7 +7,7 @@ import { GET_TIME_SERIES, GET_SENSORS } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import sendQuery from "../queries/sendQuery";
 
-function QueryBuilder() {
+function QueryBuilder(props) {
   /*
       Graphical query builder for creating queries for time series data
       Takes measurement, measurement fields, fromDate and toDate as input from user
@@ -15,23 +15,42 @@ function QueryBuilder() {
   const dispatch = useDispatch();
   const client = useApolloClient();
   const [sensors, setSensors] = useState({}); // array of table and columns fro radio and checkboxes
-  const [measurement, setMeasurement] = useState(""); 
-  const [checkedItems, setCheckedItems] = useState({}); // e.g. {airHumidity %: true, airPressure hPa: false}
-  const [dates, setDates] = useState([new Date(), new Date()]); // [fromDate, toDate]
+  const [sensorType, setSensorType] = useState(""); // e.g. o2concentration_um_
+  const [checkedItems, setCheckedItems] = useState({}); // e.g. {1: true, 3: false}
+  const [dates, setDates] = useState(props.graphInput !== undefined 
+    ? [new Date(props.graphInput.from), new Date(props.graphInput.to)] 
+    : [new Date(), new Date()]); // [fromDate, toDate]
+
+  const initialSensors = () => {
+    let initialSensors = props.graphInput.sensors
+    let newArr = {}
+    if (Object.keys(checkedItems).length === 0) {
+      for(let i = 0; i < initialSensors.length; i++) {
+        newArr = {...newArr, [initialSensors[i]]: true}
+      }
+      setCheckedItems(newArr)
+    }
+  }
+
 
   // Validates input, query api and updates global state
   useEffect(() => {
+    let mounted = true;
     const existTrueItem = Object.keys(checkedItems).some(
       (k) => checkedItems[k] === true
     ); // checks if any of the checkedIems are true
-    if (measurement.length > 0 && existTrueItem) {
+    if (sensorType.length > 0 && existTrueItem) {
       const input = getQuery();
-      // fetch time series and update global state
-      sendQuery(client, GET_TIME_SERIES, { input })
-        .then((result) => dispatch(setQueryData(input, result.data)))
-        .catch((err) => console.log(err));
+      if(mounted){
+        // fetch time series and update global state
+        sendQuery(client, GET_TIME_SERIES, { input })
+          .then((result) => dispatch(setQueryData(input, result.data)))
+          .catch((err) => console.log(err));
+      }
     }
-  }, [client, measurement, checkedItems, dates]);
+    return () => mounted = false;
+    
+  }, [client, sensorType, checkedItems, dates]);
 
   // Fetches data for table and columns when component is loaded
   useEffect(() => {
@@ -40,7 +59,10 @@ function QueryBuilder() {
         setSensors(result.data);
       })
       .catch((err) => console.log(err));
-  }, [client]);
+    if(props.graphInput !== undefined) {
+      initialSensors()
+    }
+  }, [client, props.graphInput]);
 
   const handleCheckboxChange = (event) => {
     setCheckedItems({
@@ -51,7 +73,7 @@ function QueryBuilder() {
 
   // set measurement and reset checkboxes
   const handleRadioChange = (event) => {
-    setMeasurement(event.target.name);
+    setSensorType(event.target.name);
   };
 
   // return whether a measurement column is checked or not
@@ -64,6 +86,23 @@ function QueryBuilder() {
     return checked;
   };
 
+  const isMeasurementChecked = (key) => {
+    let undefinedList = []
+    for(let i = 0; i < key.length; i++) {
+      const checked = checkedItems[key[i]]; 
+      if (checked === undefined) {
+        undefinedList.push(checked)
+        // necessary to make checkboxes controlled by state
+      }
+      else if(isChecked(key[i])) {
+        return true;
+      }
+    }
+    if (undefinedList.length > 0) {
+      return false;
+    }
+}
+
   // Create checkboxes for measurements
   const nameToRadioButton = (name, key) => (
     <div className="qb_checkbox" key={key}>
@@ -73,6 +112,7 @@ function QueryBuilder() {
           type="checkbox"
           value={name}
           name={name}
+          checked={isMeasurementChecked(key)}
           onChange={handleRadioChange}
         />
         <span className="checkmark"></span>
@@ -116,10 +156,11 @@ function QueryBuilder() {
     
     return {
       sensors: intKeys,
-      specifiedTimePeriode: true,
+      specifiedTimePeriod: true,
       from: dateToUTCDate(dates[0]),
       to: dateToUTCDate(dates[1]),
     };
+
   };
 
   return (
@@ -140,17 +181,17 @@ function QueryBuilder() {
         </div>
       </div>
       <div className="qb_box">
-        <h3>Select Fields</h3>
+        <h3>Select {sensorType} Sensors </h3>
         <div>
           {/* If measurement selected: filter data to selected measurement, select value array of first object, 
           remove "time" from array and map array to checkboxes*/}
-          {measurement ? (
+          {sensorType ? (
             sensors.sensors
-              .filter((obj) => obj.sensorTypeName === measurement)[0]
+              .filter((obj) => obj.sensorTypeName === sensorType)[0]
               .sensorIds.filter((item) => item !== 0)
               .map((item, i) => fieldToCheckbox(item, i))
           ) : (
-            <p>Please select a measurement</p>
+            <p>Please select a sensor type</p>
           )}
         </div>
       </div>

@@ -10,7 +10,7 @@ namespace src.Api.Inputs
         [GraphQLNonNullType]
         public List<int> Sensors { get; set; }
         [GraphQLNonNullType]
-        public bool SpecifiedTimePeriode { get; set; }
+        public bool SpecifiedTimePeriod { get; set; }
 
         public DateTime? From { get; set; }
         public DateTime? To { get; set; }

@@ -1,17 +1,13 @@
-import React, { useState, useEffect  } from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
 import LineGraph from "./LineGraph";
 import QueryBuilder from "./QueryBuilder";
 import GlobalButton from "./globalComponents/GlobalButton";
-import { BiCheck } from "react-icons/bi";
-import { BiX } from "react-icons/bi";
+import { BiCheck, BiX, BiNews } from "react-icons/bi";
 import ViewMetadata from "./globalComponents/ViewMetadata";
 import { useSelector } from "react-redux";
-import { setQueryData } from "../globalState/actions/queryDataActions";
 import { useDispatch } from "react-redux";
-import sendQuery from "../queries/sendQuery";
 import { useApolloClient } from "@apollo/client";
-import { GET_TIME_SERIES } from "../queries/queries";
 import { UPDATE_CELL } from "../queries/mutations";
 import { Link } from "react-router-dom";
 import sendMutation from "../queries/sendMutation";
@@ -22,7 +18,7 @@ import './componentStyles/AddCell.css'
 //or modify an existing cell. 
 function AddCell(props) {
   const state = props.location.state;
-  const [options, setOptions] = useState(state !== undefined ? state.options : { title: '', RYAxis: '', LYAxis: ''})
+  const [options, setOptions] = useState(state !== undefined ? state.options : { title: '', rYAxis: '', lYAxis: ''})
   const [show, setShow] = useState(false);
   const input = useSelector(store => store.queryData.input)
   const dashboard = useSelector(store => store.currentDashboard.input)
@@ -31,27 +27,10 @@ function AddCell(props) {
   const dispatch = useDispatch();
   const client = useApolloClient();
 
-  
-  // Update global state if editing a graph/cell
-  useEffect(() => {
-    if(state !== undefined){
-      // fetch time series and update global state
-      const input = state.input
-      sendQuery(client, GET_TIME_SERIES, { input })
-        .then((result) => dispatch(setQueryData(input, result.data)))
-        .catch((err) => console.log(err));
-    }
-  }, [client, state]);
-
-
-  const handleDiscard = () => {
-    //TODO: Discard cell
-  }
 
   const handleAddCell = () => {
     //Check if any of the input-fields have been changed. 
     const isEmpty = Object.values(options).every(x => (x === ''));
-    console.log(isEmpty)
     if(!isEmpty) {
       //TODO: send options and input to backend. Input is generated in QueryBuilder and saved in Redux store,
       //while userOptions is generated in AddCell.
@@ -79,12 +58,12 @@ function AddCell(props) {
 
   const handlePrimaryChange = e => {
     e.preventDefault()
-    setOptions({...options, RYAxis: e.target.value})
+    setOptions({...options, rYAxis: e.target.value})
   }
 
   const handleSecondaryChange = e => {
     e.preventDefault()
-    setOptions({...options, LYAxis: e.target.value})
+    setOptions({...options, lYAxis: e.target.value})
   }
 
   return(
@@ -95,15 +74,17 @@ function AddCell(props) {
             
           <div className="discard_cell" >
             <Link to="/specific-dashboard">
-              <GlobalButton primary={false} btnText="Discard" handleButtonClick={handleDiscard}>
+              <GlobalButton primary={false} btnText="Discard">
                 <BiX />
               </GlobalButton>
             </Link>
           </div>
           <div className="add_cell" >
-            <GlobalButton primary={true} btnText="Save Cell" handleButtonClick={handleAddCell}>
-              <BiCheck />
-            </GlobalButton>
+            <Link to="/specific-dashboard">
+              <GlobalButton primary={true} btnText="Save Cell" handleButtonClick={handleAddCell}>
+                <BiCheck />
+              </GlobalButton>
+            </Link>
           </div>
         </div>
 
@@ -118,7 +99,11 @@ function AddCell(props) {
             </div>
 
             <div className="query_builder">
+              {state !== undefined ?
+              <QueryBuilder graphInput={state.input} />
+              :
               <QueryBuilder />
+              }
             </div>
           </div>
       
@@ -135,12 +120,12 @@ function AddCell(props) {
               <label className="options_label" htmlFor="primaryAxis">
                 Right Y-axis:
               </label>
-              <input type="text" id="primaryAxis" onChange={handlePrimaryChange} value={options.RYAxis}/>
+              <input type="text" id="primaryAxis" onChange={handlePrimaryChange} value={options.rYAxis}/>
 
               <label className="options_label" htmlFor="secondaryAxis">
                 Left Y-axis:
               </label>
-              <input type="text" id="secondaryAxis" onChange={handleSecondaryChange} value={options.LYAxis}/>
+              <input type="text" id="secondaryAxis" onChange={handleSecondaryChange} value={options.lYAxis}/>
           
             </form>
 
@@ -151,10 +136,13 @@ function AddCell(props) {
                 show={show}
                 handleClose={() => setShow(false)}
                 />
-                {/* TODO: gjør knappen pen */}
-                <button type="button" onClick={() => setShow(true)}>
-                  Open
-                </button>
+                <div className="metadata_button" >
+                  <GlobalButton primary={false} btnText="View Metadata" handleButtonClick={() => setShow(true)} >
+                    <BiNews />
+                  </GlobalButton>
+                </div>
+
+                
               </div>
             :
             <div />

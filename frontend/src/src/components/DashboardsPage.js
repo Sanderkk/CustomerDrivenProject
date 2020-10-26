@@ -9,7 +9,8 @@ import groupTypes from "../groupTypes";
 import sendQuery from "../queries/sendQuery";
 import { GET_DASHBOARDS } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { setCurrentDashboard } from "../globalState/actions/dashboardActions";
 
 
 function DashboardsPage() {
@@ -20,6 +21,7 @@ function DashboardsPage() {
   const client = useApolloClient();
   const user = useSelector((store) => store.user.aadResponse);
   const [dashboards, setDashboards] = useState(null);
+  const dispatch = useDispatch();
 
   // If user is sat in redux, fetch dashboards for that user
   useEffect(() => {
@@ -34,6 +36,10 @@ function DashboardsPage() {
   }, [client, user]);
 
 
+  const handleDashboardClick = dashboard => {
+    dispatch(setCurrentDashboard(dashboard));
+  }
+
   return (
     <div>
       <Navbar />
@@ -47,7 +53,7 @@ function DashboardsPage() {
             {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
               // If user is a researcher, show the create dahboard button
               <div id="create_dashboard_btn">
-                <Link to={{pathname: `/specific-dashboard`, state: null}} >
+                <Link to={{pathname: `/specific-dashboard`}} onClick={() => handleDashboardClick(null)}>
                   <GlobalButton primary={true} btnText="Create Dashboard">
                     <BiPlus />
                   </GlobalButton>
@@ -58,10 +64,10 @@ function DashboardsPage() {
             <div>
               <h2>My dashboards</h2>
               <div className="grid_container">
-                {dashboards.map((e,i) => {
+                {dashboards.map((dashboard,i) => {
                   return (
-                    <Link key={e.dashboardId} className="dashboard_link" to={{pathname: `/specific-dashboard`, state: e}}>
-                      <DashboardPreviewCard name={e.name} description={e.description}/>
+                    <Link key={dashboard.dashboardId} className="dashboard_link" to={{pathname: `/specific-dashboard`}} onClick={() => handleDashboardClick(dashboard)}>
+                      <DashboardPreviewCard name={dashboard.name} description={dashboard.description}/>
                     </Link>
                   );
                 })}

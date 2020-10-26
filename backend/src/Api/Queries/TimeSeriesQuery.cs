@@ -33,7 +33,7 @@ namespace src.Api.Queries
 
             DateTime from;
             DateTime to;
-            if (input.SpecifiedTimePeriode)
+            if (input.SpecifiedTimePeriod)
             {
                 if (input.From == null || input.To == null || input.From >= input.To)
                 {

@@ -44,7 +44,7 @@ namespace tests.IntegrationTests
             var input = new TimeSeriesRequestInput()
             {
                 Sensors = new List<int>() { 2, 3 },
-                SpecifiedTimePeriode = true,
+                SpecifiedTimePeriod = true,
                 From = DateTime.Parse("2020-08-12T08:21:19.000Z"),
                 To = DateTime.Parse("2020-08-17T12:47:21.000Z")
             };
@@ -99,7 +99,7 @@ namespace tests.IntegrationTests
             var input = new TimeSeriesRequestInput()
             {
                 Sensors = new List<int>() { 2, 3 },
-                SpecifiedTimePeriode = false,
+                SpecifiedTimePeriod = false,
                 TicksBackwards = 53556090190067
             };
 
