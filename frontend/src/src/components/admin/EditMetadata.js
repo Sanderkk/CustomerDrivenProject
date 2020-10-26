@@ -9,6 +9,7 @@ import {
 } from "../../queries/queries";
 import { EDIT_METADATA } from "../../queries/mutations";
 import { initialState, fields } from "../../assets/metadata";
+import Modal from "../globalComponents/Modal";
 
 function EditMetadata() {
   /*
@@ -23,7 +24,6 @@ function EditMetadata() {
     // render state
     form: false,
     newSensor: false,
-    success: false,
     error: false,
     loading: false,
   });
@@ -33,7 +33,7 @@ function EditMetadata() {
     sendQuery(client, GET_METADATA_SENSOR_NUMBERS).then((res) =>
       setExistingSensorNumbers(res.data.metadata)
     );
-  }, []);
+  }, [client]);
 
   const updateForm = useCallback(({ target: { value, name, type } }) => {
     // if the input is a checkbox then use callback function to update
@@ -61,10 +61,15 @@ function EditMetadata() {
       loading: true,
       error: false,
     }));
-    sendQuery(client, GET_METADATA, {
-      sensorNumber: searchInput,
-      onlyLast: true,
-    })
+    sendQuery(
+      client,
+      GET_METADATA,
+      {
+        sensorNumber: searchInput,
+        onlyLast: true,
+      },
+      "network-only"
+    )
       .then((result) => {
         const data = result.data.metadata[0];
         if (data) {
@@ -86,7 +91,7 @@ function EditMetadata() {
       .catch((err) =>
         setRender((prevState) => ({
           ...prevState,
-          error: true,
+          error: "Search failed",
         }))
       );
   };
@@ -102,19 +107,30 @@ function EditMetadata() {
 
   // Save metadata
   const handleSave = () => {
-    const input = filterOutNullValues(form);
-    console.log(input);
-    sendMutation(client, EDIT_METADATA, { input })
+    const input = {
+      input: filterOutNullValues(form),
+    };
+    delete input.input.updatedAt;
+    input.input.number = searchInput;
+    if (!input.input.name) {
+      setRender((prevState) => ({
+        ...prevState,
+        error: "Name field is required",
+      }));
+      return;
+    }
+    sendMutation(client, EDIT_METADATA, input)
       .then((res) => {
         setRender((prevState) => ({
           ...prevState,
           form: false,
         }));
+        handleSearch();
       })
       .catch((err) => {
         setRender((prevState) => ({
           ...prevState,
-          error: true,
+          error: "Saving metadata failed",
         }));
       });
   };
@@ -163,7 +179,14 @@ function EditMetadata() {
           <div className="form">
             {Object.keys(fields).map((key, i) => (
               <div className="line" key={i}>
-                <span>{fields[key].name}: </span>
+                {fields[key].required ? (
+                  <div>
+                    {fields[key].name}
+                    <span className="required">*</span>:{" "}
+                  </div>
+                ) : (
+                  <div>{fields[key].name}: </div>
+                )}
                 <input
                   type={fields[key].type}
                   name={key}
@@ -208,7 +231,18 @@ function EditMetadata() {
       )}
 
       {render.loading ? <div>Loading...</div> : React.Fragment}
-      {render.error ? <div>Error. Something went wrong</div> : React.Fragment}
+      <Modal
+        show={render.error}
+        handleClose={() =>
+          setRender((prevState) => ({
+            ...prevState,
+            error: false,
+          }))
+        }
+      >
+        <h3>Error</h3>
+        <div>{render.error}</div>
+      </Modal>
     </div>
   );
 }

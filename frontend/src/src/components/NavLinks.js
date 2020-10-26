@@ -25,7 +25,8 @@ function NavLinks({ accountInfo }) {
       <Link
         to="/dashboards"
         className={
-          location.pathname === "/dashboards"
+          location.pathname.includes("dashboard") ||
+          location.pathname === "/cell"
             ? "nav_button active"
             : "nav_button"
         }

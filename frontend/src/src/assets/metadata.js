@@ -1,8 +1,9 @@
 export const fields = {
-  ownerID: {
-    name: "Owner",
+  name: {
+    name: "Name",
     type: "text",
     placeholder: "text",
+    required: true,
   },
   tag1: {
     name: "Tag 1",
@@ -14,8 +15,8 @@ export const fields = {
     type: "text",
     placeholder: "text",
   },
-  name: {
-    name: "Name",
+  ownerID: {
+    name: "Owner",
     type: "text",
     placeholder: "text",
   },
