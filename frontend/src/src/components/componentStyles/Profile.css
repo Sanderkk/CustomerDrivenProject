@@ -1,0 +1,48 @@
+.nav_button .dropbtn {
+  border: none;
+  cursor: pointer;
+}
+
+.nav_button .dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.nav_button .dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 18em;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 5;
+  right: 0;
+  text-align: left;
+}
+
+.nav_button .dropdown-content > div {
+  color: black;
+  padding: 0 1em;
+  text-decoration: none;
+  display: block;
+  margin: 1em 1em 0 1em;
+}
+
+.nav_button .dropdown-content a:hover {
+  background-color: #eee;
+}
+
+.nav_button .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.nav_button .dropdown:hover .dropbtn {
+  background-color: #004299;
+}
+
+.nav_button .dropdown-content button {
+  margin-bottom: 1em;
+}
+
+.nav_button .dropdown-content span {
+  font-weight: 500;
+}

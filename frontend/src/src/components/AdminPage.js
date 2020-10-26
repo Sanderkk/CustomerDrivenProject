@@ -13,7 +13,7 @@ function AdminPage() {
     Contains tab navigation for the different admin pages
   */
 
-  const [activeTab, setActiveTab] = useState(1);
+  const [activeTab, setActiveTab] = useState(0);
   const tabTitles = ["Upload data", "Metadata", "Sensor access", "User groups"];
 
   return (

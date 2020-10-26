@@ -13,7 +13,7 @@
   border: solid 1px #e5e5e5;
   outline: 0;
   font: normal 13px/100% Verdana, Tahoma, sans-serif;
-  width: 200px;
+  width: 12.5em;
   background: #ffffff;
   background: -moz-linear-gradient(top, #ffffff, #eeeeee 1px, #ffffff 25px);
   box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 8px;
@@ -22,9 +22,8 @@
 }
 
 .dashboard_textarea {
-  width: 400px;
-  max-width: 400px;
-  height: 150px;
+  width: 25em;
+  height: 9.4em;
   line-height: 150%;
 }
 
@@ -51,8 +50,8 @@
   font-size: 2em;
   margin-block-start: 0.67em;
   margin-block-end: 0.67em;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
   font-weight: bold;
   width: 60%;
 }
@@ -68,4 +67,3 @@
 .dashboard-form {
   margin-top: 5em;
 }
-
