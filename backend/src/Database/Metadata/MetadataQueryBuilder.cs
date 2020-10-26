@@ -22,7 +22,7 @@ namespace src.Database
             string query = $"SELECT * FROM metadata left join location on metadata.location_id=location.id{where} ORDER By created_at desc ";
             return query;
         }
-        public static string CreateInsertMetadataString(MetadataInput newMetadata, int? locationID)
+        public static string CreateInsertMetadataString(MetadataInput newMetadata, int? locationID, int sensorID)
         {
 
             String query = "WITH addedMetadata AS(INSERT INTO metadata(sensor_id, location_id, name, number, company, service_partner, department, " +
@@ -31,7 +31,7 @@ namespace src.Database
                 "voltage, signal, measure_area, website,picture, inspection_round)" +
                 "VALUES({0},{1},'{2}','{3}','{4}','{5}','{6}','{7}','{8}','{9}','{10}','{11}','{12}','{13}','{14}','{15}','{16}','{17}','{18}',{19},{20},{21},{22},{23},{24},'{25}','{26}','{27}','{28}','{29}','{30}') RETURNING *)"
                 + "Select addedMetadata.*,coordinate, altitude,description from addedMetadata left join location on (addedMetadata.location_id=location.id);";
-            query = string.Format(query, newMetadata.SensorID, locationID, newMetadata.Name, newMetadata.Number, newMetadata.Company,
+            query = string.Format(query, sensorID, locationID, newMetadata.Name, newMetadata.Number, newMetadata.Company,
                 newMetadata.ServicePartner, newMetadata.Department, newMetadata.OwnerID, newMetadata.PurchaseDate, newMetadata.Identificator, newMetadata.WarrantyDate,
                 newMetadata.ModelNumber, newMetadata.SerialNumber, newMetadata.Tag1, newMetadata.Tag2, newMetadata.Tag3, newMetadata.NextService, newMetadata.PlannedDisposal,
                 newMetadata.ActualDisposal, newMetadata.Lending, newMetadata.LendingPrice, newMetadata.Timeless, newMetadata.CheckOnInspectionRound, newMetadata.Tollerance,
@@ -50,6 +50,11 @@ namespace src.Database
         public static string UpdateOldMetadataString(DateTime timestamp, int metadataID)
         {
             return "UPDATE metadata SET outdated_from= '" + timestamp + "' WHERE id=" + metadataID + " returning id";
+        }
+
+        public static string InsertNewEmptySensor()
+        {
+            return "INSERT INTO sensor(table_name, column_name) VALUES (null, null) RETURNING id";
         }
     }
 }
