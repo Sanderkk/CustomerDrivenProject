@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +21,7 @@ using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication;
+using src.Api.Models;
 using src.Api.Mutations;
 using src.Database.User;
 
@@ -64,6 +68,8 @@ namespace src
                     builder.RequireAuthenticatedUser()
                     );
             });
+            
+            services.AddQueryRequestInterceptor(AuthenticationInterceptor());
 
             // Config file
             services.Configure<DatabaseConfig>(
@@ -98,7 +104,22 @@ namespace src
             //Overwrite basic error messages with ones with more info
             //services.AddErrorFilter<GraphQLErrorFilter>();
         }
+        private static OnCreateRequestAsync AuthenticationInterceptor()
+        {
+            return (context, builder, token) =>
+            {
+                if (context.GetUser().Identity.IsAuthenticated)
+                {
+                    builder.SetProperty("currentUser",
+                        new CurrentUser(Guid.Parse(context.User.FindFirstValue(ClaimTypes.NameIdentifier)),
+                            context.User.Claims.Select(x => $"{x.Type} : {x.Value}").ToList()));
+                }
 
+                return Task.CompletedTask;
+            };
+        }
+        
+        
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

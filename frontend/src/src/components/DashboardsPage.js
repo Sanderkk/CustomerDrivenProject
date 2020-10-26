@@ -26,7 +26,8 @@ function DashboardsPage() {
     if(user !== null){
       // const userId = user.account.accountIdentifier;
       const userId = "123"; //Test user with data
-      sendQuery(client, GET_DASHBOARDS, { userId })
+      console.log(client.version)
+      sendQuery(client, GET_DASHBOARDS, { userId: "123" })
       .then((result) => {
         setDashboards(result.data.dashboards);
       }).catch((err) => console.log(err));

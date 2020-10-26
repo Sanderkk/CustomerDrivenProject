@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using src.Api.Inputs;
+using src.Api.Models;
 using src.Database.User;
 
 namespace src.Api.Queries
@@ -20,15 +21,19 @@ namespace src.Api.Queries
             [Service] IUserRepository repo
         )
         {
+            Console.WriteLine("ok");
             string queryString = UserQueryBuilder.GetDashboardQueryString(userId, dashboardId);
             return repo.GetDashboard(queryString).Result;
         }
         
         public List<Dashboard> GetDashboards(
             [GraphQLNonNullType] string userId,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
+            Console.WriteLine("Dashboard query:");
+            Console.WriteLine(user);
             string queryString = UserQueryBuilder.GetUserDashboardsQueryString(userId);
             return repo.GetDashboards(queryString).Result;
         }
