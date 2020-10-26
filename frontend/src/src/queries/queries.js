@@ -35,7 +35,6 @@ export const GET_METADATA = gql`
       sensorNumber: $sensorNumber
     ) {
       sensorID
-      metadataID
       number
       actualDisposal
       altitude
@@ -43,7 +42,6 @@ export const GET_METADATA = gql`
       checkOnInspectionRound
       company
       coordinate
-      createdAt
       department
       identificator
       inspectionRound
@@ -54,7 +52,6 @@ export const GET_METADATA = gql`
       modelNumber
       name
       nextService
-      outdatedFrom
       ownerID
       picture
       plannedDisposal
@@ -85,21 +82,21 @@ export const GET_METADATA_SENSOR_NUMBERS = gql`
 `;
 
 export const GET_DASHBOARD = gql`
-    query dashboard($userId: String!, $dashboardId: Int!) {
-        dashboard(userId: $userId, dashboardId: $dashboardId) {
-            dashboardId,
-            name,
-            description
-        }
+  query dashboard($userId: String!, $dashboardId: Int!) {
+    dashboard(userId: $userId, dashboardId: $dashboardId) {
+      dashboardId
+      name
+      description
     }
+  }
 `;
 
 export const GET_DASHBOARDS = gql`
   query dashboards($userId: String!) {
     dashboards(userId: $userId) {
-        dashboardId,
-        name,
-        description
+      dashboardId
+      name
+      description
     }
   }
 `;
@@ -108,13 +105,13 @@ export const GET_DASHBOARD_CELL = gql`
   query cell($userId: String!, $dashboardId: Int!, $cellId: Int!) {
     cells(userId: $userId, dashboardId: $dashboardId, cellId: $cellId) {
       cellId
-      input{
+      input {
         from
         to
         specifiedTimePeriod
         sensors
       }
-      options{
+      options {
         lYAxis
         rYAxis
         title
@@ -127,13 +124,13 @@ export const GET_DASHBOARD_CELLS = gql`
   query cells($userId: String!, $dashboardId: Int!) {
     cells(userId: $userId, dashboardId: $dashboardId) {
       cellId
-      input{
+      input {
         from
         to
         specifiedTimePeriod
         sensors
       }
-      options{
+      options {
         lYAxis
         rYAxis
         title

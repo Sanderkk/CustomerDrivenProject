@@ -54,10 +54,15 @@
   margin-bottom: 0.5em;
 }
 
-.form .line span {
+.form .line div {
   text-align: right;
   width: 45%;
   display: inline-block;
+}
+
+.form .line .required {
+  color: #ff0000;
+  font-size: 17px;
 }
 
 .form .line input {
@@ -92,4 +97,14 @@
 
 .add_new div {
   float: right;
+}
+
+.edit_metadata_container .modal-main {
+  width: 30em;
+  height: 10em;
+  padding-left: 1em;
+}
+
+.edit_metadata_container .modal-main h3 {
+  color: #ce0000;
 }

@@ -4,6 +4,7 @@ import "../componentStyles/globalStyles/ViewMetadata.css";
 import { GET_METADATA } from "../../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import sendQuery from "../../queries/sendQuery";
+import Modal from "./Modal";
 
 function ViewMetadata({ sensorIDs, show, handleClose }) {
   /*
@@ -81,19 +82,5 @@ function ViewMetadata({ sensorIDs, show, handleClose }) {
     </div>
   );
 }
-
-// Custom modal component
-const Modal = ({ handleClose, show, children }) => {
-  const showHideClassName = show ? "modal display-block" : "modal display-none";
-
-  return (
-    <div className={showHideClassName}>
-      <section className="modal-main">
-        <BiX onClick={handleClose} />
-        {children}
-      </section>
-    </div>
-  );
-};
 
 export default ViewMetadata;
