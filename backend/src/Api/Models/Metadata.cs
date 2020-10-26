@@ -7,8 +7,6 @@ namespace src.Api.Models
     public class Metadata
     {
         [GraphQLNonNullType]
-        public int SensorID { get; set; }
-        [GraphQLNonNullType]
         public string Number { get; set; }
         public string? Coordinate { get; set; }
         public int? Altitude { get; set; }

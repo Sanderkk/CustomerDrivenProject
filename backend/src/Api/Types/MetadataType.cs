@@ -13,6 +13,7 @@ namespace src.Api.Types
     {
         public int MetadataID { get; set; }
         public int? LocationID { get; set; }
+        public int SensorID { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime UpdatedAt { get; set; }
         public DateTime? OutdatedFrom { get; set; }
