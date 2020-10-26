@@ -219,13 +219,6 @@ function DashboardSpecificPage(props) {
                                 </GlobalButton>
                               </Link>
                             </div>
-                            <div className="save_btn">
-                              <Link to="/dashboards">
-                                <GlobalButton primary={false} btnText="Delete" handleButtonClick={handleDelete}>
-                                  <BiTrash />
-                                </GlobalButton>
-                              </Link>
-                            </div>
                             <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
                           </div>
                           :
