@@ -45,7 +45,7 @@ namespace parser
             
             ParserString parser = new ParserString(dataConfig);
             (List<String>, string[]) parsedFile = parser.ParseFile(file, false);
-            PrepareWritingDataToDB.PrepareQueryAndWrite(parsedFile.Item1, dataConfig, parsedFile.Item2, id);
+            PrepareWritingDataToDB.PrepareQueryAndWrite(parsedFile.Item1, dataConfig, parsedFile.Item2);
         }
     }
 }

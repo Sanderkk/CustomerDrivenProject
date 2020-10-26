@@ -10,7 +10,8 @@
         "timeFormat": "yyyy-MM-dd HH.mm.ss",
         "timeFormatTimescaleDB": "yyyy-MM-dd HH:mm:ss.FFF",
         "columnSeparator": "\t",
-        "sensors": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]
+        "sensors": [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+        "sensorIDs": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
       },
       "Metocean": {
         "measurement": "Metocean",
@@ -26,7 +27,12 @@
                   14, 15, 16, 17, 18, 19, 20, 21, 22,
                   23, 24, 25, 26, 27, 28, 29, 30, 31, 32,
                   33, 34, 35, 36, 37, 38, 39, 40, 41, 42,
-                  43, 44, 45, 46, 47, 48, 49, 50, 51]
+                  43, 44, 45, 46, 47, 48, 49, 50, 51],
+        "sensorIDs": [11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21,
+                  22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33,
+                  34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45,
+                  46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57,
+                  58, 59, 60]
       },
       "Tension": {
         "Measurement": "Tension",
@@ -38,7 +44,8 @@
         "timeFormat": "yyyy.MM.dd HH:mm:ss.FFF",
         "timeFormatTimescaleDB": "yyyy-MM-dd HH:mm:ss.FFF",
         "columnSeparator": "\t",
-        "sensors": [1, 2, 3, 4, 5, 6, 7, 8, 9]
+        "sensors": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+        "sensorIDs": [61, 62, 63, 64, 65, 66, 67, 68]
       },
       "Wavedata": {
         "Measurement": "Wavedata",
@@ -51,8 +58,9 @@
         "timeFormatTimescaleDB": "yyyy-MM-dd HH:mm:ss.FFF",
         "columnSeparator": ";",
         "sensors": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
-                    14, 15, 16, 17, 18]
+                    14, 15, 16, 17, 18],
+        "sensorIDs": [69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
+                    80, 81, 82, 83, 84, 85]
       }
     }
-    
 }

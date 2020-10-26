@@ -1,7 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:String x:Key="/Default/CodeInspection/ExcludedFiles/FilesAndFoldersToSkip2/=7EE47C11_002D67C4_002D49E6_002DAF40_002D4A51B0BF058F_002Fd_003AApi_002Fd_003AInputs_002Ff_003ACellDataInput_002Ecs/@EntryIndexedValue">ExplicitlyExcluded</s:String>
-	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6407c17f_002D39aa_002D4d6f_002Dac17_002D52d275381d16/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DashboardQueryTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
-  &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.IntegrationTests.DashboardQueryTest&lt;/TestId&gt;&#xD;
-  &lt;/TestAncestor&gt;&#xD;
+	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=6407c17f_002D39aa_002D4d6f_002Dac17_002D52d275381d16/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="DashboardQueryTest" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;
+  &lt;TestAncestor&gt;
+    &lt;TestId&gt;xUnit::72FE0B2D-345A-4E80-8B36-338FF57DA60E::.NETCoreApp,Version=v3.1::tests.IntegrationTests.DashboardQueryTest&lt;/TestId&gt;
+  &lt;/TestAncestor&gt;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

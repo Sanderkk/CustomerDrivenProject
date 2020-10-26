@@ -16,7 +16,7 @@ namespace src.Database
             var path = Directory.GetCurrentDirectory();
             var builder = new ConfigurationBuilder()
                 .SetBasePath(path)
-                .AddJsonFile("database.json")
+                .AddJsonFile("appsettings.json")
                 .Build();
 
             var databaseSettings = builder.GetSection("DatabaseConfig").Get<DatabaseConfig>();
@@ -28,9 +28,6 @@ namespace src.Database
             using var cmd = new NpgsqlCommand();
             cmd.Connection = con;
 
-            cmd.CommandText = "INSERT INTO sensor (id) VALUES ('" + sensorID +"')";
-            cmd.ExecuteNonQuery();
-
             cmd.CommandText = createTable;
             cmd.ExecuteNonQuery();
             
@@ -38,7 +35,7 @@ namespace src.Database
             cmd.CommandText = "SELECT create_hypertable('"+sensorName +@"', 'time', if_not_exists => TRUE)";
             cmd.ExecuteNonQuery();
 
-            write(con, copyInto, startIndex, numTableColumns, record, numColumns, sensorID);
+            Write(con, copyInto, startIndex, numTableColumns, record, numColumns, sensorID);
 
             using (var cmd2 = new NpgsqlCommand("UPDATE sensor SET table_name = '"+sensorName+"', column_name = '"+ string.Join(".", sensorName) +"' WHERE sensor.id='"+ sensorID+@"';", con))
             {
@@ -47,7 +44,7 @@ namespace src.Database
             con.Close(); 
         }
 
-        public static void write(NpgsqlConnection con, string copyInto, int startIndex, int numTableColumns, List<string> record, int numColumns, int sensorID) {
+        private static void Write(NpgsqlConnection con, string copyInto, int startIndex, int numTableColumns, List<string> record, int numColumns, int sensorID) {
             string row = "";
             
             using (var writer = con.BeginTextImport(copyInto)) {
