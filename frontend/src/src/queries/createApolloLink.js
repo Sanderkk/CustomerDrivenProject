@@ -26,7 +26,7 @@ async function createApolloLink() {
   });
 
   const httpLink = createHttpLink({
-    uri: "http://api-customerdriven.sanderkk.com/playground/..",
+    uri: "http://customerdriven.sanderkk.com:5000/",
   });
 
   return authLink.concat(httpLink);

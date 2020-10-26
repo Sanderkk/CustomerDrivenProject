@@ -14,7 +14,7 @@ export const UPDATE_DASHBOARD = gql`
   }  
 `
 export const UPDATE_CELL = gql`
-    mutation updateCell($input: CellDataInput!) {
+    mutation updateCell($input: CellInput) {
         updateCell(input: $input)
     }
 `

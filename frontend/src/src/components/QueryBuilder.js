@@ -156,7 +156,7 @@ function QueryBuilder(props) {
     
     return {
       sensors: intKeys,
-      specifiedTimePeriode: true,
+      specifiedTimePeriod: true,
       from: dateToUTCDate(dates[0]),
       to: dateToUTCDate(dates[1]),
     };

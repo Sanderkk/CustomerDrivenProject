@@ -23,35 +23,19 @@ function DashboardCellCard(props) {
       id: 1,
       input: {
         sensors: [1, 11],
-        specifiedTimePeriode: true,
+        specifiedTimePeriod: true,
         from:"2020-08-01T18:21:05.774Z",
         to:"2020-08-19T18:21:05.774Z"
       },
       options: {
         title: "Oksygen graf",
-        RYAxis: "kul akse",
-        LYAxis: "venstreee"
+        rYAxis: "kul akse",
+        lYAxis: "venstreee"
       }
     }
   */
 
   const [show, setShow] = useState(false);
-
-  const client = useApolloClient();
-  const user = useSelector((store) => store.user.aadResponse);
-
-  const handleDeleteCell = () => {
-    // TODO: change from userId 123 to real one
-    // const userId = user.account.accountIdentifier;
-    const userId = "123";
-    sendMutation(client, DELETE_CELL, {
-      userId: userId,
-      dashboardId: store.getState().currentDashboard.input.dashboardId,
-      cellId: props.cell.cellId,
-    })
-      .then(() => {})
-      .catch((err) => console.log(err));
-  };
 
   return (
     <div className="cell_grid_item">
@@ -64,6 +48,7 @@ function DashboardCellCard(props) {
               <Link
                 key={"cell" + props.cell.id}
                 to={{ pathname: `/cell`, state: props.cell }}
+                onClick={() => props.handleEditCell(props.cell)}
               >
                 Edit graph
               </Link>
@@ -73,7 +58,7 @@ function DashboardCellCard(props) {
             <MetadataIcon />
             <div>Metadata</div>
           </div>
-          <div className="delete_cell" onClick={() => handleDeleteCell()}>
+          <div className="delete_cell" onClick={() => props.handleDeleteCell(props.cell.cellId)}>
             <BiTrash />
             <div>Delete</div>
           </div>

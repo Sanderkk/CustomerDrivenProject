@@ -21,18 +21,18 @@ const DisplayHighcharts = (props) => {
       cellId: unique id for the cell, generated at backend. 
   */
 
-  const dataSeries = useSelector(state => state.queryData.response)
+  const dataSeries = useSelector(store => store.queryData.response)
   const [dataFromBackend, setDataFromBackend] = useState({})
   const [graphdata, setGraphData] = useState([])
-  const [userOptions, setUserOptions] = useState({title: '', RYAxis: '', LYAxis: ''})
+  const [userOptions, setUserOptions] = useState({title: '', rYAxis: '', lYAxis: ''})
   const client = useApolloClient();
 
 
   useEffect(() => {
     if(props.options !== undefined) {
       setUserOptions({title: props.options.title, 
-        RYAxis: props.options.RYAxis, 
-        LYAxis: props.options.LYAxis})
+        rYAxis: props.options.rYAxis, 
+        lYAxis: props.options.lYAxis})
     }
   },[props.options]);
 
@@ -149,13 +149,13 @@ const DisplayHighcharts = (props) => {
         format: '{value}',
       },
       title: {
-        text: userOptions.RYAxis,
+        text: userOptions.rYAxis,
       },
     },
     // Secondary yAxis
     { 
       title: {
-        text: userOptions.LYAxis,
+        text: userOptions.lYAxis,
       },
       labels: {
         format: '{value}',

@@ -108,8 +108,17 @@ export const GET_DASHBOARD_CELL = gql`
   query cell($userId: String!, $dashboardId: Int!, $cellId: Int!) {
     cells(userId: $userId, dashboardId: $dashboardId, cellId: $cellId) {
       cellId
-      options
-      input
+      input{
+        from
+        to
+        specifiedTimePeriod
+        sensors
+      }
+      options{
+        lYAxis
+        rYAxis
+        title
+      }
     }
   }
 `;
@@ -118,8 +127,17 @@ export const GET_DASHBOARD_CELLS = gql`
   query cells($userId: String!, $dashboardId: Int!) {
     cells(userId: $userId, dashboardId: $dashboardId) {
       cellId
-      options
-      input
+      input{
+        from
+        to
+        specifiedTimePeriod
+        sensors
+      }
+      options{
+        lYAxis
+        rYAxis
+        title
+      }
     }
   }
 `;
