@@ -139,6 +139,7 @@ function DashboardSpecificPage(props) {
       .then((result) => {
         //TODO: when back end returns dashboardId in result. check if dashboard.dashboardId (or state.dashboardId) is undefined. If undefined: add the dashboardId to dashboard.
         // ^ this is to not continuosly create new dashboards when Save is pressed and to not have to route back to dashboards when created new dahsboard
+        dispatch(setCurrentDashboard(dashboard));
       }).catch((err) => console.log(err));
   }
 
@@ -190,9 +191,9 @@ function DashboardSpecificPage(props) {
                               </Link>
                             </div>
                             <div className="save_btn">
-                              <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
-                                <BiSave />
-                              </GlobalButton>
+                                <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
+                                  <BiSave />
+                                </GlobalButton>
                             </div>
                             <div className="save_btn">
                               <Link to="/dashboards">
