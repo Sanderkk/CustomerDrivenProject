@@ -1,0 +1,15 @@
+{
+  "Measurement": "Wavedata",
+  "HeaderRow": 2,
+  "headerExtra":"",
+  "tagIndexes": [0, 0],
+  "fieldIndexes": [1, 18],
+  "timeIndex": 0,
+  "timeFormat": "dd.MM.yyyy HH:mm:ss",
+  "timeFormatTimescaleDB": "yyyy-MM-dd HH:mm:ss.FFF",
+  "columnSeparator": ";",
+  "sensors": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13,
+    14, 15, 16, 17, 18],
+  "sensorIDs": [69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79,
+    80, 81, 82, 83, 84, 85]
+}

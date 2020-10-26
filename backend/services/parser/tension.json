@@ -1,0 +1,13 @@
+{
+  "Measurement": "Tension",
+  "HeaderRow": 2,
+  "headerExtra":"",
+  "tagIndexes": [0, 0],
+  "fieldIndexes": [1, 9],
+  "timeIndex": 0,
+  "timeFormat": "yyyy.MM.dd HH:mm:ss.FFF",
+  "timeFormatTimescaleDB": "yyyy-MM-dd HH:mm:ss.FFF",
+  "columnSeparator": "\t",
+  "sensors": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+  "sensorIDs": [61, 62, 63, 64, 65, 66, 67, 68]
+}

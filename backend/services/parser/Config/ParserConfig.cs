@@ -12,6 +12,7 @@ namespace parser.Config
         public string timeFormatTimescaleDB {get; set;} // format of time string for timescaledb Copy
         public string columnSeparator {get; set;}  // separator between columns (e.g. ";", "\t")
         public int[] sensors {get; set;} // indexes which specifies where a sensor starts
+        public int[] sensorIDs {get; set;} // ID for all the sensors
     }
 
     public interface IParserConfig
@@ -26,5 +27,6 @@ namespace parser.Config
         string timeFormatTimescaleDB {get; set;} // format of time string for timescaledb Copy
         string columnSeparator {get; set;}  // separator between columns (e.g. ";", "\t")
         int[] sensors {get; set;} // indexes which specifies where a sensor starts
+        int[] sensorIDs {get; set;} // ID for all the sensors
     }
 }

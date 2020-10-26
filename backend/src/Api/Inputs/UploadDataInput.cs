@@ -9,10 +9,8 @@ namespace src.Api.Inputs
     public class UploadDataInput
     {
         [GraphQLNonNullType]
-        public string encodedFileData { get; set; } // base64String
+        public string encodedData { get; set; } // base64String
         [GraphQLNonNullType]
-        public string parserType { get; set; }
-        [GraphQLNonNullType]
-        public int[] sensorIds { get; set; }
+        public string encodedConfig { get; set; } // base64String
     }
 }

@@ -9,10 +9,11 @@ namespace parser
 {
     public class PrepareWritingDataToDB
     {
-        public static void PrepareQueryAndWrite(List<String> record,  ParserConfig dataConfig, string[] headerArrayQuery, int[] id)
+        public static void PrepareQueryAndWrite(List<String> record,  ParserConfig dataConfig, string[] headerArrayQuery)
         {   
             
             headerArrayQuery = cleanString(headerArrayQuery);
+            int [] id = dataConfig.sensorIDs;
             
             for (int i=0; i < id.Length; i++) {
 

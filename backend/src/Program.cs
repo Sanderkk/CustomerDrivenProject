@@ -7,6 +7,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using src.Utils;
+using System.IO;
+using parser;
+using parser.Config;
+using src.Database;
 
 namespace src
 {
@@ -14,7 +18,15 @@ namespace src
     {
         public static void Main(string[] args)
         {
+            //Byte[] bytesData = File.ReadAllBytes("Data/ACE_Buoy_Wavedata.csv");
+            //String bData = Convert.ToBase64String(bytesData);
+            
+            //Byte[] bytesConfig = File.ReadAllBytes("wavedata.json");
+            //String bConfig = Convert.ToBase64String(bytesConfig);
 
+            //UploadDataRepository u = new UploadDataRepository();
+            //u.UploadData(bData, bConfig);
+            
             CreateHostBuilder(args).Build().Run();
         }
 
