@@ -25,7 +25,7 @@ namespace tests.IntegrationTests
         {
             IServiceProvider serviceProvider =
                 new ServiceCollection()
-                .AddSingleton<IFishFarmRepository, FishFarmRepository>()
+                .AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>()
                 .AddSingleton<IDatabaseConfig>(sp =>
                 new DatabaseConfig()
                 {
@@ -80,7 +80,7 @@ namespace tests.IntegrationTests
         {
             IServiceProvider serviceProvider =
                 new ServiceCollection()
-                .AddSingleton<IFishFarmRepository, FishFarmRepository>()
+                .AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>()
                 .AddSingleton<IDatabaseConfig>(sp =>
                 new DatabaseConfig()
                 {
@@ -134,7 +134,7 @@ namespace tests.IntegrationTests
         {
             IServiceProvider serviceProvider =
                 new ServiceCollection()
-                .AddSingleton<IFishFarmRepository, FishFarmRepository>()
+                .AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>()
                 .AddSingleton<IDatabaseConfig>(sp =>
                 new DatabaseConfig()
                 {
@@ -172,7 +172,7 @@ namespace tests.IntegrationTests
         {
             IServiceProvider serviceProvider =
                 new ServiceCollection()
-                .AddSingleton<IFishFarmRepository, FishFarmRepository>()
+                .AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>()
                 .AddSingleton<IDatabaseConfig>(sp =>
                 new DatabaseConfig()
                 {

@@ -73,7 +73,7 @@ namespace src
 
             // Database connection
             services.AddSingleton<IUserRepository, UserRepository>();
-            services.AddSingleton<IFishFarmRepository, FishFarmRepository>();
+            services.AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>();
             services.AddSingleton<IMetadataRepository, MetadataRepository>();
             services.AddSingleton<IUploadDataRepository, UploadDataRepository>();
             services.AddErrorFilter<GraphQLErrorFilter>();

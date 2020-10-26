@@ -60,7 +60,8 @@ pipeline {
         stage('Deploy to server') {
             agent any
             steps {
-                sh './deployToServer.sh'
+                sh 'chmod u+x ./deployToServer.sh'
+		sh './deployToServer.sh'
             }
         }
         stage('End to end tests') {

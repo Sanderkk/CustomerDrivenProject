@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace src.Database
 {
-    public interface IFishFarmRepository
+    public interface ITimeSeriesRepository
     {
         Task<GenericObject> GetTimeSeries(string tableName, string queryString);
         Task<List<SensorType>> GetSensorsData(string queryString);

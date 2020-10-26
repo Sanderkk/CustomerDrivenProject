@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace src.Database
 {
-    public class DbQueryBuilder
+    public class TimeSeriesQueryBuilder
     {
         
         public static string CreateTimeSeriesQueryString(int? sensorId, string tableName, DateTime startDate, DateTime endDate)

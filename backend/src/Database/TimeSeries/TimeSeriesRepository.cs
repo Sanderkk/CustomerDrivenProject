@@ -12,13 +12,13 @@ using HotChocolate;
 
 namespace src.Database
 {
-    public class FishFarmRepository : IFishFarmRepository
+    public class TimeSeriesRepository : ITimeSeriesRepository
     {
 
         // NpgsqlConnection _npgsqlConnection = new NpgsqlConnection(databaseSettings.DatabaseConnectionString);
 
         private IDatabaseConfig _databaseSettings;
-        public FishFarmRepository(IDatabaseConfig databaseSettings)
+        public TimeSeriesRepository(IDatabaseConfig databaseSettings)
         {
             _databaseSettings = databaseSettings;
         }
@@ -126,15 +126,16 @@ namespace src.Database
             var sensorData = new List<SensorType>();
             while (dataReader.Read())
             {
-                var sensorTypeName = dataReader.GetFieldValue<string>(1);
-                var sensor = sensorData.Where(x => x.SensorTypeName.Equals(sensorTypeName)).FirstOrDefault();
+                var sensorTypeNameNull = dataReader.IsDBNull(1);
+                var sensorTypeName = !sensorTypeNameNull ? dataReader.GetFieldValue<string>(1) : "";
+                var sensor = sensorData.Where(x => x.SensorTypeName.Equals(sensorTypeName ?? "")).FirstOrDefault();
                 if (sensor == null)
                 {
                     var result = new SensorType()
                     {
-                        SensorTypeName = dataReader.GetFieldValue<string>(1),
+                        SensorTypeName = sensorTypeName,
                         SensorIds = new List<int>() { dataReader.GetFieldValue<int>(0) },
-                        SensorColumns = dataReader.GetFieldValue<string>(2)?.Split(".").ToList()
+                        SensorColumns = !dataReader.IsDBNull(2) ? dataReader.GetFieldValue<string>(2)?.Split(".").ToList() : null
                     };
                     sensorData.Add(result);
                 } else

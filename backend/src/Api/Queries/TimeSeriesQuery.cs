@@ -17,15 +17,15 @@ namespace src.Api.Queries
     {
         public GenericObject GetTimeSeries(
             [GraphQLNonNullType] TimeSeriesRequestInput input,
-            [Service] IFishFarmRepository repo
+            [Service] ITimeSeriesRepository repo
             )
         {
-            var sensorsQueryString = DbQueryBuilder.CreateSensorsQueryString();
+            var sensorsQueryString = TimeSeriesQueryBuilder.CreateSensorsQueryString();
             var sensors = repo.GetSensorsData(sensorsQueryString).Result;
             var sensorNameIdPairs = input.Sensors.Select(
                 x => (
                     x,
-                    sensors.Where(y => y.SensorIds.Contains(x)).Select(y => y.SensorTypeName).FirstOrDefault()
+                    sensors.Where(y => y.SensorIds.Contains(x) && !y.SensorTypeName.Equals("")).Select(y => y.SensorTypeName).FirstOrDefault()
                     ??
                     throw new QueryException(ErrorBuilder.New().SetMessage("There exists no sensor with id "+x.ToString()+".").Build())
                       )
@@ -53,25 +53,25 @@ namespace src.Api.Queries
             var queryString = "";
             foreach(var sensorNameIdPair in sensorNameIdPairs)
             {
-                queryString = queryString + DbQueryBuilder.CreateTimeSeriesQueryString(sensorNameIdPair.Item1, sensorNameIdPair.Item2, from, to);
+                queryString = queryString + TimeSeriesQueryBuilder.CreateTimeSeriesQueryString(sensorNameIdPair.Item1, sensorNameIdPair.Item2, from, to);
             }
             return repo.GetTimeSeries("", queryString).Result;
         }
 
         public List<SensorType> GetSensors(
-            [Service] IFishFarmRepository repo
+            [Service] ITimeSeriesRepository repo
             )
         {
-            var queryString = DbQueryBuilder.CreateSensorsQueryString();
+            var queryString = TimeSeriesQueryBuilder.CreateSensorsQueryString();
             return repo.GetSensorsData(queryString).Result;
         }
 
         public GenericTimeType GetTimeSeriesPeriode(
             TimeSeriesPeriodeInput input,
-            [Service] IFishFarmRepository repo
+            [Service] ITimeSeriesRepository repo
             )
         {
-            var queryString = DbQueryBuilder.CreateTimeSeriesPeriodeQueryString(input.SensorId, input.TableName);
+            var queryString = TimeSeriesQueryBuilder.CreateTimeSeriesPeriodeQueryString(input.SensorId, input.TableName);
             return repo.GetTimeSeriesPeriode(queryString).Result;
         }
     }
