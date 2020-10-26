@@ -135,7 +135,6 @@ function DashboardSpecificPage(props) {
 
 
   const handleSave = () => {
-    console.log(dashboard)
     sendMutation(client, UPDATE_DASHBOARD, { input: dashboard })
       .then((result) => {
         //TODO: when back end returns dashboardId in result. check if dashboard.dashboardId (or state.dashboardId) is undefined. If undefined: add the dashboardId to dashboard.

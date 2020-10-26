@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect  } from "react";
 import Navbar from "./Navbar";
 import LineGraph from "./LineGraph";
 import QueryBuilder from "./QueryBuilder";
@@ -7,6 +7,14 @@ import { BiCheck } from "react-icons/bi";
 import { BiX } from "react-icons/bi";
 import ViewMetadata from "./globalComponents/ViewMetadata";
 import { useSelector } from "react-redux";
+import { setQueryData } from "../globalState/actions/queryDataActions";
+import { useDispatch } from "react-redux";
+import sendQuery from "../queries/sendQuery";
+import { useApolloClient } from "@apollo/client";
+import { GET_TIME_SERIES } from "../queries/queries";
+import { UPDATE_CELL } from "../queries/mutations";
+import { Link } from "react-router-dom";
+import sendMutation from "../queries/sendMutation";
 
 import './componentStyles/AddCell.css'
 
@@ -16,9 +24,26 @@ function AddCell(props) {
   const state = props.location.state;
   const [options, setOptions] = useState(state !== undefined ? state.options : { title: '', RYAxis: '', LYAxis: ''})
   const [show, setShow] = useState(false);
-  const input = useSelector(state => state.queryData.input)
+  const input = useSelector(store => store.queryData.input)
+  const dashboard = useSelector(store => store.currentDashboard.input)
+  const queryData = useSelector(store => store.queryData)
+  const user = useSelector((store) => store.user.aadResponse);
+  const dispatch = useDispatch();
+  const client = useApolloClient();
 
-  //props.location.state 
+  
+  // Update global state if editing a graph/cell
+  useEffect(() => {
+    if(state !== undefined){
+      // fetch time series and update global state
+      const input = state.input
+      sendQuery(client, GET_TIME_SERIES, { input })
+        .then((result) => dispatch(setQueryData(input, result.data)))
+        .catch((err) => console.log(err));
+    }
+  }, [client, state]);
+
+
   const handleDiscard = () => {
     //TODO: Discard cell
   }
@@ -30,6 +55,19 @@ function AddCell(props) {
     if(!isEmpty) {
       //TODO: send options and input to backend. Input is generated in QueryBuilder and saved in Redux store,
       //while userOptions is generated in AddCell.
+      let cellToBeSaved = {}
+      cellToBeSaved.input = queryData.input;
+      cellToBeSaved.options = options;
+      // TODO: real userId
+      // cellToBeSaved.userId = user.account.accountIdentifier;
+      cellToBeSaved.userId = "123";
+      cellToBeSaved.dashboardId = dashboard.dashboardId
+      if(state !== undefined){
+        cellToBeSaved.cellId = state.cellId;
+      }
+      sendMutation(client, UPDATE_CELL, { input: cellToBeSaved })
+      .then(() => {
+      }).catch((err) => console.log(err));
     }
   }
 
@@ -56,12 +94,14 @@ function AddCell(props) {
         <div className="add_cell_buttons">
             
           <div className="discard_cell" >
-            <GlobalButton primary={false} btnText="Discard" handleButtonClick={handleDiscard}>
-              <BiX />
-            </GlobalButton>
+            <Link to="/specific-dashboard">
+              <GlobalButton primary={false} btnText="Discard" handleButtonClick={handleDiscard}>
+                <BiX />
+              </GlobalButton>
+            </Link>
           </div>
           <div className="add_cell" >
-            <GlobalButton primary={true} btnText="Add Cell" handleButtonClick={handleAddCell}>
+            <GlobalButton primary={true} btnText="Save Cell" handleButtonClick={handleAddCell}>
               <BiCheck />
             </GlobalButton>
           </div>
