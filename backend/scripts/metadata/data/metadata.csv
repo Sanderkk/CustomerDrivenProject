@@ -1,0 +1,31 @@
+﻿name,number,serialNumber,signal,voltage,lending,lendingPrice,tollerance,checkOnInspectionRound,cableLength,measureArea,modelNumber,ownerID,company,department,identificator,tag1,tag2,tag3,locationDescription,altitude,coordinate,purchaseDate,plannedDisposal,actualDisposal,nextService,warrantyDate,website,timeless,servicePartner
+Salinitet - AquaMeasure,RK.015-W,680261,,,False,,True,True,,,AquaMeasure SAL,df6d579d-817d-4e04-9bb2-3a46352602cd,Innovasea Akvakultur AS,,,,,,Merd 10 - Tristeinen,,,1/7/2020,,,,,,False,Innovasea Akvakultur AS
+Klorofyll Sensor,RO.100-W,,,,,,,,,,,,Innovasea Akvakultur AS,,,,,,Merd 01 - Tristein,,,1/7/2020,,,,,,,Innovasea Akvakultur AS
+Trandsducer 200-28CM EK15,RL.007-100m,,,,,,,,,,,,Kongsberg,,,28,UTS6-JC12E3P,,Merd 10 - Tristeinen,,,2/12/2019,,,,,,,
+Lastesjakkel 25T,RV.009-25T,133148,4 -20mA,24V AC,True,,True,,,0-25 Tonn,,,Strainstall,,,,,,Merd 10 - Tristeinen,,,5/12/2011,,,,,,,
+Temperature Sensor,TP.001,,,,,,,,100,500m,,df6d579d-817d-4e04-9bb2-3a46352602cd,,,,,,,,-50,"41.40338, 2.17403",2/12/2008,,,,,,,
+Akselerometer,RB.001,,,,,,,,,,,,,,,,,,Merd 10 - Tristeinen,-10,,,,,,,,,
+Oksygenskap,YS.004,5550,,,False,,,False,,,,,,,,,,,,50,"61.40338, 2.17403",1/7/2020,1/7/2045,,1/7/2021,,sintef.com,,
+Oxygen optode 4531D-0,RO.038-50m-0,,,,,,,,,,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-1,RO.038-50m-1,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-2,RO.038-50m-2,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-3,RO.038-50m-3,,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-4,RO.038-50m-4,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-5,RO.038-50m-5,588N,,,True,100,,True,,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-6,RO.038-50m-6,588N,RS232,12VDC,True,100,True,True,50,10Km,,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-7,RO.038-50m-7,588N,RS232,,True,,True,True,50,10Km,4531D,,,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Salinitet - AquaMeasure,RK.015-W,680261,Hydroakustisk,,False,,True,True,,0-40 PSU,AquaMeasure SAL,df6d579d-817d-4e04-9bb2-3a46352602cd,Innovasea Akvakultur AS,,,,,,Merd 10 - Tristeinen,,,1/7/2020,,,,,,False,Innovasea Akvakultur AS
+Klorofyll Sensor,RO.100-W,682545,,,True,,True,,,,,df6d579d-817d-4e04-9bb2-3a46352602cd,Innovasea Akvakultur AS,,,,,,Merd 01 - Tristein,,,1/7/2020,,,,,,,Innovasea Akvakultur AS
+Trandsducer 200-28CM EK15,RL.007-100m,292,,,True,,True,,,,,df6d579d-817d-4e04-9bb2-3a46352602cd,Kongsberg,,,28,UTS6-JC12E3P,,Merd 10 - Tristeinen,,,2/12/2019,,,,,,,
+Temperature Sensor,TP.001,1005,RS232,24VDC,False,,False,,100,500m,,df6d579d-817d-4e04-9bb2-3a46352602cd,,,,,,,,-50,"41.40338, 2.17403",2/12/2008,,,,,,,
+Oxygen optode 4531D-0,RO.038-50m-0,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-3,RO.038-50m-3,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-4,RO.038-50m-4,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-5,RO.038-50m-5,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-6,RO.038-50m-6,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Oxygen optode 4531D-7,RO.038-50m-7,588N,RS232,12VDC,True,100,True,True,50,10Km,4531D,,Aaneraa,,,Optisk Film OK,,,Merd 10 - Tristeinen,,,,,,,,,,
+Salinitet - AquaMeasure,RK.015-W,680261,,,False,0,True,True,,,AquaMeasure SAL,df6d579d-817d-4e04-9bb2-3a46352602cd,Innovasea Akvakultur AS,,,,,,Merd 10 - Tristeinen,,,1/7/2020,,,,,,False,Innovasea Akvakultur AS
+Klorofyll Sensor,RO.100-W,,,,,,False,False,,,,,Innovasea Akvakultur AS,,,,,,Merd 01 - Tristein,,,1/7/2020,,,,,,,Innovasea Akvakultur AS
+Trandsducer 200-28CM EK15,RL.007-100m,,,,,,False,False,,,,,Kongsberg,,,28,UTS6-JC12E3P,,Merd 10 - Tristeinen,,,2/12/2019,,,,,,,
+Lastesjakkel 25T,RV.009-25T,133148,4 -20mA,24V AC,True,,True,False,,0-25 Tonn,,,Strainstall,,,,,,Merd 10 - Tristeinen,,,5/12/2011,,,,,,,
+Temperature Sensor,TP.001,,,,,,True,True,100,500m,,df6d579d-817d-4e04-9bb2-3a46352602cd,,,,,,,,-50,"41.40338, 2.17403",2/12/2008,,,,,,,
