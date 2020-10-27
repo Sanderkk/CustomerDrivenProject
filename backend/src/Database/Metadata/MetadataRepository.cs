@@ -106,7 +106,7 @@ namespace src.Database
                     addedMetadata = BuildMetadataObject(dataReader);
                 };
                 await dataReader.CloseAsync();
-            return addedMetadata;
+                return addedMetadata;
         }
         #endregion
 
@@ -184,7 +184,9 @@ namespace src.Database
                 cmdNewSensor.Connection = _npgsqlConnection;
                 int sensorID = Convert.ToInt32( await cmdNewSensor.ExecuteScalarAsync());
                 //save the new metadata to DB, connected to the new sensor
-                return await saveMetadataToDB(locationID, sensorID, newMetadata, _npgsqlConnection);
+                var addedMetadata =  await saveMetadataToDB(locationID, sensorID, newMetadata, _npgsqlConnection);
+                _npgsqlConnection.CloseAsync();
+                return addedMetadata;
             }
         }
     }
