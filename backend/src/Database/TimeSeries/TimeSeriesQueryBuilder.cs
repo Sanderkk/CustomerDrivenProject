@@ -22,10 +22,15 @@ namespace src.Database
 
         public static string CreateSensorsQueryString()
         {
-            return "SELECT * FROM sensor LIMIT 1000;";
+            return @"
+            SELECT DISTINCT sensor.id, sensor.table_name, sensor.column_name, metadata.number
+            FROM sensor
+            LEFT JOIN metadata ON sensor.id=metadata.sensor_id
+            ORDER BY id;
+            ";
         }
 
-        public static string CreateTimeSeriesPeriodeQueryString(int sensorId, string tableName)
+        public static string  CreateTimeSeriesPeriodeQueryString(int sensorId, string tableName)
         {
             return $@"SELECT 
                     first(time, time), last(time, time) 
