@@ -124,7 +124,7 @@ namespace src.Database.User
             return result;
         }
         
-        public async Task<int> UpdateDashboard(DashboardInput input)
+        public async Task<int> UpdateDashboard(string userId, DashboardInput input)
         {
             NpgsqlConnection npgsqlConnection = new NpgsqlConnection(_databaseSettings.DatabaseConnectionString);
             await npgsqlConnection.OpenAsync();
@@ -132,12 +132,12 @@ namespace src.Database.User
             if (input.dashboardId != null)
             {
                 id = input.dashboardId.GetValueOrDefault();
-                string queryString = UserQueryBuilder.UpdateDashboardQueryString(input.userId, id, input.name, input.description);
+                string queryString = UserQueryBuilder.UpdateDashboardQueryString(userId, id, input.name, input.description);
                 await executeQuery(npgsqlConnection, queryString);
             }
             else
             {
-                id = await CreateDashboard(input, npgsqlConnection);
+                id = await CreateDashboard(userId, input, npgsqlConnection);
             }
             
             await npgsqlConnection.CloseAsync();
@@ -165,7 +165,7 @@ namespace src.Database.User
             return true;
         }
 
-        public async Task<int> CreateDashboard(DashboardInput input, NpgsqlConnection connection)
+        public async Task<int> CreateDashboard(string userId, DashboardInput input, NpgsqlConnection connection)
         {
                 string queryString = UserQueryBuilder.CreateDashboardQueryString(input.name, input.description);
                 await using NpgsqlCommand cmd = new NpgsqlCommand(queryString);
@@ -174,13 +174,13 @@ namespace src.Database.User
                 cmd.Parameters.Clear();
                 
                 string accessQueryString =
-                    UserQueryBuilder.InsertUserAccessToDashboardQueryString(input.userId, dashboardId, input.accessLevel);
+                    UserQueryBuilder.InsertUserAccessToDashboardQueryString(userId, dashboardId, input.accessLevel);
                 await executeQuery(connection, accessQueryString);
                 return dashboardId;
 
         }
         
-        public async Task<int> UpdateCell(CellInput input)
+        public async Task<int> UpdateCell(string userId, CellInput input)
         {
             string jsonOptions = JsonSerializer.Serialize(input.options);
             JsonElement options = JsonSerializer.Deserialize<JsonElement>(jsonOptions);
@@ -190,7 +190,7 @@ namespace src.Database.User
             {
                 int id = input.cellId.GetValueOrDefault();
                 string queryString =
-                    UserQueryBuilder.UpdateCellQueryString(input.UserId, id, input.dashboardId, options, inputQuery);
+                    UserQueryBuilder.UpdateCellQueryString(userId, id, input.dashboardId, options, inputQuery);
                 return await executeQueryString(queryString);
             }
             else

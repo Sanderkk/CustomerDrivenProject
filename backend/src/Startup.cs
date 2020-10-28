@@ -1,4 +1,7 @@
 using System;
+using System.Linq;
+using System.Security.Claims;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -19,9 +22,9 @@ using Microsoft.AspNetCore.Authentication.AzureAD.UI;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.Identity.Web;
 using Microsoft.AspNetCore.Authentication;
-using src.Api.Mutations;
 using src.Api.Subscriptions;
 using src.Database.User;
+using src.Api.Models;
 
 namespace src
 {
@@ -73,12 +76,15 @@ namespace src
             services.AddSingleton<IDatabaseConfig>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseConfig>>().Value);
 
+
+            services.AddQueryRequestInterceptor(AuthenticationInterceptor());
+            
             // Database connection
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>();
             services.AddSingleton<IMetadataRepository, MetadataRepository>();
             services.AddSingleton<IUploadDataRepository, UploadDataRepository>();
-            services.AddErrorFilter<GraphQLErrorFilter>();
+            //services.AddErrorFilter<GraphQLErrorFilter>();
             
             services.AddInMemorySubscriptionProvider();
     
@@ -102,7 +108,21 @@ namespace src
             );
 
             //Overwrite basic error messages with ones with more info
-         //   services.AddErrorFilter<GraphQLErrorFilter>();
+            //services.AddErrorFilter<GraphQLErrorFilter>();
+        }
+
+        private static OnCreateRequestAsync AuthenticationInterceptor()
+        {
+            return (context, builder, token) =>
+            {
+                if (context.GetUser().Identity.IsAuthenticated)
+                {
+                    builder.SetProperty("currentUser",
+                        new CurrentUser(context.User.Identities.First().Name));
+                }
+
+                return Task.CompletedTask;
+            };
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
