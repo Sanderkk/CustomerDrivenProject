@@ -8,8 +8,8 @@ import { Provider } from "react-redux";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import NotFound from "./components/NotFound";
 import LogInPage from "./components/LogInPage";
-import AdminPage from "./components/AdminPage";
 import DashboardsPage from "./components/dashboards/DashboardsPage";
+import AdminPage from "./components/admin/AdminPage";
 import AccessCheckerDecotaor from "./components/AccessCheckerDecorator";
 import groupTypes from "./groupTypes";
 import AddCell from "./components/dashboards/AddCell";
@@ -48,7 +48,11 @@ const routing = (
                 />
               )}
             />
-            <Route exact path="/specific-dashboard" component={DashboardSpecificPage} />
+            <Route
+              exact
+              path="/specific-dashboard"
+              component={DashboardSpecificPage}
+            />
             <Route exact path="/cell" component={AddCell} />
             <Route component={NotFound} />
           </Switch>

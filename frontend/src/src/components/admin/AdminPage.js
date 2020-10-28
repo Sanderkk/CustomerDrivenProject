@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 import UploadData from "./UploadData";
-import EditMetadata from "./admin/EditMetadata";
-import SensorAccess from "./admin/SensorAccess";
-import UserGroups from "./admin/UserGroups";
-import "./componentStyles/AdminPage.css";
+import EditMetadata from "./EditMetadata";
+import "../componentStyles/AdminPage.css";
 
 function AdminPage() {
   /*
@@ -14,7 +12,7 @@ function AdminPage() {
   */
 
   const [activeTab, setActiveTab] = useState(0);
-  const tabTitles = ["Upload data", "Metadata", "Sensor access", "User groups"];
+  const tabTitles = ["Upload data", "Metadata"];
 
   return (
     <div className="admin">
@@ -38,8 +36,6 @@ function AdminPage() {
             {
               0: <UploadData />,
               1: <EditMetadata />,
-              2: <SensorAccess />,
-              3: <UserGroups />,
             }[activeTab]
           }
         </div>
