@@ -1,0 +1,54 @@
+.upload_container form {
+  width: 23.5em;
+  text-align: left;
+}
+
+.upload_container {
+  height: 68vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.upload_container h3 {
+  margin-top: 0;
+  margin-bottom: 1.5em;
+}
+
+.upload_container .upload_button {
+  display: flex;
+  margin: 0.5em 0;
+}
+
+.upload_button label {
+  width: 6em;
+  font-weight: 400;
+}
+
+.upload_button input[type="file"],
+input[type="file"]::-webkit-file-upload-button {
+  cursor: pointer;
+}
+
+.upload_container button {
+  background-color: #004299;
+  color: white;
+  width: 100%;
+  padding: 0.6em 0;
+  margin-top: 1em;
+  border: none;
+}
+
+.upload_container button:hover {
+  background-color: #0058cc;
+  cursor: pointer;
+}
+
+.upload_container button[disabled] {
+  background-color: #aaa;
+  cursor: default;
+}
+
+.upload_container button:active {
+  transform: translateY(1px);
+}

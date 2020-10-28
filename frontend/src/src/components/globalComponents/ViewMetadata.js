@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { BiX } from "react-icons/bi";
 import "../componentStyles/globalStyles/ViewMetadata.css";
 import { GET_METADATA } from "../../queries/queries";
 import { useApolloClient } from "@apollo/client";
