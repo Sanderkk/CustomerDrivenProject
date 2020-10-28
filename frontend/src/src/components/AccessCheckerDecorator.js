@@ -17,10 +17,9 @@ function AccessCheckerDecorator(props) {
     NB! Does not work on pages that require props! Ex DashboardSpecificPage.
     (Can maybe get arond this with redux, but idk yet)
   */
-
+ 
   return (
-    <div>
-      <Navbar />
+<div>
       <AzureAD provider={authProvider}>
         {({ authenticationState, accountInfo }) => {
           switch (authenticationState) {

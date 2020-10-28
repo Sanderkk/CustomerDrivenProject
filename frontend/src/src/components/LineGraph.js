@@ -7,7 +7,9 @@ import { GET_TIME_SERIES } from "../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import sendQuery from "../queries/sendQuery";
 
+
 const DisplayHighcharts = React.memo((props) => {
+
   /*
     Component for creating the actual graph. The component listent to changes in redux store,
     and updates the graph whenever the data is changed in store, which is done by the QueryBuilder.

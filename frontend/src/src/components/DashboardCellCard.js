@@ -3,13 +3,10 @@ import "./componentStyles/DashboardCellCard.css";
 import ViewMetadata from "./globalComponents/ViewMetadata";
 import { Link } from "react-router-dom";
 import LineGraph from "./LineGraph";
-import { DELETE_CELL } from "../queries/mutations";
-import { useSelector } from "react-redux";
-import sendMutation from "../queries/sendMutation";
-import { useApolloClient } from "@apollo/client";
-import store from "../globalState/store";
 import { BiCog, BiTrash, BiPencil } from "react-icons/bi";
 import { ReactComponent as MetadataIcon } from "../assets/metadata_icon.svg";
+import { useSelector } from "react-redux";
+import groupTypes from "../groupTypes";
 
 function DashboardCellCard(props) {
   /*
@@ -35,40 +32,46 @@ function DashboardCellCard(props) {
     }
   */
 
+  const user = useSelector((store) => store.user.aadResponse);
   const [show, setShow] = useState(false);
 
   return (
     <div className="cell_grid_item">
-      <div className="dropdown">
-        <BiCog className="dropbtn" />
-        <div className="dropdown_content">
-          <div>
-            <BiPencil />
-            <div>
-              <Link
-                key={"cell" + props.cell.id}
-                to={{ pathname: `/cell`, state: props.cell }}
-                onClick={() => props.handleEditCell(props.cell)}
-              >
-                Edit graph
-              </Link>
+      {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
+        <React.Fragment>
+          <div className="dropdown">
+            <BiCog className="dropbtn" />
+            <div className="dropdown_content">
+              <div>
+                <BiPencil />
+                <div>
+                  <Link
+                    key={"cell" + props.cell.id}
+                    to={{ pathname: `/cell`, state: props.cell }}
+                    onClick={() => props.handleEditCell(props.cell)}
+                  >
+                    Edit graph
+                  </Link>
+                </div>
+              </div>
+              <div onClick={() => setShow(true)}>
+                <MetadataIcon />
+                <div>Metadata</div>
+              </div>
+              <div className="delete_cell" onClick={() => props.handleDeleteCell(props.cell.cellId)}>
+                <BiTrash />
+                <div>Delete</div>
+              </div>
             </div>
           </div>
-          <div onClick={() => setShow(true)}>
-            <MetadataIcon />
-            <div>Metadata</div>
-          </div>
-          <div className="delete_cell" onClick={() => props.handleDeleteCell(props.cell.cellId)}>
-            <BiTrash />
-            <div>Delete</div>
-          </div>
-        </div>
-      </div>
-      <ViewMetadata
-        sensorIDs={props.cell.input.sensors}
-        show={show}
-        handleClose={() => setShow(false)}
-      />
+          <ViewMetadata
+            sensorIDs={props.cell.input.sensors}
+            show={show}
+            handleClose={() => setShow(false)}
+          />
+        </React.Fragment>
+      :
+        <React.Fragment/>}
       <LineGraph
         key={props.cell.name}
         options={props.cell.options}

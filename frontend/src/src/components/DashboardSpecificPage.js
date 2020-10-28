@@ -169,70 +169,72 @@ function DashboardSpecificPage(props) {
 
   return (
     <div>
-      <Navbar />
       {/* AzureAD component because AccessCheckerDecorator doesn't work on this page */}
       <AzureAD provider={authProvider}>
         {({ authenticationState }) => {
           switch (authenticationState) {
             case AuthenticationState.Authenticated:
               return(
-                <div className="container_div">
-                  {dashboard === null || user === null ? 
-                    <h1>Loading</h1> 
-                  : 
-                  <div>
-                    <form className="dashboard-form">
-                      {/* Only give editing tools to researchers */}
-                        {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
-                          <div>
-                            <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} />
-                            <div className="add_cell_btn">
-                              <Link to={{pathname: `/cell`, state: undefined}}>
-                                <GlobalButton primary={true} btnText="Add Cell" handleButtonClick={handleAddCell}>
-                                  <BiPlus />
-                                </GlobalButton>
-                              </Link>
-                            </div>
-                            <div className="save_btn">
-                                <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
-                                  <BiSave />
-                                </GlobalButton>
-                            </div>
-                            <div className="save_btn">
-                              <Link to="/dashboards">
-                                <GlobalButton primary={false} btnText="Delete" handleButtonClick={handleDelete}>
-                                  <BiTrash />
-                                </GlobalButton>
-                              </Link>
-                            </div>
-                            <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
-                          </div>
-                          :
-                          <div>
-                            <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} disabled={true}/>
-                            <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} disabled={true}/>
-                          </div>
-                        }
-                    </form>
-
-                    {cells === null || cells.length === 0 ?
+                <React.Fragment>
+                  <Navbar />
+                  <div className="container_div">
+                    {dashboard === null || user === null ? 
+                      <h1>Loading</h1> 
+                    : 
                     <div>
-                      <h1>You have no cells</h1>
-                    </div>
-                    :
-                    <div className="cell_grid_container">
-                      {cells.map((cell) => {
-                        return (
-                          <div key={cell.cellId} >
-                            <DashboardCellCard handleEditCell={handleEditCell} handleDeleteCell={handleDeleteCell} cell={cell}/>
-                          </div>
-                        );
-                      })}
+                      <form className="dashboard-form">
+                        {/* Only give editing tools to researchers */}
+                          {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
+                            <div>
+                              <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} />
+                              <div className="add_cell_btn">
+                                <Link to={{pathname: `/cell`, state: undefined}}>
+                                  <GlobalButton primary={true} btnText="Add Cell" handleButtonClick={handleAddCell}>
+                                    <BiPlus />
+                                  </GlobalButton>
+                                </Link>
+                              </div>
+                              <div className="save_btn">
+                                  <GlobalButton primary={true} btnText="Save" handleButtonClick={handleSave}>
+                                    <BiSave />
+                                  </GlobalButton>
+                              </div>
+                              <div className="save_btn">
+                                <Link to="/dashboards">
+                                  <GlobalButton primary={false} btnText="Delete" handleButtonClick={handleDelete}>
+                                    <BiTrash />
+                                  </GlobalButton>
+                                </Link>
+                              </div>
+                              <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} />
+                            </div>
+                            :
+                            <div>
+                              <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} disabled={true}/>
+                              <textarea className="dashboard_textarea" type="text" id="description" onChange={handleDescriptionChange} value={dashboard.description} disabled={true}/>
+                            </div>
+                          }
+                      </form>
+
+                      {cells === null || cells.length === 0 ?
+                      <div>
+                        <h1>You have no cells</h1>
+                      </div>
+                      :
+                      <div className="cell_grid_container">
+                        {cells.map((cell) => {
+                          return (
+                            <div key={cell.cellId} >
+                              <DashboardCellCard handleEditCell={handleEditCell} handleDeleteCell={handleDeleteCell} cell={cell}/>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      }
                     </div>
                     }
                   </div>
-                  }
-                </div>
+                </React.Fragment>
               )
             default:
               return <AccessDenied></AccessDenied>;
