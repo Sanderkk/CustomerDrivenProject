@@ -1,5 +1,5 @@
 import React from "react";
-import "./componentStyles/DashoboardPreviewCard.css";
+import "../componentStyles/dashboards/DashoboardPreviewCard.css";
 
 function DashboardPreviewCard(props) {
   /*

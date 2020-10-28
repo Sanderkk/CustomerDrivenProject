@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import "./componentStyles/DashboardsPage.css";
+import Navbar from "../Navbar";
+import "../componentStyles/dashboards/DashboardsPage.css";
 import { Link } from "react-router-dom";
 import DashboardPreviewCard from "./DashboardPreviewCard";
-import GlobalButton from "./globalComponents/GlobalButton";
+import GlobalButton from "../globalComponents/GlobalButton";
 import { BiPlus } from "react-icons/bi";
-import groupTypes from "../groupTypes";
-import sendQuery from "../queries/sendQuery";
-import { GET_DASHBOARDS } from "../queries/queries";
+import groupTypes from "../../groupTypes";
+import sendQuery from "../../queries/sendQuery";
+import { GET_DASHBOARDS } from "../../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import { useSelector, useDispatch } from "react-redux";
-import { setCurrentDashboard } from "../globalState/actions/dashboardActions";
+import { setCurrentDashboard } from "../../globalState/actions/dashboardActions";
 
 function DashboardsPage() {
   /*
@@ -77,15 +77,21 @@ function DashboardsPage() {
                       to={{ pathname: `/specific-dashboard` }}
                       onClick={() => handleDashboardClick(dashboard)}
                     >
+                      { dashboard.description.length < 100 ? 
+                        <DashboardPreviewCard
+                          name={dashboard.name}
+                          description={dashboard.description}
+                        />
+                      :
                       <DashboardPreviewCard
                         name={dashboard.name}
-                        description={dashboard.description}
+                        description={dashboard.description.substr(0,100)+"..."}
                       />
+                      }
                     </Link>
                   );
                 })}
               </div>
-              <h2>Shared with me</h2>
             </div>
           ) : (
             <div>

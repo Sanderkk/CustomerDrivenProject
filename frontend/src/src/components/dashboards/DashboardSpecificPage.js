@@ -1,23 +1,23 @@
-import Navbar from "./Navbar";
-import "./componentStyles/DashboardSpecificPage.css";
+import Navbar from "../Navbar";
+import "../componentStyles/dashboards/DashboardSpecificPage.css";
 import { Link } from "react-router-dom";
 import { AzureAD, AuthenticationState } from "react-aad-msal";
-import { authProvider } from "../authProvider";
-import AccessDenied from "./AccessDenied";
-import { setCurrentDashboard } from "../globalState/actions/dashboardActions";
+import { authProvider } from "../../authProvider";
+import AccessDenied from "../AccessDenied";
+import { setCurrentDashboard } from "../../globalState/actions/dashboardActions";
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import GlobalButton from "./globalComponents/GlobalButton";
-import sendMutation from "../queries/sendMutation";
-import sendQuery from "../queries/sendQuery";
-import { UPDATE_DASHBOARD, DELETE_DASHBOARD, DELETE_CELL } from "../queries/mutations";
-import { GET_DASHBOARD_CELLS, GET_DASHBOARD, GET_TIME_SERIES } from "../queries/queries";
+import GlobalButton from "../globalComponents/GlobalButton";
+import sendMutation from "../../queries/sendMutation";
+import sendQuery from "../../queries/sendQuery";
+import { UPDATE_DASHBOARD, DELETE_DASHBOARD, DELETE_CELL } from "../../queries/mutations";
+import { GET_DASHBOARD_CELLS, GET_DASHBOARD, GET_TIME_SERIES } from "../../queries/queries";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus, BiTrash } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
-import groupTypes from "../groupTypes";
-import { setQueryData } from "../globalState/actions/queryDataActions";
+import groupTypes from "../../groupTypes";
+import { setQueryData } from "../../globalState/actions/queryDataActions";
 
 function DashboardSpecificPage(props) {
   /*

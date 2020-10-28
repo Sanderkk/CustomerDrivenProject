@@ -1,6 +1,7 @@
 .dashboard_grid_item h3 {
   margin-top: 0;
   color: #004299;
+  word-wrap: break-word;
 }
 
 .dashboard_grid_item {
@@ -10,4 +11,5 @@
   font-size: 15px;
   text-align: left;
   color: black;
+  word-wrap: break-word;
 }
