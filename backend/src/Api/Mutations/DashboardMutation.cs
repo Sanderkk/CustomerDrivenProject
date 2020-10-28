@@ -2,8 +2,10 @@
 using System.Text.Json;
 using System.Threading.Tasks;
 using HotChocolate;
+using HotChocolate.AspNetCore.Authorization;
 using HotChocolate.Types;
 using src.Api.Inputs;
+using src.Api.Models;
 using src.Database;
 using src.Database.User;
 
@@ -13,40 +15,45 @@ namespace src.Api.Mutations
     public class DashboardMutation
     {
         
-
+        [Authorize(Policy = "Default")]
         public int UpdateDashboard(
             DashboardInput input,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            return repo.UpdateDashboard(input).Result;
+            return repo.UpdateDashboard(user.UserId, input).Result;
         }
 
+        [Authorize(Policy = "Default")]
         public bool DeleteDashboard(
             int dashboardId,
-            string userId,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            return repo.DeleteDashboard(userId, dashboardId).Result;
+            return repo.DeleteDashboard(user.UserId, dashboardId).Result;
         }
         
+        [Authorize(Policy = "Default")]
         public Task<int> UpdateCell(
             CellInput input,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            return repo.UpdateCell(input);
+            return repo.UpdateCell(user.UserId, input);
         }
 
+        [Authorize(Policy = "Default")]
         public Task<bool> DeleteCell(
-            [GraphQLNonNullType] string userId,
             [GraphQLNonNullType] int dashboardId,
             [GraphQLNonNullType] int cellId,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.DeleteDashboardCellQueryString(userId, dashboardId, cellId);
+            string queryString = UserQueryBuilder.DeleteDashboardCellQueryString(user.UserId, dashboardId, cellId);
             return repo.DeleteDashboardCell(queryString);
         }
     }

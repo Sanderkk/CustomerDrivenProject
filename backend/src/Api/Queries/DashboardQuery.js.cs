@@ -7,59 +7,67 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using src.Api.Inputs;
+using src.Api.Models;
 using src.Database.User;
+using HotChocolate.AspNetCore.Authorization;
 
 namespace src.Api.Queries
 {
     [ExtendObjectType(Name = "Query")]
     public class DashboardQuery
     {
+        [Authorize(Policy = "Default")]
         public Dashboard GetDashboard(
-            [GraphQLNonNullType] string userId,
             [GraphQLNonNullType] int dashboardId,
+            [CurrentUserGlobalState] CurrentUser user,
+            //[CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.GetDashboardQueryString(userId, dashboardId);
+            string queryString = UserQueryBuilder.GetDashboardQueryString(user.UserId, dashboardId);
             return repo.GetDashboard(queryString).Result;
         }
         
+        [Authorize(Policy = "Default")]
         public List<Dashboard> GetDashboards(
-            [GraphQLNonNullType] string userId,
-            [Service] IUserRepository repo
+            [Service] IUserRepository repo,
+            [CurrentUserGlobalState] CurrentUser user
         )
         {
-            string queryString = UserQueryBuilder.GetUserDashboardsQueryString(userId);
+            string queryString = UserQueryBuilder.GetUserDashboardsQueryString(user.UserId);
             return repo.GetDashboards(queryString).Result;
         }
         
+        [Authorize(Policy = "Default")]
         public Cell GetCell(
-            [GraphQLNonNullType] string userId,
             [GraphQLNonNullType] int dashboardId,
             [GraphQLNonNullType] int cellId,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.GetDashboardCellQueryString(userId, dashboardId, cellId);
+            string queryString = UserQueryBuilder.GetDashboardCellQueryString(user.UserId, dashboardId, cellId);
             return repo.GetCell(queryString).Result;
         }
         
+        [Authorize(Policy = "Default")]
         public List<Cell> GetCells(
-            [GraphQLNonNullType] string userId,
             [GraphQLNonNullType] int dashboardId,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.GetDashboardCellsQueryString(userId, dashboardId);
+            string queryString = UserQueryBuilder.GetDashboardCellsQueryString(user.UserId, dashboardId);
             return repo.GetCells(queryString).Result;
         }
 
+        [Authorize(Policy = "Default")]
         public List<Dashboard> GetSharedUserDashboards(
-            [GraphQLNonNullType] string userId,
+            [CurrentUserGlobalState] CurrentUser user,
             [Service] IUserRepository repo
         )
         {
-            string queryString = UserQueryBuilder.GetSharedUserDashboardQueryString(userId);
+            string queryString = UserQueryBuilder.GetSharedUserDashboardQueryString(user.UserId);
             return repo.GetDashboards(queryString).Result;
         }
     }
