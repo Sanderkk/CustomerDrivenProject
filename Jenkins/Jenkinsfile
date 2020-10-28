@@ -22,7 +22,7 @@ pipeline {
             steps {
                 dir('./backend/src') {
                     sh 'dotnet restore'
-                    sh 'dotnet publish -c Release'
+                    sh 'sudo dotnet publish -c Release'
                 }
             }
         }
