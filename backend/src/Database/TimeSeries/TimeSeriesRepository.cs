@@ -135,14 +135,14 @@ namespace src.Database
                     {
                         SensorTypeName = sensorTypeName,
                         SensorIds = new List<int>() { dataReader.GetFieldValue<int>(0) },
-                        SensorNumbers = new List<string> { dataReader.GetFieldValue<string>(3) },
+                        SensorNumbers = new List<string> { !dataReader.IsDBNull(2) ? dataReader.GetFieldValue<string>(3) : "undefined" },
                         SensorColumns = !dataReader.IsDBNull(2) ? dataReader.GetFieldValue<string>(2)?.Split(".").ToList() : null
                     };
                     sensorData.Add(result);
                 } else
                 {
                     sensor.SensorIds.Add(dataReader.GetFieldValue<int>(0));
-                    sensor.SensorNumbers.Add(dataReader.GetFieldValue<string>(3));
+                    sensor.SensorNumbers.Add(!dataReader.IsDBNull(2) ? dataReader.GetFieldValue<string>(3) : "undefined");
                 }
             };
             cmd.Parameters.Clear();
