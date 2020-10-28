@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import "./componentStyles/DashboardCellCard.css";
-import ViewMetadata from "./globalComponents/ViewMetadata";
+import "../componentStyles/dashboards/DashboardCellCard.css";
+import ViewMetadata from "../globalComponents/ViewMetadata";
 import { Link } from "react-router-dom";
 import LineGraph from "./LineGraph";
 import { BiCog, BiTrash, BiPencil } from "react-icons/bi";
-import { ReactComponent as MetadataIcon } from "../assets/metadata_icon.svg";
+import { ReactComponent as MetadataIcon } from "../../assets/metadata_icon.svg";
 import { useSelector } from "react-redux";
-import groupTypes from "../groupTypes";
+import groupTypes from "../../groupTypes";
 
 function DashboardCellCard(props) {
   /*

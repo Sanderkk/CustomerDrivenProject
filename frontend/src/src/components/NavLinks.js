@@ -9,18 +9,9 @@ function NavLinks({ accountInfo }) {
   return (
     <div>
       {/* Link to LoginPage with user's name on it if logged in */}
-      {/*<Link
-        to="/"
-        className={
-          location.pathname === "/" ? "nav_button active" : "nav_button"
-        }
-      >
-        {accountInfo.account.name}
-      </Link> */}
       <div className="nav_button">
         <Profile />
       </div>
-
       {/* Link to users dashboards, all users have access to this if logged in */}
       <Link
         to="/dashboards"
@@ -42,22 +33,6 @@ function NavLinks({ accountInfo }) {
           }
         >
           Admin Page
-        </Link>
-      ) : (
-        ""
-      )}
-      {/* If the user is part of the Researcher group then the Customers page link appears */}
-      {accountInfo.account.idToken.groups.indexOf(groupTypes.researcher) >=
-      0 ? (
-        <Link
-          to="/customers"
-          className={
-            location.pathname === "/customers"
-              ? "nav_button active"
-              : "nav_button"
-          }
-        >
-          Customers
         </Link>
       ) : (
         ""

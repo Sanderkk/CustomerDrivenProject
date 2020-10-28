@@ -4,7 +4,6 @@ import "../App.css";
 import { AzureAD, AuthenticationState } from "react-aad-msal";
 import { authProvider } from "../authProvider";
 import AccessDenied from "./AccessDenied";
-import Navbar from "./Navbar";
 
 function AccessCheckerDecorator(props) {
   /*

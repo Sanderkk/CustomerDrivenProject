@@ -9,12 +9,11 @@ import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 import NotFound from "./components/NotFound";
 import LogInPage from "./components/LogInPage";
 import AdminPage from "./components/AdminPage";
-import CustomersPage from "./components/CustomersPage";
-import DashboardsPage from "./components/DashboardsPage";
+import DashboardsPage from "./components/dashboards/DashboardsPage";
 import AccessCheckerDecotaor from "./components/AccessCheckerDecorator";
 import groupTypes from "./groupTypes";
-import AddCell from "./components/AddCell";
-import DashboardSpecificPage from "./components/DashboardSpecificPage";
+import AddCell from "./components/dashboards/AddCell";
+import DashboardSpecificPage from "./components/dashboards/DashboardSpecificPage";
 
 const client = new ApolloClient({
   cache: new InMemoryCache(),
@@ -40,15 +39,6 @@ const routing = (
               )}
             />
             <Route
-              path="/customers"
-              component={() => (
-                <AccessCheckerDecotaor
-                  mainPage={<CustomersPage />}
-                  group={groupTypes.researcher}
-                />
-              )}
-            />
-            <Route
               path="/dashboards"
               component={() => (
                 <AccessCheckerDecotaor
@@ -60,16 +50,6 @@ const routing = (
             />
             <Route exact path="/specific-dashboard" component={DashboardSpecificPage} />
             <Route exact path="/cell" component={AddCell} />
-            {/* TODO: make /cell safe */}
-            {/* <Route
-              path="/cell"
-              component={() => (
-                <AccessCheckerDecotaor
-                  mainPage={<AddCell />}
-                  group={groupTypes.researcher}
-                />
-              )}
-            /> */}
             <Route component={NotFound} />
           </Switch>
         </Router>
