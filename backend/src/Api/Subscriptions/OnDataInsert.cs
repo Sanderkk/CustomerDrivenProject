@@ -26,4 +26,11 @@ namespace src.Api.Subscriptions
                 );
         }
     }
+
+    public class CreatedDataValues
+    {
+        public int sensorId { get; set; }
+        public DateTime fromDate { get; set; }
+        public DateTime toDate { get; set; }
+    }
 }
