@@ -25,8 +25,7 @@ function DashboardsPage() {
   // If user is sat in redux, fetch dashboards for that user
   useEffect(() => {
     if (user !== null) {
-      // const userId = user.account.accountIdentifier;
-      const userId = "123"; //Test user with data
+      const userId = user.account.accountIdentifier;
       sendQuery(client, GET_DASHBOARDS, { userId })
         .then((result) => {
           setDashboards(result.data.dashboards);

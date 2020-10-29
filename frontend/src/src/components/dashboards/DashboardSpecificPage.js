@@ -41,9 +41,7 @@ function DashboardSpecificPage(props) {
   useEffect(() => {
     if(user !== null){
       var toBeSetAsDashboard = {};
-      // TODO: use real userId not just "123"
-      // const userId = user.account.accountIdentifier;
-      const userId = "123";
+      const userId = user.account.accountIdentifier;
       if(typeof currentDashboard === 'undefined' || currentDashboard === null){
         toBeSetAsDashboard = emptyDashboard;
         toBeSetAsDashboard.userId = userId;
@@ -71,10 +69,7 @@ function DashboardSpecificPage(props) {
 
   function fetchCells(dashboard){
     if(user !== null && dashboard !== null && typeof dashboard !== 'undefined'){
-
-      // TODO: change to real user
-      // const userId = user.account.accountIdentifier;
-      const userId = "123"; //Test user with data
+      const userId = user.account.accountIdentifier;
       const dashboardId = dashboard.dashboardId;
       if(dashboardId === undefined || dashboardId === null){
         setCells(null);
@@ -103,8 +98,6 @@ function DashboardSpecificPage(props) {
   const handleSave = () => {
     sendMutation(client, UPDATE_DASHBOARD, { input: dashboard })
       .then((result) => {
-        //TODO: when back end returns dashboardId in result. check if dashboard.dashboardId (or state.dashboardId) is undefined. If undefined: add the dashboardId to dashboard.
-        // ^ this is to not continuosly create new dashboards when Save is pressed and to not have to route back to dashboards when created new dahsboard
         const dashboardId = dashboard.dashboardId;
         if(dashboardId === undefined || dashboardId === null){
           //Add dashboardId to the newly created dashboard
@@ -123,9 +116,7 @@ function DashboardSpecificPage(props) {
   }
 
   const handleDelete = () => {
-    // TODO: change to real user
-    // const userId = user.account.accountIdentifier;
-    const userId = "123"; //Test user with data
+    const userId = user.account.accountIdentifier;
     const dashboardId = dashboard.dashboardId;
     sendMutation(client, DELETE_DASHBOARD, { userId, dashboardId })
       .then(() => {
@@ -144,9 +135,7 @@ function DashboardSpecificPage(props) {
 
 
   const handleDeleteCell = (cellId) => {
-    // TODO: change from userId 123 to real one
-    // const userId = user.account.accountIdentifier;
-    const userId = "123";
+    const userId = user.account.accountIdentifier;
     sendMutation(client, DELETE_CELL, { userId: userId, dashboardId: currentDashboard.dashboardId, cellId: cellId})
       .then(() => {
         fetchCells(currentDashboard)

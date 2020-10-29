@@ -6,6 +6,7 @@ export const GET_SENSORS = gql`
       sensorColumns
       sensorTypeName
       sensorIds
+      sensorNumbers
     }
   }
 `;
