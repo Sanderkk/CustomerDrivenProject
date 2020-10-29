@@ -83,8 +83,8 @@ export const GET_METADATA_SENSOR_NUMBERS = gql`
 `;
 
 export const GET_DASHBOARD = gql`
-  query dashboard($userId: String!, $dashboardId: Int!) {
-    dashboard(userId: $userId, dashboardId: $dashboardId) {
+  query dashboard($dashboardId: Int!) {
+    dashboard(dashboardId: $dashboardId) {
       dashboardId
       name
       description
@@ -93,8 +93,8 @@ export const GET_DASHBOARD = gql`
 `;
 
 export const GET_DASHBOARDS = gql`
-  query dashboards($userId: String!) {
-    dashboards(userId: $userId) {
+  query dashboards {
+    dashboards {
       dashboardId
       name
       description
@@ -103,8 +103,8 @@ export const GET_DASHBOARDS = gql`
 `;
 
 export const GET_DASHBOARD_CELL = gql`
-  query cell($userId: String!, $dashboardId: Int!, $cellId: Int!) {
-    cells(userId: $userId, dashboardId: $dashboardId, cellId: $cellId) {
+  query cell($dashboardId: Int!, $cellId: Int!) {
+    cells(dashboardId: $dashboardId, cellId: $cellId) {
       cellId
       input {
         from
@@ -122,8 +122,8 @@ export const GET_DASHBOARD_CELL = gql`
 `;
 
 export const GET_DASHBOARD_CELLS = gql`
-  query cells($userId: String!, $dashboardId: Int!) {
-    cells(userId: $userId, dashboardId: $dashboardId) {
+  query cells($dashboardId: Int!) {
+    cells(dashboardId: $dashboardId) {
       cellId
       input {
         from

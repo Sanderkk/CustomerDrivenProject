@@ -20,7 +20,7 @@ async function createApolloLink() {
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : "",
+        authorization: token ? `Bearer ${token.accessToken}` : "",
       },
     };
   });

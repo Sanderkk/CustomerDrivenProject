@@ -41,24 +41,20 @@ function DashboardSpecificPage(props) {
   useEffect(() => {
     if(user !== null){
       var toBeSetAsDashboard = {};
-      const userId = user.account.accountIdentifier;
       if(typeof currentDashboard === 'undefined' || currentDashboard === null){
-        toBeSetAsDashboard = emptyDashboard;
-        toBeSetAsDashboard.userId = userId;
-        dispatch(setCurrentDashboard(toBeSetAsDashboard));
-        setDashboard(toBeSetAsDashboard);
-        fetchCells(toBeSetAsDashboard);
+        dispatch(setCurrentDashboard(emptyDashboard));
+        setDashboard(emptyDashboard);
+        fetchCells(emptyDashboard);
       }else{
         // Must make new variable and not use state to remove state's _typename
         const dashboardId = currentDashboard.dashboardId;
-        sendQuery(client, GET_DASHBOARD, { userId, dashboardId})
+        sendQuery(client, GET_DASHBOARD, { dashboardId})
           .then((result) => {
             toBeSetAsDashboard = {
               dashboardId: result.data.dashboard.dashboardId,
               description: result.data.dashboard.description,
               name: result.data.dashboard.name,
             };
-            toBeSetAsDashboard.userId = userId;
             dispatch(setCurrentDashboard(toBeSetAsDashboard));
             setDashboard(toBeSetAsDashboard);
             fetchCells(toBeSetAsDashboard);
@@ -69,12 +65,11 @@ function DashboardSpecificPage(props) {
 
   function fetchCells(dashboard){
     if(user !== null && dashboard !== null && typeof dashboard !== 'undefined'){
-      const userId = user.account.accountIdentifier;
       const dashboardId = dashboard.dashboardId;
       if(dashboardId === undefined || dashboardId === null){
         setCells(null);
       } else{
-        sendQuery(client, GET_DASHBOARD_CELLS, { userId, dashboardId})
+        sendQuery(client, GET_DASHBOARD_CELLS, { dashboardId})
         .then((result) => {
           
           const cellsWithoutTypeName = JSON.parse(JSON.stringify(result.data.cells))
@@ -105,7 +100,6 @@ function DashboardSpecificPage(props) {
             dashboardId: result.data.updateDashboard,
             description: dashboard.description,
             name: dashboard.name,
-            userId: dashboard.userId,
           };
           setDashboard(toBeSetAsDashboard);
           dispatch(setCurrentDashboard(toBeSetAsDashboard));
@@ -116,9 +110,8 @@ function DashboardSpecificPage(props) {
   }
 
   const handleDelete = () => {
-    const userId = user.account.accountIdentifier;
     const dashboardId = dashboard.dashboardId;
-    sendMutation(client, DELETE_DASHBOARD, { userId, dashboardId })
+    sendMutation(client, DELETE_DASHBOARD, { dashboardId })
       .then(() => {
       }).catch((err) => console.log(err));
   }
@@ -135,8 +128,7 @@ function DashboardSpecificPage(props) {
 
 
   const handleDeleteCell = (cellId) => {
-    const userId = user.account.accountIdentifier;
-    sendMutation(client, DELETE_CELL, { userId: userId, dashboardId: currentDashboard.dashboardId, cellId: cellId})
+    sendMutation(client, DELETE_CELL, { dashboardId: currentDashboard.dashboardId, cellId: cellId})
       .then(() => {
         fetchCells(currentDashboard)
         
