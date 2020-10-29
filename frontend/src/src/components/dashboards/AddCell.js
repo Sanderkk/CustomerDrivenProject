@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../Navbar";
 import LineGraph from "./LineGraph";
-import QueryBuilder from "../QueryBuilder";
+import QueryBuilder from "./QueryBuilder";
 import GlobalButton from "../globalComponents/GlobalButton";
 import { BiCheck, BiX, BiNews } from "react-icons/bi";
 import ViewMetadata from "../globalComponents/ViewMetadata";
@@ -26,20 +26,17 @@ function AddCell(props) {
   const dashboard = useSelector(store => store.currentDashboard.input)
   const queryData = useSelector(store => store.queryData)
   const client = useApolloClient();
+  const user = useSelector((store) => store.user.aadResponse);
 
 
   const handleAddCell = () => {
     //Check if any of the input-fields have been changed. 
     const isEmpty = Object.values(options).every(x => (x === ''));
     if(!isEmpty) {
-      //TODO: send options and input to backend. Input is generated in QueryBuilder and saved in Redux store,
-      //while userOptions is generated in AddCell.
       let cellToBeSaved = {}
       cellToBeSaved.input = queryData.input;
       cellToBeSaved.options = options;
-      // TODO: real userId
-      // cellToBeSaved.userId = user.account.accountIdentifier;
-      cellToBeSaved.userId = "123";
+      cellToBeSaved.userId = user.account.accountIdentifier;
       cellToBeSaved.dashboardId = dashboard.dashboardId
       if(state !== undefined){
         cellToBeSaved.cellId = state.cellId;

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setQueryData } from "../globalState/actions/queryDataActions";
-import "./componentStyles/QueryBuilder.css";
+import { setQueryData } from "../../globalState/actions/queryDataActions";
+import "../componentStyles/dashboards/QueryBuilder.css";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
-import { GET_TIME_SERIES, GET_SENSORS } from "../queries/queries";
+import { GET_TIME_SERIES, GET_SENSORS } from "../../queries/queries";
 import { useApolloClient } from "@apollo/client";
-import sendQuery from "../queries/sendQuery";
+import sendQuery from "../../queries/sendQuery";
 
 function QueryBuilder(props) {
   /*
@@ -19,7 +19,7 @@ function QueryBuilder(props) {
   const [checkedItems, setCheckedItems] = useState({}); // e.g. {1: true, 3: false}
   const [dates, setDates] = useState(props.graphInput !== undefined 
     ? [new Date(props.graphInput.from), new Date(props.graphInput.to)] 
-    : [new Date(), new Date()]); // [fromDate, toDate]
+    : [new Date(Date.now() - 604800000), new Date()]); // [fromDate, toDate]
 
   const initialSensors = () => {
     let initialSensors = props.graphInput.sensors
@@ -120,11 +120,24 @@ function QueryBuilder(props) {
     </div>
   );
 
+  // Finds a sensors number for it's id and index, the number is used as the label for the checkbox
+  function findSensorNumber(sensorId, index){
+    let name = "No number";
+    sensors.sensors.map(element => {
+      element.sensorIds.forEach(id => {
+        if(id === sensorId){
+          name = element.sensorNumbers[index];
+        }
+      })
+    });
+    return name;
+  } 
+
   // Create checkboxes from measurement columns
   const fieldToCheckbox = (field, key) => (
     <div className="qb_checkbox" key={key}>
       <label className="category_buttons">
-        {field}
+        {findSensorNumber(field, key)}
         <input
           type="checkbox"
           value={field}
