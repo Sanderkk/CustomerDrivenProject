@@ -26,7 +26,6 @@ function AddCell(props) {
   const dashboard = useSelector(store => store.currentDashboard.input)
   const queryData = useSelector(store => store.queryData)
   const client = useApolloClient();
-  const user = useSelector((store) => store.user.aadResponse);
 
 
   const handleAddCell = () => {
@@ -36,7 +35,6 @@ function AddCell(props) {
       let cellToBeSaved = {}
       cellToBeSaved.input = queryData.input;
       cellToBeSaved.options = options;
-      cellToBeSaved.userId = user.account.accountIdentifier;
       cellToBeSaved.dashboardId = dashboard.dashboardId
       if(state !== undefined){
         cellToBeSaved.cellId = state.cellId;

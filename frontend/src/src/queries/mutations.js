@@ -20,13 +20,13 @@ export const UPDATE_CELL = gql`
 `
 
 export const DELETE_DASHBOARD = gql`
-    mutation deleteDashboard($userId: String!, $dashboardId: Int!) {
-        deleteDashboard(userId: $userId, dashboardId: $dashboardId)
+    mutation deleteDashboard($dashboardId: Int!) {
+        deleteDashboard(dashboardId: $dashboardId)
     }
 `
 
 export const DELETE_CELL = gql`
-    mutation deleteCell($userId: String!, $dashboardId: Int!, $cellId: Int!) {
-        deleteCell(userId: $userId, dashboardId: $dashboardId, cellId: $cellId)
+    mutation deleteCell($dashboardId: Int!, $cellId: Int!) {
+        deleteCell(dashboardId: $dashboardId, cellId: $cellId)
     }
 `
