@@ -68,7 +68,7 @@ namespace parser
                     Console.WriteLine("'{0}' is not in an acceptable format.", lineArray[timeIndex]);
                 }
 
-                record.Add(date.ToString(timeFormatTimescaleDB)); // adding the date on necessary format for timescaledb
+                record.Add(date.ToString(timeFormatTimescaleDB, CultureInfo.InvariantCulture)); // adding the date on necessary format for timescaledb
                 
                 for (int i = tagIndexes[0]; i < tagIndexes[1]; i++) {
                     record.Add(lineArray[i]);
