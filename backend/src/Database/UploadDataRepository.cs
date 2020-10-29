@@ -29,7 +29,7 @@ namespace src.Database
 
             int[] sensorIds = dataConfig.sensorIDs;
             List<String> record = parsedFile.Item1;
-            int numColumns = dataConfig.fieldIndexes[1] - dataConfig.fieldIndexes[0];
+            int numColumns = dataConfig.fieldIndexes[1] - 1;
             DateTime fromDate = DateTime.ParseExact(record[0], dataConfig.timeFormatTimescaleDB, System.Globalization.CultureInfo.InvariantCulture);
             DateTime toDate = DateTime.ParseExact(record[record.Count - numColumns - 1], dataConfig.timeFormatTimescaleDB, System.Globalization.CultureInfo.InvariantCulture);
             SubscriptionObject so = new SubscriptionObject(sensorIds, fromDate, toDate);
