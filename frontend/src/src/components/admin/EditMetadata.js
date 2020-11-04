@@ -1,13 +1,13 @@
 import React, { useState, useReducer, useCallback, useEffect } from "react";
 import { useApolloClient } from "@apollo/client";
 import "../componentStyles/admin/EditMetadata.css";
-import sendQuery from "../../queries/sendQuery";
-import sendMutation from "../../queries/sendMutation";
+import sendQuery from "../../requests/sendQuery";
+import sendMutation from "../../requests/sendMutation";
 import {
   GET_METADATA,
   GET_METADATA_SENSOR_NUMBERS,
-} from "../../queries/queries";
-import { EDIT_METADATA } from "../../queries/mutations";
+} from "../../requests/queries";
+import { EDIT_METADATA } from "../../requests/mutations";
 import { initialState, fields } from "../../assets/metadata";
 import Modal from "../globalComponents/Modal";
 
