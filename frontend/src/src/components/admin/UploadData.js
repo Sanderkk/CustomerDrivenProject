@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { UPLOAD_DATA } from "../../queries/mutations";
-import sendMutation from "../../queries/sendMutation";
+import { UPLOAD_DATA } from "../../requests/mutations";
+import sendMutation from "../../requests/sendMutation";
 import { useApolloClient } from "@apollo/client";
 import "../componentStyles/admin/UploadData.css";
 

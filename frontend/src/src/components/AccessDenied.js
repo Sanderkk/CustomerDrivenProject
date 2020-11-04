@@ -14,7 +14,6 @@ function AccessDenied() {
         <h5>
           You are not authorized to access this page <br />
           If you are supposed to have access, contact your IT responsibe <br />
-          (contact Turid for access)
         </h5>
       </header>
     </div>

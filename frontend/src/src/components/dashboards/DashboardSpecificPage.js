@@ -8,10 +8,10 @@ import { setCurrentDashboard } from "../../globalState/actions/dashboardActions"
 import React, { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import GlobalButton from "../globalComponents/GlobalButton";
-import sendMutation from "../../queries/sendMutation";
-import sendQuery from "../../queries/sendQuery";
-import { UPDATE_DASHBOARD, DELETE_DASHBOARD, DELETE_CELL } from "../../queries/mutations";
-import { GET_DASHBOARD_CELLS, GET_DASHBOARD, GET_TIME_SERIES } from "../../queries/queries";
+import sendMutation from "../../requests/sendMutation";
+import sendQuery from "../../requests/sendQuery";
+import { UPDATE_DASHBOARD, DELETE_DASHBOARD, DELETE_CELL } from "../../requests/mutations";
+import { GET_DASHBOARD_CELLS, GET_DASHBOARD, GET_TIME_SERIES } from "../../requests/queries";
 import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus, BiTrash } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
@@ -142,6 +142,7 @@ function DashboardSpecificPage(props) {
   }
 
   const handleEditCell = (cell) => {
+    handleSave();
     const input = cell.input
     sendQuery(client, GET_TIME_SERIES, { input })
       .then((result) => dispatch(setQueryData(input, result.data)))

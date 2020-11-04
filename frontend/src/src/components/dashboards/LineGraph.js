@@ -3,9 +3,9 @@ import Highcharts from "highcharts/highstock";
 import HighchartsReact from "highcharts-react-official";
 import "../componentStyles/dashboards/LineGraph.css";
 import { useSelector } from "react-redux";
-import { GET_TIME_SERIES } from "../../queries/queries";
+import { GET_TIME_SERIES } from "../../requests/queries";
 import { useApolloClient } from "@apollo/client";
-import sendQuery from "../../queries/sendQuery";
+import sendQuery from "../../requests/sendQuery";
 
 
 const DisplayHighcharts = React.memo((props) => {

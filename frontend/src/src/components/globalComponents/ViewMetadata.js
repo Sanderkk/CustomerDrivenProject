@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../componentStyles/globalStyles/ViewMetadata.css";
-import { GET_METADATA } from "../../queries/queries";
+import { GET_METADATA } from "../../requests/queries";
 import { useApolloClient } from "@apollo/client";
-import sendQuery from "../../queries/sendQuery";
+import sendQuery from "../../requests/sendQuery";
 import Modal from "./Modal";
 
 function ViewMetadata({ sensorIDs, show, handleClose }) {
@@ -50,7 +50,7 @@ function ViewMetadata({ sensorIDs, show, handleClose }) {
   return (
     <div>
       <Modal show={show} handleClose={handleClose}>
-        <h1>Metadata for Cell Name</h1>
+        <h1>Metadata</h1>
         {Object.keys(metadata).length === 0 &&
         metadata.constructor === Object ? (
           <p>Loading...</p>

@@ -3,9 +3,9 @@ import { useDispatch } from "react-redux";
 import { setQueryData } from "../../globalState/actions/queryDataActions";
 import "../componentStyles/dashboards/QueryBuilder.css";
 import DateTimeRangePicker from "@wojtekmaj/react-datetimerange-picker";
-import { GET_TIME_SERIES, GET_SENSORS } from "../../queries/queries";
+import { GET_TIME_SERIES, GET_SENSORS } from "../../requests/queries";
 import { useApolloClient } from "@apollo/client";
-import sendQuery from "../../queries/sendQuery";
+import sendQuery from "../../requests/sendQuery";
 
 function QueryBuilder(props) {
   /*
