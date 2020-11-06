@@ -10,7 +10,6 @@ using HotChocolate;
 using HotChocolate.AspNetCore;
 using src.Api.Queries;
 using src.Api.Mutations;
-using src.Config;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using src.Database;
@@ -84,8 +83,7 @@ namespace src
             services.AddSingleton<ITimeSeriesRepository, TimeSeriesRepository>();
             services.AddSingleton<IMetadataRepository, MetadataRepository>();
             services.AddSingleton<IUploadDataRepository, UploadDataRepository>();
-            //services.AddErrorFilter<GraphQLErrorFilter>();
-            
+
             services.AddInMemorySubscriptionProvider();
     
             services.AddGraphQL(sp => SchemaBuilder.New()
@@ -106,9 +104,6 @@ namespace src
                 .AddAuthorizeDirectiveType()
                 .Create()
             );
-
-            //Overwrite basic error messages with ones with more info
-            //services.AddErrorFilter<GraphQLErrorFilter>();
         }
 
         private static OnCreateRequestAsync AuthenticationInterceptor()

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Text.Json;
 using Npgsql;
-using src.Config;
+using src;
 using Newtonsoft.Json;
 using src.Api.Inputs;
 using src.Api.Types;

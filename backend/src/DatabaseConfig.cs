@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace src.Config
+namespace src
 {
     public class DatabaseConfig : IDatabaseConfig
     {
