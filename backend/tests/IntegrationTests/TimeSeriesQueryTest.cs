@@ -18,7 +18,12 @@ namespace tests.IntegrationTests
     public class TimeSeriesQueryTest
     {
 
-        private string dbConnectionString = "Host=sanderkk.com;Username=sintef;Password=123456;Database=fishfarm2";
+        private string dbConnectionString;
+        public TimeSeriesQueryTest()
+        {
+            TestDatabaseConfig config = new TestDatabaseConfig();
+            dbConnectionString = config.DatabaseConnectionString;
+        }
 
         [Fact]
         public async Task TestTimeSeriesQuery()

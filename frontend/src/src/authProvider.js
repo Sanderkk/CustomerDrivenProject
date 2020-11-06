@@ -1,13 +1,13 @@
 // authProvider.js
 import { MsalAuthProvider, LoginType } from "react-aad-msal";
+import appsettings from "./appsettings.json";
 
 // Msal Configurations
 const config = {
   auth: {
-    clientId: "8a2d7ffd-3754-4913-8277-8ed6a867545f",
-    authority:
-      "https://login.microsoftonline.com/1ddce0ea-82b3-4340-b681-550781c83ba2/",
-    redirectURI: "https://localhost:3013",
+    clientId: appsettings["AAD"]["clientId"],
+    authority: appsettings["AAD"]["authority"],
+    redirectURI: appsettings["AAD"]["redirectURI"],
   },
   cache: {
     cacheLocation: "localStorage",
@@ -17,10 +17,7 @@ const config = {
 
 // Authentication Parameters
 const authenticationParameters = {
-  scopes: [
-    "api://0ea5e8ad-2ac5-4ea4-bb39-74213a21e4f4/user.read",
-    "api://0ea5e8ad-2ac5-4ea4-bb39-74213a21e4f4/access_as_user",
-  ],
+  scopes: appsettings["AAD"]["scopes"],
   forceRefresh: true,
 };
 
