@@ -9,7 +9,7 @@ using Snapshooter.Xunit;
 using src.Api.Inputs;
 using src.Api.Queries;
 using src.Api.Types;
-using src.Config;
+using src;
 using src.Database;
 using src.Database.User;
 using Xunit;

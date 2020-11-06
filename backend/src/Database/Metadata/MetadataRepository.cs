@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Npgsql;
-using src.Config;
+using src;
 using Newtonsoft.Json;
 using src.Api.Inputs;
 using src.Api.Types;

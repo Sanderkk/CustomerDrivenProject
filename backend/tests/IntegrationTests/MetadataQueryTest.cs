@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Snapshooter.Xunit;
 using src.Api.Inputs;
 using src.Api.Queries;
-using src.Config;
+using src;
 using src.Database;
 using src.Api.Types;
 using src.Api.Mutations;
