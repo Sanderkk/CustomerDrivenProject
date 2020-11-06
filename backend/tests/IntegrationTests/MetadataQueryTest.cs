@@ -19,9 +19,13 @@ namespace tests.IntegrationTests
 {
     public class MetadataQueryTest
     {
-        //Database Connect config (move to own config file)
-        private string dbConnectionString = "Host=sanderkk.com;Username=sintef;Password=123456;Database=fishfarm2";
-        
+        private string dbConnectionString;
+        public MetadataQueryTest()
+        {
+            TestDatabaseConfig config = new TestDatabaseConfig();
+            dbConnectionString = config.DatabaseConnectionString;
+        }
+
         [Fact]
         public async Task AllMetadataQuery()
         {

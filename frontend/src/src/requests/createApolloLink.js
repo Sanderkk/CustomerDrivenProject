@@ -2,6 +2,7 @@ import { createHttpLink } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
 import { authProvider } from "../authProvider";
 import store from "../globalState/store";
+import appsettings from "../appsettings.json";
 
 async function createApolloLink() {
   //Function used by sendQuery and sendMutation
@@ -26,7 +27,7 @@ async function createApolloLink() {
   });
 
   const httpLink = createHttpLink({
-    uri: "http://customerdriven.sanderkk.com:5000/",
+    uri: appsettings["apiUri"],
   });
 
   return authLink.concat(httpLink);

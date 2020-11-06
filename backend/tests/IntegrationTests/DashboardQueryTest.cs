@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using HotChocolate;
 using HotChocolate.Execution;
 using HotChocolate.Types;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Snapshooter.Xunit;
 using src.Api.Inputs;
@@ -18,11 +20,12 @@ namespace tests.IntegrationTests
 {
     public class DashboardQueryTest
     {
-        private string dbConnectionString = "Host=sanderkk.com;Username=sintef;Password=123456;Database=fishfarm";
+        private string dbConnectionString;
 
         public DashboardQueryTest()
         {
-            
+            TestDatabaseConfig config = new TestDatabaseConfig();
+            dbConnectionString = config.DatabaseConnectionString;
         }
         [Fact]
         public async Task GetDashboard()
