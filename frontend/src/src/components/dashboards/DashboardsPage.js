@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import DashboardPreviewCard from "./DashboardPreviewCard";
 import GlobalButton from "../globalComponents/GlobalButton";
 import { BiPlus } from "react-icons/bi";
-import groupTypes from "../../groupTypes";
+import appsettings from "../../appsettings.json";
 import sendQuery from "../../requests/sendQuery";
 import { GET_DASHBOARDS } from "../../requests/queries";
 import { useApolloClient } from "@apollo/client";
@@ -47,7 +47,7 @@ function DashboardsPage() {
       ) : (
         <div className="container_div">
           <h1>Dashboards</h1>
-          {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ? (
+          {user.account.idToken.groups.indexOf(appsettings["groupTypes"]["researcher"]) >= 0 ? (
             // If user is a researcher, show the create dahboard button
             <div id="create_dashboard_btn">
               <Link
@@ -93,7 +93,7 @@ function DashboardsPage() {
             </div>
           ) : (
             <div>
-              {user.account.idToken.groups.indexOf(groupTypes.researcher) >=
+              {user.account.idToken.groups.indexOf(appsettings["groupTypes"]["researcher"]) >=
               0 ? (
                 <div>
                   <p>

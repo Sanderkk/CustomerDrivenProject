@@ -118,3 +118,5 @@ services/parser/obj
 
 frontend.tar
 backend.tar
+
+*.PNG

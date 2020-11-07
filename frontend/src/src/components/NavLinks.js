@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
-import groupTypes from "../groupTypes";
+import appsettings from "../appsettings.json";
 import Profile from "./Profile";
 
 function NavLinks({ accountInfo }) {
@@ -25,7 +25,7 @@ function NavLinks({ accountInfo }) {
         Dashboards
       </Link>
       {/* If the user is a part of the Engineer group then the Admin page link appears */}
-      {accountInfo.account.idToken.groups.indexOf(groupTypes.engineer) >= 0 ? (
+      {accountInfo.account.idToken.groups.indexOf(appsettings["groupTypes"]["engineer"]) >= 0 ? (
         <Link
           to="/admin"
           className={

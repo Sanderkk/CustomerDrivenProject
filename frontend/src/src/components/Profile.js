@@ -1,6 +1,6 @@
 import React from "react";
 import "./componentStyles/Profile.css";
-import groupTypes from "../groupTypes";
+import appsettings from "../appsettings.json";
 import { useHistory } from "react-router";
 import { AzureAD } from "react-aad-msal";
 import { authProvider } from "../authProvider";
@@ -24,13 +24,13 @@ function Profile() {
               <div>
                 <h5>Groups</h5>
                 {accountInfo.account.idToken.groups.indexOf(
-                  groupTypes.researcher
+                  appsettings["groupTypes"]["researcher"]
                 ) >= 0 && <li>Researcher</li>}
                 {accountInfo.account.idToken.groups.indexOf(
-                  groupTypes.engineer
+                  appsettings["groupTypes"]["engineer"]
                 ) >= 0 && <li>Engineer</li>}
                 {accountInfo.account.idToken.groups.indexOf(
-                  groupTypes.customer
+                  appsettings["groupTypes"]["customer"]
                 ) >= 0 && <li>Customer</li>}
               </div>
               <div>

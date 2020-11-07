@@ -1,0 +1,3 @@
+python_graphql_client
+pandas
+numpy
