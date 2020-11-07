@@ -6,7 +6,7 @@ import LineGraph from "./LineGraph";
 import { BiCog, BiTrash, BiPencil } from "react-icons/bi";
 import { ReactComponent as MetadataIcon } from "../../assets/metadata_icon.svg";
 import { useSelector } from "react-redux";
-import groupTypes from "../../groupTypes";
+import appsettings from "../../appsettings.json";
 
 function DashboardCellCard(props) {
   /*
@@ -37,7 +37,7 @@ function DashboardCellCard(props) {
 
   return (
     <div className="cell_grid_item">
-      {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
+      {user.account.idToken.groups.indexOf(appsettings["groupTypes"]["researcher"]) >= 0 ?
         <React.Fragment>
           <div className="dropdown">
             <BiCog className="dropbtn" />

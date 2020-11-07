@@ -11,7 +11,7 @@ import LogInPage from "./components/LogInPage";
 import DashboardsPage from "./components/dashboards/DashboardsPage";
 import AdminPage from "./components/admin/AdminPage";
 import AccessCheckerDecotaor from "./components/AccessCheckerDecorator";
-import groupTypes from "./groupTypes";
+import appsettings from "./appsettings.json";
 import AddCell from "./components/dashboards/AddCell";
 import DashboardSpecificPage from "./components/dashboards/DashboardSpecificPage";
 
@@ -34,7 +34,7 @@ const routing = (
               component={() => (
                 <AccessCheckerDecotaor
                   mainPage={<AdminPage />}
-                  group={groupTypes.engineer}
+                  group={appsettings["groupTypes"]["engineer"]}
                 />
               )}
             />

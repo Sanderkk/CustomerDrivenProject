@@ -82,7 +82,8 @@ namespace src.Database
                 };
                 if (timeData.Count() == 0)
                 {
-                    throw new QueryException(ErrorBuilder.New().SetMessage("No data.").Build());
+                    break;
+                    //throw new QueryException(ErrorBuilder.New().SetMessage("No data.").Build());
                 }
 
                 var startTime = timeData[0].Ticks;
@@ -101,7 +102,7 @@ namespace src.Database
             await dataReader.CloseAsync();
             await _npgsqlConnection.CloseAsync();
 
-            var selectedTimeData = completeTimeData.FirstOrDefault();
+            var selectedTimeData = completeTimeData.FirstOrDefault() ?? new List<DateTime>();
             var result = new GenericObject()
             {
                 Table = tableName,
@@ -135,7 +136,7 @@ namespace src.Database
                     {
                         SensorTypeName = sensorTypeName,
                         SensorIds = new List<int>() { dataReader.GetFieldValue<int>(0) },
-                        SensorNumbers = new List<string> { !dataReader.IsDBNull(2) ? dataReader.GetFieldValue<string>(3) : "undefined" },
+                        SensorNumbers = new List<string> { !dataReader.IsDBNull(3) ? dataReader.GetFieldValue<string>(3) : "undefined" },
                         SensorColumns = !dataReader.IsDBNull(2) ? dataReader.GetFieldValue<string>(2)?.Split(".").ToList() : null
                     };
                     sensorData.Add(result);

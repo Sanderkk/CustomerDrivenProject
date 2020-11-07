@@ -16,7 +16,7 @@ import { useApolloClient } from "@apollo/client";
 import { BiSave, BiPlus, BiTrash } from "react-icons/bi";
 import DashboardCellCard from "./DashboardCellCard";
 import { useSelector } from "react-redux";
-import groupTypes from "../../groupTypes";
+import appsettings from "../../appsettings.json";
 import { setQueryData } from "../../globalState/actions/queryDataActions";
 
 function DashboardSpecificPage(props) {
@@ -166,7 +166,7 @@ function DashboardSpecificPage(props) {
                     <div>
                       <form className="dashboard-form">
                         {/* Only give editing tools to researchers */}
-                          {user.account.idToken.groups.indexOf(groupTypes.researcher) >= 0 ?
+                          {user.account.idToken.groups.indexOf(appsettings["groupTypes"]["researcher"]) >= 0 ?
                             <div>
                               <input className="dashboard_input" type="text" id="name" onChange={handleNameChange} value={dashboard.name} />
                               <div className="add_cell_btn">
