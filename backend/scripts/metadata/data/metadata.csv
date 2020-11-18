@@ -29,3 +29,11 @@ Klorofyll Sensor,RO.100-W,,,,,,False,False,,,,,Innovasea Akvakultur AS,,,,,,Merd
 Trandsducer 200-28CM EK15,RL.007-100m,,,,,,False,False,,,,,Kongsberg,,,28,UTS6-JC12E3P,,Merd 10 - Tristeinen,,,2/12/2019,,,,,,,
 Lastesjakkel 25T,RV.009-25T,133148,4 -20mA,24V AC,True,,True,False,,0-25 Tonn,,,Strainstall,,,,,,Merd 10 - Tristeinen,,,5/12/2011,,,,,,,
 Temperature Sensor,TP.001,,,,,,True,True,100,500m,,df6d579d-817d-4e04-9bb2-3a46352602cd,,,,,,,,-50,"41.40338, 2.17403",2/12/2008,,,,,,,
+Tension sensor 0,T.000,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/12/2010,,,,1/12/2015,,,sintef
+Tension sensor 1,T.001,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/13/2010,,,,1/13/2015,,,sintef
+Tension sensor 2,T.002,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/14/2010,,,,1/14/2015,,,sintef
+Tension sensor 3,T.003,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/15/2010,,,,1/15/2015,,,sintef
+Tension sensor 4,T.004,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/16/2010,,,,1/16/2015,,,sintef
+Tension sensor 5,T.005,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/17/2010,,,,1/17/2015,,,sintef
+Tension sensor 6,T.006,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/18/2010,,,,1/18/2015,,,sintef
+Tension sensor 7,T.007,,Wifi,24VDC,,,True,,,,,,Sintef,,,,,,,,,1/19/2010,,,,1/19/2015,,,sintef
