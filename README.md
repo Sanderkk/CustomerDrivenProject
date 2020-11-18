@@ -142,6 +142,8 @@ The application function irregardless of the database hosting option, but this t
 
     `` docker exec -it timescaledb psql -U postgres -c 'CREATE DATABASE FishFarm;' ``
 
+    *NB! FOR WINDOWS: We have experienced problems running this command in Windows CMD. Using Powershell should resolve this issue.*
+
 3. For using the database, a user with access is needed. We will here use the default superuser. This is not recommended for a production case, but will suffice in our prototype application.
 
 4. We need to create the data tables. The tables are defined in the `database.sql` file under `backend/src/Database/database.sql`. We use this sql script for creating the tables. The `database.sql` file should be in the current directory of the interactive terminal used. Then run the command below to create the needed tables.
